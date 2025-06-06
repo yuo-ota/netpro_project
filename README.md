@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-"# netpro_project" 
-=======
 # netpro_project
 ### メンバー
 - 23FI049 佐藤直弥
@@ -23,5 +20,5 @@
   - [Java Spring 命名規則](https://qiita.com/masterpiecehack/items/89bd70a3eacfec9cf166)
 
 ### 連絡事項
+<<<<<<< Updated upstream
 - フロントエンドとバックエンドを1つのレポジトリで管理しているため、全般的なものを除き``.gitignore``ファイルは``/frontend/``, ``/backend/``内に各自用意してね
->>>>>>> Stashed changes
