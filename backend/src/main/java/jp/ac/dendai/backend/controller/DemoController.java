@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DemoController {
-    
+
     @RequestMapping("/demo")
     public String test() {
-        System.out.println("Enter demo");
         return "Hello World";
     }
 }

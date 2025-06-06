@@ -43,25 +43,23 @@ npm run dev
 ```
 
 ### バックエンド
-**履歴**
-> Spring Boot Extension Packが入っていることを確認
-> 上部の検索欄で
-> java: Create Java Project
-> Spring Boot
-> Maven Project
-> 3.5.0
-> Java
-> jp.ac.dendai
-> backend
-> Jar
-> 21
-> Spring Web
-> net_projectディレクトリを選択
-> 
-**多分こっちだけすればいい**
 ```
+Spring Boot Extension Packが入っていることを確認
+上部の検索欄で
+java: Create Java Project
+Spring Boot
+Maven Project
+3.5.0
+Java
+jp.ac.dendai
+backend
+Jar
+21
+Spring Web
+net_projectディレクトリを選択
+
 cd backend
 mvn clean install
-BackendApplication.javaを起動
+mvn spring-boot:run
 ```
 
