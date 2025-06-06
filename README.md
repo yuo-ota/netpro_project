@@ -21,3 +21,47 @@
 
 ### 連絡事項
 - フロントエンドとバックエンドを1つのレポジトリで管理しているため、全般的なものを除き``.gitignore``ファイルは``/frontend/``, ``/backend/``内に各自用意してね
+
+## 環境構築法
+多分やらなくて大丈夫だと思う...
+### フロントエンド
+**履歴**
+```
+npm create vite@latest
+  Project name: frontend
+  Select a framework: › React
+  Select a variant: › TypeScript
+cd frontend
+npm install
+npm install tailwindcss @tailwindcss/vite
+```
+**多分こっちだけすればいいかな**
+```
+cd frontend
+npm install
+npm run dev
+```
+
+### バックエンド
+**履歴**
+> Spring Boot Extension Packが入っていることを確認
+> 上部の検索欄で
+> java: Create Java Project
+> Spring Boot
+> Maven Project
+> 3.5.0
+> Java
+> jp.ac.dendai
+> backend
+> Jar
+> 21
+> Spring Web
+> net_projectディレクトリを選択
+> 
+**多分こっちだけすればいい**
+```
+cd backend
+mvn clean install
+BackendApplication.javaを起動
+```
+
