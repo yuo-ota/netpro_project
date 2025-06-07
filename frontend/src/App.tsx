@@ -1,13 +1,18 @@
+import './App.css'
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import { Button, HStack } from '@chakra-ui/react'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+      <HStack>
+        <Button colorPalette="red" className="bg-sky-500">Click me</Button>
+        <Button>Click me</Button>
+      </HStack>
       <h1 className="text-3xl font-bold underline">
         Hello world!
       </h1>
