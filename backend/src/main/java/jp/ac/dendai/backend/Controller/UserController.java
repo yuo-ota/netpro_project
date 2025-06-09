@@ -11,4 +11,16 @@ import jp.ac.dendai.backend.Service.UserService;
 public class UserController {
     // TODO: ここから続きかな
     private UserService userService;
+<<<<<<< Updated upstream
+=======
+
+    public UserController(UserService userService){
+        this.userService = userService;
+    }
+
+    @PostMapping
+    public ResponseEntiny<UserDto> createUser(){
+        // return ResponseEntity.ok(userService.createUser());
+    }
+>>>>>>> Stashed changes
 }
