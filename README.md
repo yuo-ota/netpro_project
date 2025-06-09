@@ -55,7 +55,7 @@ jp.ac.dendai
 backend
 Jar
 21
-Spring Web
+Spring Webs
 net_projectディレクトリを選択
 
 cd backend
