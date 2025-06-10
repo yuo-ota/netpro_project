@@ -2,9 +2,6 @@ package jp.ac.dendai.backend.Entity;
 
 import java.time.LocalDateTime;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
-@EntityScan
 public class Post {
     private String postId;
     private String pointId;
@@ -12,50 +9,50 @@ public class Post {
     private LocalDateTime postedTime;
     private String content;
 
-    public Post(){
+    public Post() {
 
     }
 
-    public Post(String postId, String pointId, String userId, String content){
+    public Post(String postId, String pointId, String userId, String content) {
         this.postId = postId;
         this.pointId = pointId;
         this.userId = userId;
         this.content = content;
     }
 
-    public String getPostId(){
+    public String getPostId() {
         return postId;
     }
 
-    public void setPostId(String postId){
-
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
-    public String getPointId(){
+    public String getPointId() {
         return pointId;
     }
 
-    public void setPointId(String pointId){
-
+    public void setPointId(String pointId) {
+        this.pointId = pointId;
     }
 
-    public String getUserId(){
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId){
-
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public LocalDateTime getPostedTime(){
+    public LocalDateTime getPostedTime() {
         return postedTime;
     }
 
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 
-    public void setContent(String content){
-
+    public void setContent(String content) {
+        this.content = content;
     }
 }

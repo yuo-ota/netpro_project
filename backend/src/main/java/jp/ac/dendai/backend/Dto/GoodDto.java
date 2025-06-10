@@ -4,16 +4,16 @@ public class GoodDto {
     private String postId;
     private boolean isLinked;
 
-    public GoodDto(String postId, boolean isLiked){
+    public GoodDto(String postId, boolean isLiked) {
         this.postId = postId;
         this.isLinked = isLiked;
     }
 
-    public String getPostId(){
+    public String getPostId() {
         return postId;
     }
 
-    public boolean getIsLiked(){
+    public boolean getIsLiked() {
         return isLinked;
     }
 }

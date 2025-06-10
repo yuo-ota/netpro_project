@@ -5,21 +5,21 @@ public class PointDto {
     private Long latitude;
     private Long longitude;
 
-    public PointDto(String pointId, Long latitude, Long longitude){
+    public PointDto(String pointId, Long latitude, Long longitude) {
         this.pointId = pointId;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public String getPointed(){
+    public String getPointed() {
         return pointId;
     }
 
-    public Long getLantitude(){
+    public Long getLantitude() {
         return latitude;
     }
 
-    public Long getLongitude(){
+    public Long getLongitude() {
         return longitude;
     }
 }

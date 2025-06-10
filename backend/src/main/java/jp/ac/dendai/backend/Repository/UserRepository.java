@@ -7,17 +7,25 @@ import jp.ac.dendai.backend.Entity.User;
 
 @Repository
 public class UserRepository {
-    private JdbcTemplate jdbcTemplate;
+
+    private final JdbcTemplate jdbcTemplate;
 
     public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public User findByUserId(String userId) {
+        // TODO
+        // SELECT文でUserテーブルからタプルを取得する。
+        // 取得した内容をUserクラスのインスタンスに入れてreturn
+        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
     public void save(User user) {
-
+        // TODO
+        // INSERT文でUserテーブルにuserインスタンスの情報を登録する。
+        // 登録ができればそのままreturn
+        // エラーが発生したらその旨を例外としてthrow
     }
 }

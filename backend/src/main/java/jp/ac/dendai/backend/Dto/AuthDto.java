@@ -4,16 +4,16 @@ public class AuthDto {
     private String userId;
     private boolean isAuthed;
 
-    public AuthDto(String userId, boolean isAuthed){
+    public AuthDto(String userId, boolean isAuthed) {
         this.userId = userId;
         this.isAuthed = isAuthed;
     }
 
-    public String getUserId(){
+    public String getUserId() {
         return userId;
     }
 
-    public boolean getIsAuthed(){
+    public boolean getIsAuthed() {
         return isAuthed;
     }
 }

@@ -1,8 +1,5 @@
 package jp.ac.dendai.backend.Entity;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
-@EntityScan
 public class User {
     private String userId;
 
@@ -19,5 +16,6 @@ public class User {
     }
 
     public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
