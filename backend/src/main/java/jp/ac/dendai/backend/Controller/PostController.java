@@ -30,11 +30,7 @@ public class PostController {
     }
 
     @DeleteMapping
-    public ResponseEntity<PostDto> deletePost(String postId, String userId){
-        return null;
-    }
+    public void deletePost(String postId, String userId){
 
-    // public ResponseEntity<> deletePost(String postId, String userId){
-    //     return null;
-    // }
+    }
 }
