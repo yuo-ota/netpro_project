@@ -11,6 +11,6 @@ export default defineConfig({
     tsconfigPaths()
   ],
   server: {
-    host: false, // ここをtrueにすることでプライベートネットワークまで公開できるので、スマホ側から確認が可能になる。
+    host: true, // ここをtrueにすることでプライベートネットワークまで公開できるので、スマホ側から確認が可能になる。
   }
 })
