@@ -7,7 +7,7 @@ function BottomSheet() {
     const constraintsRef = useRef(null);
     const rawY = useMotionValue(0); // 生のY座標のモーション値（ドラッグ量）
     // useSpring を使って、アニメーションプロパティを持つ Y モーション値を作成
-    const y = useSpring(rawY, { damping: 25, stiffness: 250 }); // 第二引数でスプリングプロパティを設定
+    const y = useSpring(rawY, { damping: 25, stiffness: 100 }); // 第二引数でスプリングプロパティを設定
 
     // スナップポイントを定義
     const SNAP_POINTS = {
@@ -32,8 +32,8 @@ function BottomSheet() {
             <Box ref={constraintsRef} className="absolute inset-0 z-0" style={{ top: '50px' }} />
 
             <motion.div
-                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-xl z-20"
-                style={{ y }}
+                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-xl z-20 mb-[-300px]"
+                //style={{ y }}
                 drag="y"
                 dragConstraints={{
                     top: 0,
@@ -43,7 +43,7 @@ function BottomSheet() {
                 dragMomentum={false}
                 onDragEnd={(event, info) => {
                     const currentY = y.get(); // useSpring の y から現在の値を取得
-                    const threshold = SNAP_POINTS.open / 2;
+                    const threshold = (SNAP_POINTS.open + SNAP_POINTS.closed) / 2;
 
                     if (currentY > threshold) {
                         snapTo(SNAP_POINTS.closed);
@@ -98,6 +98,7 @@ function BottomSheet() {
                         ボトムシートを閉じる
                     </Button>
                 </Box>
+                <div className='w-full h-[300px]'></div>
             </motion.div>
         </Box>
         </>
