@@ -1,2 +1,7 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+
+:root {
+  /* ここで dvh を使用して計算された高さをカスタムプロパティに格納 */
+  --dynamic-viewport-height: 100dvh;
+}

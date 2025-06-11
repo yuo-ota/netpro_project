@@ -4,23 +4,23 @@ import { Box, Button, Text, VStack } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
 
 function BottomSheet() {
-    const constraintsRef = useRef(null);
-    const rawY = useMotionValue(0); // 生のY座標のモーション値（ドラッグ量）
-    // useSpring を使って、アニメーションプロパティを持つ Y モーション値を作成
-    const y = useSpring(rawY, { damping: 25, stiffness: 100 }); // 第二引数でスプリングプロパティを設定
+    const MAX_HEIGHT:number = window.innerHeight * 0.65;    // 画面全体のうちどの程度をMAXとするか
+    const snapOffset = 100;     // どの程度近づくことでスナップするか
+    
+    const rawY = useMotionValue(MAX_HEIGHT);
+    const y = useSpring(rawY, { damping: 100, stiffness: 1000 });
 
     // スナップポイントを定義
     const SNAP_POINTS = {
-        closed: 300, // 完全に閉じている状態
-        open: -300, // 完全に開いている状態
+        closed: MAX_HEIGHT, // 完全に閉じている状態
+        open: 0, // 完全に開いている状態
     };
-    const MAX_HEIGHT = -SNAP_POINTS.open;
 
     const dragHandleProps = useDragControls();
 
-  // ボトムシートを指定したスナップポイントに移動させる関数
+    // ボトムシートを指定したスナップポイントに移動させる関数
     const snapTo = (point: number) => {
-        rawY.set(point); // useSpring で作成した y ではなく、生の rawY を更新
+        rawY.set(point);
     };
 
     
@@ -28,36 +28,34 @@ function BottomSheet() {
     return (
         <>
         <Box className="flex justify-center items-center h-screen bg-gray-100 relative overflow-hidden">
-            {/* ドラッグ範囲を制限するコンテナ (スクリーン全体または特定の領域) */}
-            <Box ref={constraintsRef} className="absolute inset-0 z-0" style={{ top: '50px' }} />
-
             <motion.div
-                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-xl z-20 mb-[-300px]"
-                //style={{ y }}
+                className="flex flex-col fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-xl z-20 mb-[-300px]"
+                style={{ y }}
                 drag="y"
                 dragConstraints={{
                     top: 0,
-                    bottom: 600,
+                    bottom: MAX_HEIGHT,
                 }}
-                //dragElastic={0.2}
+                dragElastic={0.2}
                 dragMomentum={false}
-                onDragEnd={(event, info) => {
+                onDragEnd={() => {
                     const currentY = y.get(); // useSpring の y から現在の値を取得
-                    const threshold = (SNAP_POINTS.open + SNAP_POINTS.closed) / 2;
 
-                    if (currentY > threshold) {
+                    if (Math.abs(currentY - SNAP_POINTS.closed) < snapOffset) {
+                        snapTo(SNAP_POINTS.open);
                         snapTo(SNAP_POINTS.closed);
-                    } else {
+                    } else if (Math.abs(currentY - SNAP_POINTS.open) < snapOffset) {
+                        snapTo(SNAP_POINTS.closed);
                         snapTo(SNAP_POINTS.open);
                     }
                 }}
                 dragSnapToOrigin={false}
-                dragTransition={{ bounceStiffness: 200, bounceDamping: 20 }}
+                dragTransition={{ bounceStiffness: 100, bounceDamping: 25 }}
                 onPointerDown={(event) => dragHandleProps.start(event)}
             >
                 {/* ドラッグハンドル */}
                 <Box
-                    className="w-12 h-1.5 my-[20px] bg-gray-300 rounded-full mx-auto my-3 cursor-grab active:cursor-grabbing"
+                    className="flex-none w-12 h-1.5 my-[20px] bg-gray-300 rounded-full mx-auto my-3 cursor-grab active:cursor-grabbing"
                     onPointerDown={(e) => {
                     e.stopPropagation();
                     dragHandleProps.start(e);
@@ -66,10 +64,13 @@ function BottomSheet() {
 
                 {/* ここからがコンテンツエリア */}
                 <Box
-                    className="p-4 pt-0"
-                    style={{ maxHeight: MAX_HEIGHT + 300 + 'px' }} // ハンドルの高さとパディングを考慮して最大高さを設定
+                    style={{ maxHeight: Math.min(MAX_HEIGHT) + 'px' }} // ハンドルの高さとパディングを考慮して最大高さを設定
                     overflowY="auto" // 縦方向のスクロールを自動で表示
+                    className="p-4 pt-0 flex-1"
                 >
+                    <Button onClick={() => snapTo(SNAP_POINTS.open)} colorScheme="red" className="w-full mt-4">
+                        ボトムシートを閉じる
+                    </Button>
                     <Text className="text-xl font-bold mb-2">ボトムシートのタイトル</Text>
                     <Text className="text-gray-700 mb-4">
                     このエリアに多くのコンテンツが配置され、スクロール可能になります。
@@ -94,11 +95,15 @@ function BottomSheet() {
                         </Text>
                     </VStack>
 
+                    
                     <Button onClick={() => snapTo(SNAP_POINTS.closed)} colorScheme="red" className="w-full mt-4">
                         ボトムシートを閉じる
                     </Button>
+                    <Button onClick={() => snapTo(SNAP_POINTS.open)} colorScheme="red" className="w-full mt-4">
+                        ボトムシートを閉じる
+                    </Button>
                 </Box>
-                <div className='w-full h-[300px]'></div>
+                <div className='w-full h-[300px] flex-none'></div>
             </motion.div>
         </Box>
         </>

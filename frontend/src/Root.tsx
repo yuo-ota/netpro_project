@@ -14,9 +14,7 @@ function Root() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
         </MapContainer>
-        <div className="w-[390px] h-[844px] overflow-hidden z-40">
         <BottomSheet />
-        </div>
         </>
     )
 }
