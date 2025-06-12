@@ -10,4 +10,7 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths()
   ],
+  server: {
+    host: true, // ここをtrueにすることでプライベートネットワークまで公開できるので、スマホ側から確認が可能になる。
+  }
 })
