@@ -11,13 +11,13 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class BackendApplication {
-	@Value("spring.datasource.url")
+    @Value("${spring.datasource.url}")
     private String dataSourceUrl;
-    
-    @Value("spring.datasource.username")
+
+    @Value("${spring.datasource.username}")
     private String dbUsername;
-    
-    @Value("spring.datasource.password")
+
+    @Value("${spring.datasource.password}")
     private String dbPassword;
 
 	public static void main(String[] args) {
