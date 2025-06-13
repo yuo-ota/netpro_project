@@ -1,5 +1,6 @@
 import './App.css'
 import Root from './Root'
+import Post from './Post';
 import NotFound from './NotFound'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -17,9 +18,8 @@ function App() {
                     } />
                     {/* 投稿画面 */}
                     <Route path="/post" element={
-                        <></> // TODO Postコンポーネントが作れたら消す
                         // <RequireAuth> // TODO 今後作る
-                        //     <Post />
+                            <Post />
                         // </RequireAuth>
                     } />
                     {/* NotFound画面 */}

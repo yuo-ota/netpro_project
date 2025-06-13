@@ -1,2 +1,14 @@
+@import "tailwindcss";
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+
+html {
+    font-family: "fot-cezanne-pron", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    color: #000000;
+}
+
+@theme {
+    --color-main: oklch(0.7501 0.2334 144.12);
+}

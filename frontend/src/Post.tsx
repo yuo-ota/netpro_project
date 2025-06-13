@@ -1,10 +1,16 @@
+import { useState } from 'react';
 import './App.css'
+import PostButtonContainer from './PostButtonContainer'
+import PostForm from './PostForm'
 
 function Post() {
+    const [postText, setPostText] = useState('');
+    
     return (
-        <>
-            {/* TODO ここに投稿画面を作成 */}
-        </>
+        <div className="relative flex flex-col w-dvw h-dvh">
+            <PostButtonContainer />
+            <PostForm postText={postText} setPostText={setPostText} />
+        </div>
     )
 }
 
