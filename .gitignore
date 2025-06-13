@@ -4,3 +4,4 @@
 build/
 DB_log
 DB_dump/*.sql
+.env*

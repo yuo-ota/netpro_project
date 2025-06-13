@@ -1,12 +1,12 @@
 import { Textarea, Text } from '@chakra-ui/react'
 import './App.css'
 
-type Props = {
+type PostFormContainerProps = {
     postText: string;
     setPostText: (value: string) => void;
 };
 
-function PostForm({ postText, setPostText }: Props) {
+function PostForm({ postText, setPostText }: PostFormContainerProps) {
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setPostText(e.target.value);
     };
