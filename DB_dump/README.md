@@ -6,6 +6,6 @@
 
 # 開発中の初期化処理
 - このディレクトリでターミナルを開く
-- ``psql -U yuuta -c "DROP DATABASE IF EXISTS test``
+- ``psql -U yuuta -c "DROP DATABASE IF EXISTS netpro``
 - ``psql -U yuuta -f db_create.sql``
 - **yuutaは適宜変更してね**
