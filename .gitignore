@@ -1,4 +1,0 @@
-*.env
-.history
-DB_log
-DB_dump/*.sql
