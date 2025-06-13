@@ -55,11 +55,10 @@ jp.ac.dendai
 backend
 Jar
 21
-Spring Webs
+Spring Web
 net_projectディレクトリを選択
 
 cd backend
 mvn clean install
 mvn spring-boot:run
 ```
-
