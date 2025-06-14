@@ -21,7 +21,6 @@ public class PostRepository {
         // そのpostIDに対応したデータを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
-        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
@@ -30,7 +29,6 @@ public class PostRepository {
         // そのpointIDに対応したデータリストを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
-        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
@@ -39,7 +37,6 @@ public class PostRepository {
         // そのuserIDに対応したデータリストを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
-        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
@@ -47,13 +44,11 @@ public class PostRepository {
         // TODO
         // INSERT文でPostテーブルにpostインスタンスの情報を登録する。
         // 登録ができればそのままreturn
-        // エラーが発生したらその旨を例外としてthrow
     }
 
     public void delete(String postId) {
         // TODO
         // DELETE文でPostテーブルからpostインスタンスにあるIDの情報を削除する。
         // 削除ができればそのままreturn
-        // エラーが発生したらその旨を例外としてthrow
     }
 }

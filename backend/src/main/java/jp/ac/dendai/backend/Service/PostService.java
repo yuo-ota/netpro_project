@@ -61,7 +61,7 @@ public class PostService {
     public PostDto createPost(
             String userId, Long latitude, Long longitude, String content) {
         // TODO
-        // checkUserを呼び出し、認証できなかった場合は例外をthrow
+        // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // ------------ここで例外が起きたらSQLをロールバックする--------------
         // | checkPointを呼び出し、Pointが存在しない場合にはPointServiceのsaveを呼び出す
         // | PostRepositoryのsaveを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る

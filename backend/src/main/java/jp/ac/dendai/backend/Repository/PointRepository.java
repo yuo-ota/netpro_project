@@ -20,7 +20,6 @@ public class PointRepository {
         // そのpointIDに対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
@@ -29,7 +28,6 @@ public class PointRepository {
         // その座標に対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
@@ -38,7 +36,6 @@ public class PointRepository {
         // その座標に近いポイントデータリストを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
@@ -46,7 +43,6 @@ public class PointRepository {
         // TODO
         // INSERT文でPointテーブルにpointインスタンスの情報を登録する。
         // 登録ができればそのままreturn
-        // エラーが発生したらその旨を例外としてthrow
         return;
     }
 }
