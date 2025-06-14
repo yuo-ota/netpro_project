@@ -11,4 +11,5 @@ html {
 
 @theme {
     --color-main: oklch(0.7501 0.2334 144.12);
+    --color-main-shadow: oklch(0.5616 0.1716 144.3);
 }

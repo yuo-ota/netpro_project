@@ -20,7 +20,26 @@ const PostButtonContainer: React.FC<PostButtonContainerProps> = ({ onClickPost, 
                 <Text className='text-xl pr-1 text-black'>キャンセル</Text>
             </Button>
             <Button
-                className='flex items-center justify-center max-w-1/2 w-[128px] h-2/3 bg-white text-black rounded-full border-2 border-main shadow-lg shadow-main/20 transition duration-200 ease-in-out hover:shadow-sm active:text-white active:bg-main'
+                className='
+                    flex
+                    items-center
+                    justify-center
+                    max-w-1/2
+                    w-[128px]
+                    h-2/3
+                    bg-white
+                    text-black
+                    rounded-full
+                    border-2
+                    border-main
+                    shadow-lg
+                    shadow-main/20
+                    transition
+                    duration-200
+                    ease-in-out
+                    hover:shadow-sm
+                    active:text-white
+                    active:bg-main'
                 onClick={onClickPost}
             >
                 <Text className='text-xl'>投稿する</Text>
