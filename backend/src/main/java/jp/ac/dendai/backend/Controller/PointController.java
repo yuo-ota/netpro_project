@@ -24,7 +24,7 @@ public class PointController {
         // TODO
         // pointServiceのgetPointsByNearPositionを呼び出し、
         // もし、nullでない場合には200番で戻り値のList<PointDto>をreturn
-        // それ以外(不正な値や例外)には500番をreturn
+        // それ以外(不正な値や例外)には500番でreturn
         return null;
     }
 }

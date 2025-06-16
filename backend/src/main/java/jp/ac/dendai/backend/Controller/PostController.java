@@ -25,7 +25,7 @@ public class PostController {
     public ResponseEntity<List<PostDto>> getPosts(String pointId) {
         // TODO
         // postServiceのgetPostsByPointIdを呼び出し、200番で戻り値のList<PostDto>をreturn
-        // それ以外(不正な値や例外)には500番をreturn
+        // それ以外(不正な値や例外)には500番でreturn
         return null;
     }
 
@@ -34,7 +34,8 @@ public class PostController {
             String userId, Long latitude, Long longitude, String content) {
         // TODO
         // postServiceのcreatePostを呼び出し、201番で戻り値のPostDtoをreturn
-        // それ以外(不正な値や例外)には500番をreturn
+        // AuthenticationFailedExceptionの例外の場合は、401番でreturn
+        // それ以外(不正な値や例外)には500番でreturn
         return null;
     }
 
@@ -42,7 +43,7 @@ public class PostController {
     public ResponseEntity<Void> deletePost(String postId, String userId) {
         // TODO
         // postServiceのdeletePostを呼び出し、204番でreturn
-        // それ以外(不正な値や例外)には500番をreturn
+        // それ以外(不正な値や例外)には500番でreturn
         return null;
     }
 }
