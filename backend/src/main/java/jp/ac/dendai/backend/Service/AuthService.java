@@ -19,8 +19,9 @@ public class AuthService {
         // もし、例外がthrowされたら例外をthrowをServiceに送る
         try {
             UserDto userData = userService.getUserByUserId(userId);
-            if (userData == null)
+            if (userData == null) {
                 return new AuthDto(userId, false);
+            }
 
             return new AuthDto(userId, true);
         } catch (Exception e) {
