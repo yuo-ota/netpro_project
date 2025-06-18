@@ -55,19 +55,36 @@ public class CalcGeo {
         );
     }
 
+    public static double[] floorPosition(double latitude, double longitude) {
+        final int GRID_EDGE_METERS = 10; // TODO グリッドの1辺の長さ 暫定値のため適宜調整すること
+        final double GRID_SIZE_LAT = GRID_EDGE_METERS / METERS_PER_DEGREE_LATITUDE; // グリッド1辺の緯度
+        final double GRID_SIZE_LON = GRID_SIZE_LAT / Math.cos(Math.toRadians(latitude)); // 経度方向に相当する度数
+
+        // 丸め緯度, 経度
+        double flooredLat = Math.floor(latitude / GRID_SIZE_LAT) * GRID_SIZE_LAT;
+        double flooredLon = Math.floor(longitude / GRID_SIZE_LON) * GRID_SIZE_LON;
+
+        return new double[]{flooredLat, flooredLon};
+    }
+
     public static void main(String[] args) {
         double tduLat = 35.7489414625941;
         double tduLon = 139.80676212563802;
-        double homeLat = 35.7489414625941;
-        double homeLon = 139.80731617842014;
+        double tdu2Lat = 35.7489414625941;
+        double tdu2Lon = 139.80676212573802;
 
-        double distance = 50;
-        LatLngRange range = getBoundingBox(tduLat, tduLon, distance);
-        System.out.printf("%.2fm以内の範囲:%n", distance);
-        System.out.println(range);
+        // double distance = 50;
+        // LatLngRange range = getBoundingBox(tduLat, tduLon, distance);
+        // System.out.printf("%.2fm以内の範囲:%n", distance);
+        // System.out.println(range);
 
-        double resultDistance = haversineDistance(tduLat, tduLon, homeLat, homeLon);
-        System.out.printf("距離は %.2f メートルです%n", resultDistance);
+        // double resultDistance = haversineDistance(tduLat, tduLon, homeLat, homeLon);
+        // System.out.printf("距離は %.2f メートルです%n", resultDistance);
+
+        double[] flooredTduPosition = floorPosition(tduLat, tduLon);
+        double[] flooredTdu2Position = floorPosition(tdu2Lat, tdu2Lon);
+        System.out.println(flooredTduPosition[0] + ", " + flooredTduPosition[1]);
+        System.out.println(flooredTdu2Position[0] + ", " + flooredTdu2Position[1]);
     }
 
     public static class LatLngRange {
