@@ -33,7 +33,7 @@ export const GetPointsApiResponseReturnOne = () => {
 };
 
 export const GetPointsApiResponseReturnFive = () => {
-    return Promise.resolve([
+    return [
         {
             pointId: "R1eOSUZ8gRA8kH8g7BwX_",
             latitude: 35.393117,
@@ -59,7 +59,7 @@ export const GetPointsApiResponseReturnFive = () => {
             latitude: 35.399624,
             longitude: 139.560028
         },
-    ]);
+    ];
 };
 
 export const GetPostsApiResponseReturnZero = () => {
