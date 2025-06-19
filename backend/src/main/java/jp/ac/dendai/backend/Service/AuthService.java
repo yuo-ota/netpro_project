@@ -16,11 +16,16 @@ public class AuthService {
     public AuthDto getAuthByUserId(String userId) throws Exception {
         // userServiceのgetUserByUserIdを呼び出し、戻り値のUserDtoを基にisAuthedがtrueのAuthDtoを作りreturn
         // もし、戻り値のUserDtoがnullの場合はisAuthedがfalseのAuthDtoを作りreturn
-        UserDto userData = userService.getUserByUserId(userId);
-        if (userData == null) {
-            return new AuthDto(userId, false);
-        }
+        // もし、例外がthrowされたら例外をthrowをServiceに送る
+        try {
+            UserDto userData = userService.getUserByUserId(userId);
+            if (userData == null) {
+                return new AuthDto(userId, false);
+            }
 
-        return new AuthDto(userId, true);
+            return new AuthDto(userId, true);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

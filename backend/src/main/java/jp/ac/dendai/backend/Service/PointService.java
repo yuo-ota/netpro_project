@@ -16,28 +16,28 @@ public class PointService {
 
     public PointDto getPointByPointId(String pointId) {
         // TODO
-        // pointRepositoryのfindByPointIdを呼び出す
+        // pointRepositoryのfindByPointIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のPointを基にPointDtoを作りreturn
         return null;
     }
 
     public PointDto getPointByAtPosition(Long latitude, Long longitude) {
         // TODO
-        // pointRepositoryのfindByAtPositionを呼び出す
+        // pointRepositoryのfindByAtPositionを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のPointを基にPointDtoを作りreturn
         return null;
     }
 
     public List<PointDto> getPointsByNearPosition(Long latitude, Long longitude) {
         // TODO
-        // pointRepositoryのfindByNearPositionを呼び出す
+        // pointRepositoryのfindByNearPositionを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のList<Point>を基にList<PointDto>を作りreturn
         return null;
     }
 
     public PointDto createPoint(Long latitude, Long longitude) {
         // TODO
-        // pointRepositoryのsaveを呼び出す
+        // pointRepositoryのsaveを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は渡したPointを基にPointDtoを作りreturn
         return null;
     }

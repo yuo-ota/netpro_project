@@ -24,35 +24,35 @@ public class PostService {
 
     public PointDto checkPoint(Long latitude, Long longitude) {
         // TODO
-        // pointServiceのgetPointByAtPositionを呼び出す
+        // pointServiceのgetPointByAtPositionを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のPointをreturn
         return null;
     }
 
     public AuthDto checkUser(String userId) {
         // TODO
-        // authServiceのgetAuthByUserIdを呼び出す
+        // authServiceのgetAuthByUserIdを呼び出し、例外がthrowされた場合は例外をthrowする
         // それ以外は戻り値のAuthDtoをreturn
         return null;
     }
 
     public PostDto getPostByPostId(String postId) {
         // TODO
-        // postRepositoryのfindByPostIdを呼び出す
+        // postRepositoryのfindByPostIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のPostを基にPostDtoを作り、return
         return null;
     }
 
     public List<PostDto> getPostByPointId(String pointId) {
         // TODO
-        // postRepositoryのfindByPointIdを呼び出す
+        // postRepositoryのfindByPointIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のList<Post>を基にList<PostDto>を作り、return
         return null;
     }
 
     public List<PostDto> getPostByUserId(String userId) {
         // TODO
-        // postRepositoryのfindByUserIdを呼び出す
+        // postRepositoryのfindByUserIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のList<Post>を基にList<PostDto>を作り、return
         return null;
     }
@@ -64,7 +64,7 @@ public class PostService {
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // ------------ここで例外が起きたらSQLをロールバックする--------------
         // | checkPointを呼び出し、Pointが存在しない場合にはPointServiceのsaveを呼び出す
-        // | PostRepositoryのsaveを呼び出す
+        // | PostRepositoryのsaveを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // ----------------------------------------------------------------
         // それ以外は戻り値のPostを基にPostDtoを作り、return
         return null;
