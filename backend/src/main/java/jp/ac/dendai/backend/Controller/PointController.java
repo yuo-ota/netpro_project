@@ -27,13 +27,12 @@ public class PointController {
         // それ以外(不正な値や例外)には500番でreturn
         try {
             List<PointDto> pointData = pointService.getPointsByNearPosition(latitude, longitude);
-            if (pointData != null){
-                return ResponseEntity.ok(pointData);
-            } else {
-            // データが見つからなかった場合404番でreturn←この場合は存在しないはずであるが書かないとエラーになるので記入しました。
+
+            if (pointData == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-        } catch (Exception e){
+            return ResponseEntity.ok(pointData);
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
