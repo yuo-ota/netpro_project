@@ -7,20 +7,16 @@ import BottomSheet from './BottomSheet';
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useGps } from './GpsContext';
+import { PointMarker } from './PointMarker';
 import { useEffect, useMemo, useState } from 'react';
 import RecentMap from './RecentMap';
 import { GetPointsApiResponseReturnFive } from './mock';
 
 function Root() {
     const navigate = useNavigate();
-    const [points, setPoints] = useState<{ pointId: string; latitude: number; longitude: number; }[]>([]);
+    const [points, setPoints] = useState<{ pointId: string; latitude: number; longitude: number; count: number; }[]>([]);
     const { lat, lng } = useGps();
     const [position, setPosition] = useState<LatLng>(new LatLng(lat, lng));
-    const pointIcon: Icon = useMemo(() => L.icon({
-        iconUrl: "/src/assets/comment_icon.svg",
-        iconSize: [61.563, 53.188],
-        iconAnchor: [30.7815, 53.188]
-    }), []);
 
     useEffect(() => {
         setPoints(GetPointsApiResponseReturnFive());
@@ -54,14 +50,8 @@ function Root() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <RecentMap lat={position.lat} lng={position.lng} />
-                    {points.map((i) => (
-                        <Marker
-                            position={new LatLng(i.latitude, i.longitude)}
-                            icon={pointIcon}
-                            key={i.pointId}
-                            eventHandlers={{
-                              click: () => alert(i.pointId)
-                            }} />
+                    {points.map((point) => (
+                        <PointMarker key={point.pointId} point={point} />
                     ))}
                 </MapContainer>
             </div>
