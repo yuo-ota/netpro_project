@@ -2,6 +2,7 @@ package jp.ac.dendai.backend.Controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,20 @@ public class PointController {
 
     @GetMapping("/{latitude}/{longitude}")
     public ResponseEntity<List<PointDto>> getPoints(Long latitude, Long longitude) {
-        // TODO
         // pointServiceのgetPointsByNearPositionを呼び出し、
         // もし、nullでない場合には200番で戻り値のList<PointDto>をreturn
         // それ以外(不正な値や例外)には500番でreturn
-        return null;
+        try {
+            List<PointDto> pointData = pointService.getPointsByNearPosition(latitude, longitude);
+            if (pointData != null){
+                return ResponseEntity.ok(pointData);
+            } else {
+            // データが見つからなかった場合404番でreturn←この場合は存在しないはずであるが書かないとエラーになるので記入しました。
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
