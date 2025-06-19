@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 
 import jp.ac.dendai.backend.Dto.AuthDto;
 import jp.ac.dendai.backend.Dto.GoodDto;
+import jp.ac.dendai.backend.Entity.Good;
 import jp.ac.dendai.backend.Repository.GoodRepository;
+import jp.ac.dendai.backend.util.AuthenticationFailedException;
 
 @Service
 public class GoodService {
@@ -18,26 +20,49 @@ public class GoodService {
         this.postService = postService;
     }
 
-    public AuthDto checkUser(String userId) {
+    public AuthDto checkUser(String userId) throws Exception {
         // TODO
         // authServiceのgetAuthByUserIdを呼び出し、例外がthrowされた場合は例外をthrowする
         // それ以外は戻り値のAuthDtoをreturn
-        return null;
+        try {
+            AuthDto authData = authService.getAuthByUserId(userId);
+            return authData;
+        } catch (Exception e){
+            throw e;
+        }
     }
 
-    public GoodDto createGood(String postId, String userId) {
+    public GoodDto createGood(String postId, String userId) throws Exception {
         // TODO
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // GoodRepositoryのsaveを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は渡したGood基にGoodDtoを作りreturn
-        return null;
+        try {
+            AuthDto authData = checkUser(userId);
+            if (!authData.getIsAuthed()){
+                throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+            }
+            goodRepository.save(new Good(postId, userId));
+            return new GoodDto(postId, true);
+        } catch (Exception e){
+            throw e;
+        }
     }
 
-    public void deleteGood(String postId, String userId) {
+    public void deleteGood(String postId, String userId) throws Exception {
         // TODO
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // GoodRepositoryのdeleteを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外はvoidをreturn
-        return;
+        try {
+            AuthDto authData = checkUser(userId);
+            if (!authData.getIsAuthed()){
+                throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+            }
+            goodRepository.delete(postId, userId);
+            return;
+        } catch (Exception e){
+            throw e;
+        }
     }
 }
