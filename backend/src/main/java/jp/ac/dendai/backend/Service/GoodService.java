@@ -20,49 +20,42 @@ public class GoodService {
         this.postService = postService;
     }
 
-    public AuthDto checkUser(String userId) throws Exception {
-        // TODO
-        // authServiceのgetAuthByUserIdを呼び出し、例外がthrowされた場合は例外をthrowする
+    public AuthDto checkUser(String userId) {
+        // authServiceのgetAuthByUserIdを呼び出し、
+        // 例外がthrowされた場合はAuthenticationFailedException例外をthrowする
         // それ以外は戻り値のAuthDtoをreturn
         try {
             AuthDto authData = authService.getAuthByUserId(userId);
             return authData;
         } catch (Exception e){
-            throw e;
+            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
         }
     }
 
-    public GoodDto createGood(String postId, String userId) throws Exception {
-        // TODO
+    public GoodDto createGood(String postId, String userId) {
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
-        // GoodRepositoryのsaveを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
+        // GoodRepositoryのsaveを呼び出す
         // それ以外は渡したGood基にGoodDtoを作りreturn
-        try {
-            AuthDto authData = checkUser(userId);
-            if (!authData.getIsAuthed()){
-                throw new AuthenticationFailedException("ユーザー認証に失敗しました");
-            }
-            goodRepository.save(new Good(postId, userId));
-            return new GoodDto(postId, true);
-        } catch (Exception e){
-            throw e;
+        AuthDto authData = checkUser(userId);
+        if (!authData.getIsAuthed()){
+            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
         }
+        goodRepository.save(new Good(postId, userId));
+        return new GoodDto(postId, true);
     }
 
     public void deleteGood(String postId, String userId) throws Exception {
-        // TODO
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
-        // GoodRepositoryのdeleteを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
-        // それ以外はvoidをreturn
-        try {
-            AuthDto authData = checkUser(userId);
-            if (!authData.getIsAuthed()){
-                throw new AuthenticationFailedException("ユーザー認証に失敗しました");
-            }
-            goodRepository.delete(postId, userId);
-            return;
-        } catch (Exception e){
-            throw e;
+        // GoodRepositoryのdeleteを呼び出す
+        AuthDto authData = checkUser(userId);
+        if (!authData.getIsAuthed()){
+            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
         }
+        goodRepository.delete(postId, userId);
+    }
+
+    public int getGoodCountByPostId(String postId) {
+        // GoodRepositoryのgetGoodCountByPostIdを呼び出し、戻り値をreturn
+        return goodRepository.countByPostId(postId);
     }
 }

@@ -15,7 +15,7 @@ public class UserService {
 
     public UserDto getUserByUserId(String userID) {
         // TODO
-        // userRepositoryのfindByUserIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
+        // userRepositoryのfindByUserIdを呼び出す
         // もし戻り値のUserがnullの場合はnullをreturn
         // それ以外は戻り値のUserを基にUserDtoを作りreturn
         return null;
@@ -23,7 +23,7 @@ public class UserService {
 
     public UserDto createUser() {
         // TODO
-        // userRepositoryのsaveを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
+        // userRepositoryのsaveを呼び出す
         // それ以外は渡したUser基にUserDtoを作りreturn
         return null;
     }

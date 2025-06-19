@@ -23,7 +23,6 @@ public class GoodController {
     @PostMapping
     public ResponseEntity<GoodDto> createGood(
             String userId, String postId) {
-        // TODO
         // goodServiceのcreateGoodを呼び出し、201番で戻り値のGoodDtoをreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn
         // それ以外(不正な値や例外)には500番をreturn
@@ -41,7 +40,6 @@ public class GoodController {
     @DeleteMapping
     public ResponseEntity<Void> deleteGood(
             String userId, String postId) {
-        // TODO
         // goodServiceのdeleteGoodを呼び出し、204番でreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn
         // それ以外(不正な値や例外)には500番をreturn
