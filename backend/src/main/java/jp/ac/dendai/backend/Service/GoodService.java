@@ -27,7 +27,7 @@ public class GoodService {
 
     public GoodDto createGood(String postId, String userId) {
         // TODO
-        // checkUserを呼び出し、認証できなかった場合は例外をthrow
+        // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // GoodRepositoryのsaveを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は渡したGood基にGoodDtoを作りreturn
         return null;
@@ -35,7 +35,7 @@ public class GoodService {
 
     public void deleteGood(String postId, String userId) {
         // TODO
-        // checkUserを呼び出し、認証できなかった場合は例外をthrow
+        // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // GoodRepositoryのdeleteを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外はvoidをreturn
         return;

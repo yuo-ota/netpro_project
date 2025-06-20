@@ -1,18 +1,27 @@
 import './App.css'
-import { MapContainer, TileLayer } from "react-leaflet";
-import { LatLng } from "leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import L from "leaflet";
+import { LatLng, Icon } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import BottomSheet from './BottomSheet';
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useGps } from './GpsContext';
-import { useEffect, useState } from 'react';
+import { PointMarker } from './PointMarker';
+import { useEffect, useMemo, useState } from 'react';
 import RecentMap from './RecentMap';
+import { GetPointsApiResponseReturnFive } from './mock';
 
 function Root() {
     const navigate = useNavigate();
+    const [points, setPoints] = useState<{ pointId: string; latitude: number; longitude: number; count: number; }[]>([]);
     const { lat, lng } = useGps();
     const [position, setPosition] = useState<LatLng>(new LatLng(lat, lng));
+
+    useEffect(() => {
+        setPoints(GetPointsApiResponseReturnFive());
+    }, []);
+    
 
     const handleGoToPost = () => {
         navigate('/post');
@@ -41,6 +50,9 @@ function Root() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <RecentMap lat={position.lat} lng={position.lng} />
+                    {points.map((point) => (
+                        <PointMarker key={point.pointId} point={point} />
+                    ))}
                 </MapContainer>
             </div>
         </>

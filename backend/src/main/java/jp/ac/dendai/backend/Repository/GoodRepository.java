@@ -1,5 +1,6 @@
 package jp.ac.dendai.backend.Repository;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,16 +15,21 @@ public class GoodRepository {
     }
 
     public void save(Good good) {
-        // TODO
         // INSERT文でGoodテーブルにgoodインスタンスの情報を登録する。
         // 登録ができればそのままreturn
-        // エラーが発生したらその旨を例外としてthrow
+        String sql = "INSERT INTO goods (user_id, post_id) VALUES (?, ?)";
+
+        jdbcTemplate.update(sql,
+                good.getUserId(),
+                good.getPostId());
     }
 
     public void delete(String postId, String userId) {
-        // TODO
         // DELETE文でGoodテーブルからgoodインスタンスにあるIDの情報を削除する。
         // 削除ができればそのままreturn
-        // エラーが発生したらその旨を例外としてthrow
+        String sql = "DELETE FROM goods WHERE post_id = ? AND user_id = ?";
+
+        jdbcTemplate.update(sql,
+                postId, userId);
     }
 }

@@ -18,7 +18,6 @@ public class UserRepository {
         // TODO
         // SELECT文でUserテーブルからタプルを取得する。
         // 取得した内容をUserクラスのインスタンスに入れてreturn
-        // エラーが発生したらその旨を例外としてthrow
         return null;
     }
 
@@ -26,6 +25,5 @@ public class UserRepository {
         // TODO
         // INSERT文でUserテーブルにuserインスタンスの情報を登録する。
         // 登録ができればそのままreturn
-        // エラーが発生したらその旨を例外としてthrow
     }
 }
