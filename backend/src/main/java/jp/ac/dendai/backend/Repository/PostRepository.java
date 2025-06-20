@@ -21,6 +21,7 @@ public class PostRepository {
         // そのpostIDに対応したデータを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
+        String sql = "SELECT * FROM posts WHERE post_id = ?";
         return null;
     }
 
@@ -29,6 +30,7 @@ public class PostRepository {
         // そのpointIDに対応したデータリストを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
+        String sql = "SELECT * FROM posts WHERE point_id = ?";
         return null;
     }
 
@@ -37,6 +39,7 @@ public class PostRepository {
         // そのuserIDに対応したデータリストを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
+        String sql = "SELECT * FROM posts WHERE user_id = ?";
         return null;
     }
 
@@ -44,11 +47,16 @@ public class PostRepository {
         // TODO
         // INSERT文でPostテーブルにpostインスタンスの情報を登録する。
         // 登録ができればそのままreturn
+        String sql = """
+                    INSERT INTO posts(post_id, user_id, point_id, content)
+                    VALUES(?, ?, ?, ?)
+                """;
     }
 
     public void delete(String postId) {
         // TODO
         // DELETE文でPostテーブルからpostインスタンスにあるIDの情報を削除する。
         // 削除ができればそのままreturn
+        String sql = "DELETE FROM posts WHERE post_id = ?";
     }
 }
