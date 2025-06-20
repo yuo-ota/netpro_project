@@ -13,7 +13,7 @@ import { GetPointsApiResponseReturnFive } from './mock';
 
 function Root() {
     const navigate = useNavigate();
-    const [points, setPoints] = useState<{ pointId: string; latitude: number; longitude: number; count: number; }[]>([]);
+    const [points, setPoints] = useState<{ pointId: string; latitude: number; longitude: number; count: number; existInner: boolean}[]>([]);
     const { lat, lng } = useGps();
     const [position, setPosition] = useState<LatLng>(new LatLng(lat, lng));
 

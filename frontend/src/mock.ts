@@ -38,31 +38,36 @@ export const GetPointsApiResponseReturnFive = () => {
             pointId: "R1eOSUZ8gRA8kH8g7BwX_",
             latitude: 35.393117,
             longitude: 139.564062,
-            count: 200000000
+            count: 200000000,
+            existInner: true
         },
         {
             pointId: "3wiR2UhcjegGc5zFymykV",
             latitude: 35.390598,
             longitude: 139.560371,
-            count: 20000
+            count: 20000,
+            existInner: true
         },
         {
             pointId: "LFV6GKrs6MspmnlQRLt3h",
             latitude: 35.392697,
             longitude: 139.549041,
-            count: 0
+            count: 0,
+            existInner: false
         },
         {
             pointId: "4PG8K147Ig5xph_f6d-9K",
             latitude: 35.397665,
             longitude: 139.553333,
-            count: 8
+            count: 8,
+            existInner: false
         },
         {
             pointId: "IOkX6npqf243IU92YEu5v",
             latitude: 35.399624,
             longitude: 139.560028,
-            count: 8000000
+            count: 8000000,
+            existInner: true
         },
     ];
 };

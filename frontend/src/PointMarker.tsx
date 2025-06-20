@@ -7,6 +7,7 @@ type Point = {
     latitude: number;
     longitude: number;
     count: number;
+    existInner: boolean;
 };
 
 const formatCount = (count: number) => {
@@ -18,12 +19,15 @@ const formatCount = (count: number) => {
     return count.toString();
 };
 
-const customDivIcon = (count: number) =>
-    L.divIcon({
+const customDivIcon = (count: number, existInner: boolean) => {
+    const iconSrc = existInner
+        ? "/src/assets/comment_icon.svg"
+        : "/src/assets/comment_out_range_icon.svg";
+    return L.divIcon({
         html: `
         <div style="position: relative">
             <img
-                src="/src/assets/comment_icon.svg";
+                src="${iconSrc}"
             />
             ${
                 count > 0
@@ -52,11 +56,11 @@ const customDivIcon = (count: number) =>
         className: '',
         iconSize: [61.563, 53.188],
         iconAnchor: [30.7815, 53.188]
-    }
-);
+    });
+};
 
 export const PointMarker = ({ point }: { point: Point }) => {
-    const icon = useMemo(() => customDivIcon(point.count), [point.count]);
+    const icon = useMemo(() => customDivIcon(point.count, point.existInner), [point.count, point.existInner]);
 
     return (
         <Marker
