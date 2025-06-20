@@ -1,4 +1,4 @@
-package jp.ac.dendai.backend.config;
+package jp.ac.dendai.backend.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
