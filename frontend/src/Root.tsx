@@ -1,14 +1,13 @@
 import './App.css'
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import L from "leaflet";
-import { LatLng, Icon } from "leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
+import { LatLng } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import BottomSheet from './BottomSheet';
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useGps } from './GpsContext';
 import { PointMarker } from './PointMarker';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import RecentMap from './RecentMap';
 import { GetPointsApiResponseReturnFive } from './mock';
 
