@@ -1,28 +1,29 @@
-import { Box, Tabs, Text, VStack, Flex, Icon } from '@chakra-ui/react';
+import { Box, Tabs, Text, VStack, Flex} from '@chakra-ui/react';
 import { FaRegThumbsUp, FaEllipsisV } from 'react-icons/fa';
 
 function PostList() {
     return (
-    <Box height="100vh" display="flex" flexDirection="column">
-        <Tabs.Root defaultValue={"likes"} width="100%">
-            <Tabs.List display="flex"
-                borderBottom="none"
-                borderTop="2px solid black"
-                marginBottom="3px"
-                boxShadow="0 3px 3px rgba(0,0,0,0.2)"
-                bg="white"
-                zIndex="docked"
-                width="100%"
+    <>
+        <Tabs.Root defaultValue={"likes"} className='w-screen'>
+            <Tabs.List
+                className='
+                    flex
+                    border-t-2
+                    mb-[3px]
+                    shadow-[0_3px_3px_rgba(0,0,0,0.2)]
+                    bg-white
+                    z-[var(--chakra-zIndices-docked)]'
             >
                 <Tabs.Trigger
                     value="likes"
-                    flex="1"
-                    py={7}
-                    fontSize="lg"
-                    textAlign="center"
-                    justifyContent="center"
-                    alignItems="center"
-                    bg="white"
+                    className='
+                        flex-1
+                        py-7
+                        text-lg
+                        text-center
+                        justify-center
+                        items-center
+                        bg-white'
                     _selected={{
                     borderBottom: '3px solid green',
                     color: 'black',
@@ -32,13 +33,14 @@ function PostList() {
                 </Tabs.Trigger>
                 <Tabs.Trigger
                     value="newest"
-                    flex="1"
-                    py={7}
-                    fontSize="lg"
-                    textAlign="center"
-                    justifyContent="center"
-                    alignItems="center"
-                    bg="white"
+                    className='
+                        flex-1
+                        py-7
+                        text-lg
+                        text-center
+                        justify-center
+                        items-center
+                        bg-white'
                     _selected={{
                     borderBottom: '3px solid green',
                     color: 'black',
@@ -49,61 +51,77 @@ function PostList() {
             </Tabs.List>
         </Tabs.Root>
 
-        <Box flex="1" overflowY="auto" px={4} pt={4}>
-            <VStack gap={4} align="stretch">
+    <Box className='flex flex-col h-screen'>
+        <Box
+            className='
+                flex-1
+                overflow-y-auto
+                px-4
+                pt-4'
+        >
+            <VStack className='gap-4 flex items-stretch'>
                 {[...Array(20)].map((_, i) => (
                     <Box
                         key={i}
-                        p={4}
-                        bg="white"
-                        borderBottom="1px solid"
-                        borderColor="gray.200"
-                        _last={{ borderBottom: "none" }}
+                        className='
+                            p-4
+                            bg-white
+                            border-b
+                            border-gray-200
+                            last:border-b-0'
                     >
-                        <Flex align="flex-start">
-                            <Box flex="1" pr={4}>
-                                <Text fontSize="md" mb={2}>
+                        <Flex className='flex items-start'>
+                            <Box className='flex-1 pr-4'>
+                                <Text className='text-base mb-2'>
                                     高瀬舟は京都の高瀬川を上下する小舟である。
                                     徳川時代に京都の罪人が遠島を申し渡されると、本人の親類が牢屋敷へ呼び出されて、そこで暇乞いをすることを許された。
                                     それから罪人は高瀬舟に載せられて、大阪へ回されることであった。
                                 </Text>
-                                <Text fontSize="sm" color="gray.500">
+                                <Text className='text-sm text-gray-500'>
                                     2025/06/20 11:24
                                 </Text>
                             </Box>
-
-                            <Flex direction="column" alignItems="center" mr={2}>
+                            <Flex
+                                className='
+                                    flex
+                                    flex-col
+                                    items-conter
+                                    mr-2'
+                            >
                                 <Box
-                                    w="12vh"
-                                    h="12vh"
-                                    borderRadius="full"
-                                    bg="white"
-                                    border="1px solid gray.500"
-                                    boxShadow="0px 1px 3px rgba(0, 0, 0, 0.1)"
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    mb={1}
+                                    className='
+                                        w-[12vh]
+                                        h-[12vh]
+                                        rounded-full
+                                        bg-white
+                                        border
+                                        border-gray-500
+                                        shadow-[0px_1px_3px_rgba(0, 0, 0, 0.1)]
+                                        flex
+                                        items-center
+                                        justify-center
+                                        mb-1'
                                 >
-                                    <Icon as={FaRegThumbsUp} color="gray.500" boxSize={10} />
+                                    <FaRegThumbsUp className='text-[5vh] text-gray-500' />
                                 </Box>
-                                <Text fontSize="sm" fontWeight="bold">
+                                <Text className='text-sm font-bold'>
                                     999
                                 </Text>
                             </Flex>
-
+                            
                             <Box>
-                                <Icon as={FaEllipsisV} color="gray.500" boxSize={5} />
+                                <FaEllipsisV className='text-lg text-gray-500' />
                             </Box>
                         </Flex>
                     </Box>
                 ))}
-                <Text fontSize="sm" color="gray.500">
+                <Text className='text-sm text-gray-500'>
                         コンテンツの終わりです。
                 </Text>
             </VStack>
         </Box>
     </Box>
+    </>
     )
 }
 
