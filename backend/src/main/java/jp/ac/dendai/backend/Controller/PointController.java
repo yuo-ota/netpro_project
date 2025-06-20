@@ -20,13 +20,13 @@ public class PointController {
         this.pointService = pointService;
     }
 
-    @GetMapping("/{latitude}/{longitude}")
-    public ResponseEntity<List<PointDto>> getPoints(double latitude, double longitude) {
+    @GetMapping("/{latitude}/{longitude}/{mapSize}")
+    public ResponseEntity<List<PointDto>> getPoints(double latitude, double longitude, int mapSize) {
         // pointServiceのgetPointsByNearPositionを呼び出し、
         // もし、nullでない場合には200番で戻り値のList<PointDto>をreturn
         // それ以外(不正な値や例外)には500番でreturn
         try {
-            List<PointDto> pointData = pointService.getPointsByNearPosition(latitude, longitude);
+            List<PointDto> pointData = pointService.getPointsByNearPosition(latitude, longitude, mapSize);
 
             if (pointData == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

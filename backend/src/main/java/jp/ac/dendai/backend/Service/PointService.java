@@ -28,10 +28,13 @@ public class PointService {
         return null;
     }
 
-    public List<PointDto> getPointsByNearPosition(double latitude, double longitude) {
+    public List<PointDto> getPointsByNearPosition(double latitude, double longitude, int mapSize) {
         // TODO
+        // mapSizeの値をもとに適切な範囲を取得する
         // pointRepositoryのfindByNearPositionを呼び出す
-        // それ以外は戻り値のList<Point>を基にList<PointDto>を作りreturn
+        // 受け取ったデータのうち、1つづつmapSizeに合わせて座標を丸める
+        // またユーザーの範囲内の場合にはsetIsUserInThisAreaを呼び出してtrueにする
+        // これらの別のArrayListに入れてList<PointDto>をreturn
         return null;
     }
 
