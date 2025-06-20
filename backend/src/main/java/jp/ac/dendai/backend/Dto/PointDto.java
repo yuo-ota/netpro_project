@@ -2,10 +2,10 @@ package jp.ac.dendai.backend.Dto;
 
 public class PointDto {
     private String pointId;
-    private Long latitude;
-    private Long longitude;
+    private double latitude;
+    private double longitude;
 
-    public PointDto(String pointId, Long latitude, Long longitude) {
+    public PointDto(String pointId, double latitude, double longitude) {
         this.pointId = pointId;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -15,11 +15,11 @@ public class PointDto {
         return pointId;
     }
 
-    public Long getLantitude() {
+    public double getLantitude() {
         return latitude;
     }
 
-    public Long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 }

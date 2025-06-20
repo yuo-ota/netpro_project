@@ -21,7 +21,7 @@ public class PointController {
     }
 
     @GetMapping("/{latitude}/{longitude}")
-    public ResponseEntity<List<PointDto>> getPoints(Long latitude, Long longitude) {
+    public ResponseEntity<List<PointDto>> getPoints(double latitude, double longitude) {
         // pointServiceのgetPointsByNearPositionを呼び出し、
         // もし、nullでない場合には200番で戻り値のList<PointDto>をreturn
         // それ以外(不正な値や例外)には500番でreturn

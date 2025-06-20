@@ -31,7 +31,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostDto> createPoint(
-            String userId, Long latitude, Long longitude, String content) {
+            String userId, double latitude, double longitude, String content) {
         // TODO
         // postServiceのcreatePostを呼び出し、201番で戻り値のPostDtoをreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn

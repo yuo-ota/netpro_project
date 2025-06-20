@@ -9,7 +9,7 @@ public class CalcGeo {
     private static final double METERS_PER_DEGREE_LATITUDE = 2 * Math.PI * EARTH_RADIUS_METERS / 360; // 緯度1度の距離
 
     /**
-     * 
+     *
      * @param latitude1 緯度1（度）
      * @param longitude1 経度1（度）
      * @param latitude2 緯度2（度）

@@ -2,14 +2,14 @@ package jp.ac.dendai.backend.Entity;
 
 public class Point {
     private String pointId;
-    private Long latitude;
-    private Long longitude;
+    private double latitude;
+    private double longitude;
 
     public Point() {
 
     }
 
-    public Point(String pointId, Long latitude, Long longitude) {
+    public Point(String pointId, double latitude, double longitude) {
         this.pointId = pointId;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -23,19 +23,19 @@ public class Point {
         this.pointId = pointId;
     }
 
-    public Long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }

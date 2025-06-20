@@ -21,21 +21,21 @@ public class PointService {
         return null;
     }
 
-    public PointDto getPointByAtPosition(Long latitude, Long longitude) {
+    public PointDto getPointByAtPosition(double latitude, double longitude) {
         // TODO
         // pointRepositoryのfindByAtPositionを呼び出す
         // それ以外は戻り値のPointを基にPointDtoを作りreturn
         return null;
     }
 
-    public List<PointDto> getPointsByNearPosition(Long latitude, Long longitude) {
+    public List<PointDto> getPointsByNearPosition(double latitude, double longitude) {
         // TODO
         // pointRepositoryのfindByNearPositionを呼び出す
         // それ以外は戻り値のList<Point>を基にList<PointDto>を作りreturn
         return null;
     }
 
-    public PointDto createPoint(Long latitude, Long longitude) {
+    public PointDto createPoint(double latitude, double longitude) {
         // TODO
         // pointRepositoryのsaveを呼び出す
         // それ以外は渡したPointを基にPointDtoを作りreturn

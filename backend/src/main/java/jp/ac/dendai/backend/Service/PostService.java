@@ -22,7 +22,7 @@ public class PostService {
         this.authService = authService;
     }
 
-    public PointDto checkPoint(Long latitude, Long longitude) {
+    public PointDto checkPoint(double latitude, double longitude) {
         // TODO
         // pointServiceのgetPointByAtPositionを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のPointをreturn
@@ -59,7 +59,7 @@ public class PostService {
 
     @Transactional
     public PostDto createPost(
-            String userId, Long latitude, Long longitude, String content) {
+            String userId, double latitude, double longitude, String content) {
         // TODO
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // ------------ここで例外が起きたらSQLをロールバックする--------------
