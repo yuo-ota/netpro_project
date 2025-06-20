@@ -1,5 +1,5 @@
 import './App.css'
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Tabs } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
 import { useState } from 'react';
 import PostList from './PostList';
@@ -78,7 +78,7 @@ function BottomSheet() {
                 {/* ここからがコンテンツエリア */}
                 <Box
                     style={{ maxHeight: `${MAX_HEIGHT}px` }}
-                    className={`p-4 pt-0 overflow-y-auto bg-white`}
+                    className={`overflow-y-auto bg-white`}
                 >
                     <PostList />
                     <Button onClick={() => snapTo(SNAP_POINTS.closed)} className="w-full mt-4">

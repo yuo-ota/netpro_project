@@ -50,6 +50,9 @@ function Root() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <RecentMap lat={position.lat} lng={position.lng} />
+                    <Marker
+                        position={[position.lat, position.lng]}
+                    />
                     {points.map((point) => (
                         <PointMarker key={point.pointId} point={point} />
                     ))}
