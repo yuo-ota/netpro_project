@@ -1,5 +1,5 @@
 import './App.css'
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { LatLng } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import BottomSheet from './BottomSheet';
