@@ -1,7 +1,8 @@
 import './App.css'
-import { Box, Button, Text, VStack } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
 import { useState } from 'react';
+import PostList from './PostList';
 
 function BottomSheet() {
     const MAX_HEIGHT:number = window.innerHeight * 0.65;    // 画面全体のうちどの程度をMAXとするか
@@ -79,25 +80,7 @@ function BottomSheet() {
                     style={{ maxHeight: `${MAX_HEIGHT}px` }}
                     className={`p-4 pt-0 overflow-y-auto bg-white`}
                 >
-                    <VStack spaceY={4} align="stretch">
-                        {[...Array(20)].map((_, i) => (
-                            <Box key={i} p={3} borderWidth="1px" borderRadius="lg" bg="gray.50">
-                            <Text fontWeight="bold">リストアイテム #{i + 1}</Text>
-                            <Text fontSize="sm" color="gray.800">
-                                これはボトムシート内のスクロール可能なコンテンツです。
-                                長いテキストが入ることもあります。
-                            </Text>
-                            <Button size="sm" mt={2}>
-                                詳細を見る
-                            </Button>
-                            </Box>
-                        ))}
-                        <Text fontSize="sm" color="gray.500">
-                            コンテンツの終わりです。
-                        </Text>
-                    </VStack>
-
-                    
+                    <PostList />
                     <Button onClick={() => snapTo(SNAP_POINTS.closed)} className="w-full mt-4">
                         ボトムシートを閉じる
                     </Button>
