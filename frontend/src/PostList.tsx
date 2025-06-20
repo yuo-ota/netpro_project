@@ -16,6 +16,7 @@ function PostList() {
             >
                 <Tabs.Trigger
                     value="likes"
+                    colorPalette="brand"
                     className='
                         flex-1
                         py-7
@@ -25,14 +26,15 @@ function PostList() {
                         items-center
                         bg-white'
                     _selected={{
-                    borderBottom: '3px solid green',
-                    color: 'black',
+                    // borderBottom: '3px solid green',
+                    // color: 'black',
                     }}
                 >
                     いいね順
                 </Tabs.Trigger>
                 <Tabs.Trigger
                     value="newest"
+                    colorPalette="brand"
                     className='
                         flex-1
                         py-7
@@ -42,8 +44,8 @@ function PostList() {
                         items-center
                         bg-white'
                     _selected={{
-                    borderBottom: '3px solid green',
-                    color: 'black',
+                    // borderBottom: '3px solid green',
+                    // color: 'black',
                     }}
                 >
                     投稿順
