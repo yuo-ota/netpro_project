@@ -1,6 +1,11 @@
-import L from "leaflet";
 import { useMemo } from "react";
 import { Marker } from "react-leaflet";
+import CustomDivIcon from "./CustomDivIcon";
+
+type PointMarkerProps = {
+    point: Point;
+    onClickPoint: (pointId: string) => void;
+}
 
 type Point = {
     pointId: string;
@@ -10,65 +15,18 @@ type Point = {
     existInner: boolean;
 };
 
-const formatCount = (count: number) => {
-    if (count >= 1_000_000) {
-        return `${Math.floor(count / 1_000_000)}M`;
-    } else if (count >= 1_000) {
-        return `${Math.floor(count / 1_000)}k`;
-    }
-    return count.toString();
-};
-
-const customDivIcon = (count: number, existInner: boolean) => {
-    const iconSrc = existInner
-        ? "/src/assets/comment_icon.svg"
-        : "/src/assets/comment_out_range_icon.svg";
-    return L.divIcon({
-        html: `
-        <div style="position: relative">
-            <img
-                src="${iconSrc}"
-            />
-            ${
-                count > 0
-                    ? `<span 
-                        style="
-                            position: absolute;
-                            width: 33px;
-                            height: 33px;
-                            top: -10.5px;
-                            right: -10.5px;
-                            background: var(--color-main);
-                            color: white;
-                            border-radius: 100%;
-                            font-family: sans-serif;
-                            font-size: 10px;
-                            font-weight: bold;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        "
-                    >${formatCount(count)}</span>`
-                    : ""
-            }
-        </div>
-        `,
-        className: '',
-        iconSize: [61.563, 53.188],
-        iconAnchor: [30.7815, 53.188]
-    });
-};
-
-export const PointMarker = ({ point }: { point: Point }) => {
-    const icon = useMemo(() => customDivIcon(point.count, point.existInner), [point.count, point.existInner]);
+const PointMarker: React.FC< PointMarkerProps > = ({ point, onClickPoint }) => {
+    const icon = useMemo(() => CustomDivIcon(point.count, point.existInner), [point.count, point.existInner]);
 
     return (
         <Marker
         position={[point.latitude, point.longitude]}
         icon={icon}
         eventHandlers={{
-            click: () => alert(point.pointId),
+            click: () => onClickPoint(point.pointId),
         }}
         />
     );
 };
+
+export default PointMarker

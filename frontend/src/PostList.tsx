@@ -1,5 +1,5 @@
-import { Box, Tabs, Text, VStack, Flex, Button} from '@chakra-ui/react';
-import { FaRegThumbsUp, FaEllipsisV } from 'react-icons/fa';
+import { Box, Tabs, Text, VStack, Button} from '@chakra-ui/react';
+import { FaEllipsisV } from 'react-icons/fa';
 
 function PostList() {
     return (

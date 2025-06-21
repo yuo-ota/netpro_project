@@ -6,16 +6,24 @@ import BottomSheet from './BottomSheet';
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useGps } from './GpsContext';
-import { PointMarker } from './PointMarker';
+import PointMarker from './PointMarker';
 import { useEffect, useState } from 'react';
 import RecentMap from './RecentMap';
+import ZoomWatcher from './ZoomWatcher';
 import { GetPointsApiResponseReturnFive } from './mock';
+const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Root() {
     const navigate = useNavigate();
     const [points, setPoints] = useState<{ pointId: string; latitude: number; longitude: number; count: number; existInner: boolean}[]>([]);
     const { lat, lng } = useGps();
-    const [position, setPosition] = useState<LatLng>(new LatLng(lat, lng));
+    const [centerPosition, setCenterPosition] = useState<LatLng>(new LatLng(0, 0));
+    const [userPosition, setUserPosition] = useState<LatLng>(new LatLng(lat, lng));
+    const [zoom, setZoom] = useState<number>(13);
+    
+    useEffect(() => {
+        setUserPosition(new LatLng(lat, lng));
+    }, [lat, lng]);
 
     useEffect(() => {
         setPoints(GetPointsApiResponseReturnFive());
@@ -26,9 +34,51 @@ function Root() {
         navigate('/post');
     };
 
-    useEffect(() => {
-        setPosition(new LatLng(lat, lng));
-    }, [lat, lng]);
+    const onClickPoint = async (pointId: string)=> {
+        try {
+            const response = await fetch(`${API_ORIGIN}/api/posts/${pointId}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+
+            // ステータスコードで判定
+            if (response.status === 200) {
+                const data = await response.json();
+                console.log('取得成功:', data);
+            } else if (response.status === 500) {
+                console.warn('クライアントエラー');
+            } else {
+                throw new Error(`想定外のステータスコード: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('エラー:', error);
+        }
+    }
+
+    const getViewRangePointList = async ()=> {
+        try {
+            const response = await fetch(`${API_ORIGIN}/api/points/${centerPosition.lat}/${centerPosition.lng}/${zoom}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+
+            // ステータスコードで判定
+            if (response.status === 200) {
+                const data = await response.json();
+                console.log('取得成功:', data);
+            } else if (response.status === 500) {
+                console.warn('クライアントエラー');
+            } else {
+                throw new Error(`想定外のステータスコード: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('エラー:', error);
+        }
+    }
     
     return (
         <>
@@ -43,17 +93,17 @@ function Root() {
                     </svg>
                 </Button>
                 <BottomSheet />
-                <MapContainer center={position} zoom={13} style={{ height: '100dvh', width: '100vw' }} className="z-0">
+                <MapContainer center={userPosition} zoom={zoom} style={{ height: '100dvh', width: '100vw' }} className="z-0">
+                    <ZoomWatcher setZoom={setZoom} setCenterPosition={setCenterPosition}/>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <RecentMap lat={position.lat} lng={position.lng} />
                     <Marker
-                        position={[position.lat, position.lng]}
+                        position={[userPosition.lat, userPosition.lng]}
                     />
                     {points.map((point) => (
-                        <PointMarker key={point.pointId} point={point} />
+                        <PointMarker key={point.pointId} point={point} onClickPoint={onClickPoint} />
                     ))}
                 </MapContainer>
             </div>
