@@ -24,20 +24,19 @@ public class PointRepository {
         // そのpointIDに対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        String sqlLatitude = "SELECT latitude FROM Point WHERE point_id = ?";
-        Long latitude = jdbcTemplate.queryForObject(sqlLatitude, Long.class, pointId);
-        String sqlLongitude = "SELECT longitude FROM Point WHERE point_id = ?";
-        Long longitude = jdbcTemplate.queryForObject(sqlLongitude, Long.class, pointId);
-        return new Point(pointId, latitude, longitude);
+        String sql = "SELECT * FROM posts WHERE post_id = ?";
+        Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, pointId);
+        return new Point(pointId, (double)sqlMap.get("latitude"), (double)sqlMap.get("longitude"));
     }
 
-    public Point findByAtPosition(Long latitude, Long longitude) {
+    public Point findByAtPosition(double latitude, double longitude) {
         //TODO
         // その座標に対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
         String sql = "SELECT * FROM Point WHERE latitude = ? AND longitude = ?";
-        return jdbcTemplate.queryForObject(sql, Point.class, latitude, longitude);
+        Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, latitude, longitude);
+        return new Point((String)sqlMap.get("point_id"),latitude, longitude);
     }
 
     public List<Point> findByNearPosition(double latitude, double longitude) {
@@ -87,6 +86,7 @@ public class PointRepository {
         // TODO
         // INSERT文でPointテーブルにpointインスタンスの情報を登録する。
         // 登録ができればそのままreturn
-        return;
+        String sql = "INSERT INTO point (point_id, latitude, longitude) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, point.getPointId(), point.getLatitude(), point.getLongitude());
     }
 }
