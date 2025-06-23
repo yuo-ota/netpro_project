@@ -3,9 +3,11 @@ import { Button, CloseButton, Dialog } from "@chakra-ui/react";
 type ErrorDialogProps = {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    errorTitle: string;
+    errorDetail: string[];
 }
 
-function ErrorDialog({ isOpen, setIsOpen }: ErrorDialogProps) {
+function ErrorDialog({ isOpen, setIsOpen, errorTitle, errorDetail }: ErrorDialogProps) {
     return (
         <Dialog.Root
             placement="top"
@@ -17,11 +19,16 @@ function ErrorDialog({ isOpen, setIsOpen }: ErrorDialogProps) {
             <Dialog.Positioner>
             <Dialog.Content>
             <Dialog.Header>
-                <Dialog.Title>エラーが発生しました</Dialog.Title>
+                <Dialog.Title>{errorTitle}</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
                 <p>
-                
+                {errorDetail.map((line, idx) => (
+                    <span key={idx}>
+                        {line}
+                        {idx < errorDetail.length - 1 && <br />}
+                    </span>
+                ))}
                 </p>
             </Dialog.Body>
             <Dialog.Footer>

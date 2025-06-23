@@ -22,6 +22,8 @@ function Root() {
     const [userPosition, setUserPosition] = useState<LatLng>(new LatLng(lat, lng));
     const [zoom, setZoom] = useState<number>(13);
     const [isOpenErrorDialog, setIsOpenErrorDialog] = useState(false)
+    const [errorTitle, setErrorTitle] = useState<string>("");
+    const [errorDetail, setErrorDetail] = useState<string[]>([]);
     
     useEffect(() => {
         setUserPosition(new LatLng(lat, lng));
@@ -51,14 +53,17 @@ function Root() {
                 console.log('取得成功:', data);
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
-                console.warn('クライアントエラー');
+                setErrorTitle('サーバーエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             } else {
                 setIsOpenErrorDialog(true);
-                throw new Error(`想定外のステータスコード: ${response.status}`);
+                setErrorTitle('想定外のエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             }
         } catch (error) {
             setIsOpenErrorDialog(true);
-            console.error('エラー:', error);
+            setErrorTitle('想定外のエラーが発生しました。');
+            setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
         }
     }
 
@@ -90,7 +95,7 @@ function Root() {
     
     return (
         <>
-            <ErrorDialog isOpen={isOpenErrorDialog} setIsOpen={setIsOpenErrorDialog} />
+            <ErrorDialog isOpen={isOpenErrorDialog} setIsOpen={setIsOpenErrorDialog} errorTitle={errorTitle} errorDetail={errorDetail} />
             <div className='relative flex justify-center'>
                 <Button className="absolute w-[70px] h-[70px] bottom-[40px] right-[10%]
                     bg-main rounded-full z-40 shadow-md shadow-main-shadow/50

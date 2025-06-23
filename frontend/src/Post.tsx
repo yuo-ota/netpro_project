@@ -10,6 +10,8 @@ const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 function Post() {
     const [postText, setPostText] = useState<string>('');
     const [isOpenErrorDialog, setIsOpenErrorDialog] = useState<boolean>(false)
+    const [errorTitle, setErrorTitle] = useState<string>("");
+    const [errorDetail, setErrorDetail] = useState<string[]>([]);
     const navigate = useNavigate();
 
     const handleGoToRoot = () => {
@@ -51,20 +53,23 @@ function Post() {
                 handleGoToRoot();
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
-                console.error('サーバーエラー');
+                setErrorTitle('サーバーエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             } else {
                 setIsOpenErrorDialog(true);
-                throw new Error(`想定外のステータスコード: ${response.status}`);
+                setErrorTitle('想定外のエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             }
         } catch (error) {
             setIsOpenErrorDialog(true);
-            console.error('エラー:', error);
+            setErrorTitle('想定外のエラーが発生しました。');
+            setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
         }
     };
     
     return (
         <>
-            <ErrorDialog isOpen={isOpenErrorDialog} setIsOpen={setIsOpenErrorDialog} />
+            <ErrorDialog isOpen={isOpenErrorDialog} setIsOpen={setIsOpenErrorDialog} errorTitle={errorTitle} errorDetail={errorDetail} />
             <div className="relative flex flex-col w-dvw h-dvh">
                 <PostButtonContainer onClickPost={handleSendPost} onClickBack={handleGoToRoot} />
                 <PostForm postText={postText} setPostText={setPostText} />
