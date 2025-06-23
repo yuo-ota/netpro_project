@@ -114,7 +114,7 @@ public class PointRepository {
     public void save(Point point) {
         // INSERT文でPointテーブルにpointインスタンスの情報を登録する。
         // 登録ができればそのままreturn
-        String sql = "INSERT INTO point (point_id, latitude, longitude) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO points (point_id, latitude, longitude) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, point.getPointId(), point.getLatitude(), point.getLongitude());
     }
 }
