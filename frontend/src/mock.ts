@@ -88,7 +88,7 @@ export const GetPostsApiResponseReturnOne = () => {
 };
 
 export const GetPostsApiResponseReturnFive = () => {
-    return Promise.resolve([
+    return [
         {
             postId: "FsTXU8TFBM8dC3ZRPFnw7",
             postedTime: "2025/6/10 20:30",
@@ -119,7 +119,7 @@ export const GetPostsApiResponseReturnFive = () => {
             content: "3年間ありがとう！次は成人式で！",
             goodCount: 100000
         }
-    ]);
+    ];
 };
 
 export const PostPostsApiResponse = () => {

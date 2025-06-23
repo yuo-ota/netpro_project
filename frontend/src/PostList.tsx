@@ -1,7 +1,15 @@
 import { Box, Tabs, Text, VStack, Button, Menu, Portal} from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
+import { GetPostsApiResponseReturnFive } from './mock';
 
 function PostList() {
+    const [posts, setPosts] = useState<{postId: string, postedTime: string, content: string, goodCount: number}[]>([]);
+    
+    useEffect(() => {
+        setPosts(GetPostsApiResponseReturnFive());
+    }, []);
+
     return (
     <>
         <Tabs.Root defaultValue={"likes"} className='w-full sticky top-0 z-200'>
@@ -26,10 +34,6 @@ function PostList() {
                         justify-center
                         items-center
                         bg-white'
-                    _selected={{
-                    // borderBottom: '3px solid green',
-                    // color: 'black',
-                    }}
                 >
                     いいね順
                 </Tabs.Trigger>
@@ -45,10 +49,6 @@ function PostList() {
                         justify-center
                         items-center
                         bg-white'
-                    _selected={{
-                    // borderBottom: '3px solid green',
-                    // color: 'black',
-                    }}
                 >
                     投稿順
                 </Tabs.Trigger>
@@ -63,10 +63,11 @@ function PostList() {
                 pt-4'
         >
             <VStack className='gap-4 flex items-stretch'>
-                {[...Array(20)].map((_, i) => (
+                {posts.map((post, i) => (
                     <Box
                         key={i}
                         className='
+                            w-full
                             p-4
                             bg-white
                             border-b
@@ -76,12 +77,10 @@ function PostList() {
                         <div className='relative flex items-start'>
                             <Box className='flex-1 pr-4'>
                                 <Text className='text-base mb-2'>
-                                    高瀬舟は京都の高瀬川を上下する小舟である。
-                                    徳川時代に京都の罪人が遠島を申し渡されると、本人の親類が牢屋敷へ呼び出されて、そこで暇乞いをすることを許された。
-                                    それから罪人は高瀬舟に載せられて、大阪へ回されることであった。
+                                    {post.content}
                                 </Text>
                                 <Text className='text-sm text-gray-500'>
-                                    2025/06/20 11:24
+                                    {post.postedTime}
                                 </Text>
                             </Box>
                             <div
@@ -111,7 +110,7 @@ function PostList() {
                                     </svg>
                                 </Button>
                                 <Text className='text-sm font-bold'>
-                                    999
+                                    {post.goodCount}
                                 </Text>
                             </div>
                             <Menu.Root>
@@ -155,3 +154,7 @@ function PostList() {
 }
 
 export default PostList
+
+function GetPostsApiResponseReturnFiv(): any {
+    throw new Error('Function not implemented.');
+}
