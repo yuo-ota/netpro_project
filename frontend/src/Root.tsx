@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { LatLng } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import BottomSheet from './BottomSheet';
-import { Button } from '@chakra-ui/react';
+import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useGps } from './GpsContext';
 import PointMarker from './PointMarker';
@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import RecentMap from './RecentMap';
 import ZoomWatcher from './ZoomWatcher';
 import { GetPointsApiResponseReturnFive } from './mock';
+import ErrorDialog from './ErrorDialog';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Root() {
@@ -20,6 +21,7 @@ function Root() {
     const [centerPosition, setCenterPosition] = useState<LatLng>(new LatLng(0, 0));
     const [userPosition, setUserPosition] = useState<LatLng>(new LatLng(lat, lng));
     const [zoom, setZoom] = useState<number>(13);
+    const [isOpenErrorDialog, setIsOpenErrorDialog] = useState(false)
     
     useEffect(() => {
         setUserPosition(new LatLng(lat, lng));
@@ -48,11 +50,14 @@ function Root() {
                 const data = await response.json();
                 console.log('取得成功:', data);
             } else if (response.status === 500) {
+                setIsOpenErrorDialog(true);
                 console.warn('クライアントエラー');
             } else {
+                setIsOpenErrorDialog(true);
                 throw new Error(`想定外のステータスコード: ${response.status}`);
             }
         } catch (error) {
+            setIsOpenErrorDialog(true);
             console.error('エラー:', error);
         }
     }
@@ -71,17 +76,21 @@ function Root() {
                 const data = await response.json();
                 console.log('取得成功:', data);
             } else if (response.status === 500) {
+                setIsOpenErrorDialog(true);
                 console.warn('クライアントエラー');
             } else {
+                setIsOpenErrorDialog(true);
                 throw new Error(`想定外のステータスコード: ${response.status}`);
             }
         } catch (error) {
+            setIsOpenErrorDialog(true);
             console.error('エラー:', error);
         }
     }
     
     return (
         <>
+            <ErrorDialog isOpen={isOpenErrorDialog} setIsOpen={setIsOpenErrorDialog} />
             <div className='relative flex justify-center'>
                 <Button className="absolute w-[70px] h-[70px] bottom-[40px] right-[10%]
                     bg-main rounded-full z-40 shadow-md shadow-main-shadow/50
