@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jp.ac.dendai.backend.Entity.Point;
 import jp.ac.dendai.backend.Entity.Post;
 
 @Repository
@@ -19,7 +18,6 @@ public class PostRepository {
     }
 
     public Post findByPostId(String postId) {
-        // TODO
         // そのpostIDに対応したデータを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn

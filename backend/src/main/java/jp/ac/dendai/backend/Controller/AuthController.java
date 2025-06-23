@@ -5,10 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.ac.dendai.backend.Dto.AuthDto;
 import jp.ac.dendai.backend.Service.AuthService;
-import jp.ac.dendai.backend.util.NanoIdGenerator;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
