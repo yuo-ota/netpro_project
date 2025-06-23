@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import jp.ac.dendai.backend.Entity.User;
 
@@ -19,19 +20,21 @@ public class UserRepository {
     public User findByUserId(String userId) {
         // SELECT文でUserテーブルからタプルを取得する。
         // 取得した内容をUserクラスのインスタンスに入れてreturn
-        String sql ="SELECT * FROM users WHERE user_id = ?";
+        // // ここのif(isEmpty())をPostRepositoryと同じようにtry-catchの使用に変えています
+        try {
+            String sql = "SELECT * FROM users WHERE user_id = ?";
 
-        Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, userId);
-        if (sqlMap.isEmpty()) {
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, userId);
+
+            Object userIdObj = sqlMap.get("user_id");
+            if (userIdObj == null) {
+                return null;
+            }
+
+            return new User(userIdObj.toString());
+        } catch (EmptyResultDataAccessException e) {
             return null;
         }
-
-        Object userIdObj = sqlMap.get("user_id");
-        if (userIdObj == null) {
-            return null;
-        }
-
-        return new User(userIdObj.toString());
     }
 
     public void save(User user) {

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import jp.ac.dendai.backend.Entity.Point;
 import jp.ac.dendai.backend.Entity.Post;
 
 @Repository
@@ -21,20 +22,26 @@ public class PostRepository {
         // そのpostIDに対応したデータを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
-        String sql = "SELECT * FROM posts WHERE post_id = ?";
-        Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, postId);
-        if (sqlMap.isEmpty()) {
+        try {
+            String sql = "SELECT * FROM posts WHERE post_id = ?";
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, postId);
+            // // 当該データがない場合EmptyResultDataAccessExceptionっていう例外が発生するようなのでtry-catch使うべきだそうです
+            // // PointRepositoryもifが使われてるけど、PostRepository側ではchatGPTに習ってやってみます
+            // // if (sqlMap.isEmpty()) {
+            // // return null;
+            // // }
+
+            Object userIdObj = sqlMap.get("user_id");
+            Object pointIdObj = sqlMap.get("point_id");
+            Object contentObj = sqlMap.get("content");
+            if (userIdObj == null || pointIdObj == null || contentObj == null) {
+                return null;
+            }
+
+            return new Post(postId, pointIdObj.toString(), userIdObj.toString(), contentObj.toString());
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
             return null;
         }
-
-        Object userIdObj = sqlMap.get("user_id");
-        Object pointIdObj = sqlMap.get("point_id");
-        Object contentObj = sqlMap.get("content");
-        if (userIdObj == null || pointIdObj == null || contentObj == null) {
-            return null;
-        }
-
-        return new Post(postId, pointIdObj.toString(), userIdObj.toString(), contentObj.toString());
     }
 
     public List<Post> findByPointId(String pointId) {
