@@ -17,7 +17,6 @@ public class UserRepository {
     }
 
     public User findByUserId(String userId) {
-        // TODO
         // SELECT文でUserテーブルからタプルを取得する。
         // 取得した内容をUserクラスのインスタンスに入れてreturn
         String sql ="SELECT * FROM users WHERE user_id = ?";
@@ -36,7 +35,6 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        // TODO
         // INSERT文でUserテーブルにuserインスタンスの情報を登録する。
         // 登録ができればそのままreturn
         String sql = "INSERT INTO users (user_id) VALUES (?)";

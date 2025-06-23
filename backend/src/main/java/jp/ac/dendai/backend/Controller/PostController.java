@@ -25,7 +25,6 @@ public class PostController {
 
     @GetMapping("/{pointId}")
     public ResponseEntity<List<PostDto>> getPosts(String pointId) {
-        // TODO
         // postServiceのgetPostsByPointIdを呼び出し、200番で戻り値のList<PostDto>をreturn
         // それ以外(不正な値や例外)には500番でreturn
         try {
@@ -44,7 +43,6 @@ public class PostController {
     @PostMapping
     public ResponseEntity<PostDto> createPoint(
             String userId, double latitude, double longitude, String content) {
-        // TODO
         // postServiceのcreatePostを呼び出し、201番で戻り値のPostDtoをreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn
         // それ以外(不正な値や例外)には500番でreturn
@@ -61,7 +59,6 @@ public class PostController {
 
     @DeleteMapping
     public ResponseEntity<Void> deletePost(String postId, String userId) {
-        // TODO
         // postServiceのdeletePostを呼び出し、204番でreturn
         // それ以外(不正な値や例外)には500番でreturn
         try {

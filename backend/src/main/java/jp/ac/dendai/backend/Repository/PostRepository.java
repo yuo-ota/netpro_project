@@ -40,7 +40,6 @@ public class PostRepository {
     }
 
     public List<Post> findByPointId(String pointId) {
-        // TODO
         // そのpointIDに対応したデータリストを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
@@ -63,7 +62,6 @@ public class PostRepository {
     }
 
     public List<Post> findByUserId(String userId) {
-        // TODO
         // そのuserIDに対応したデータリストを取得するのが目的
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
@@ -86,7 +84,6 @@ public class PostRepository {
     }
 
     public void save(Post post) {
-        // TODO
         // INSERT文でPostテーブルにpostインスタンスの情報を登録する。
         // 登録ができればそのままreturn
         String sql = """
@@ -97,7 +94,6 @@ public class PostRepository {
     }
 
     public void delete(String postId) {
-        // TODO
         // DELETE文でPostテーブルからpostインスタンスにあるIDの情報を削除する。
         // 削除ができればそのままreturn
         String sql = "DELETE FROM posts WHERE post_id = ?";
