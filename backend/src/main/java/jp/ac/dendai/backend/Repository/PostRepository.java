@@ -24,8 +24,8 @@ public class PostRepository {
         // SELECT文でPostテーブルからタプルを取得する。
         // 取得した内容をPostクラスのインスタンスに入れてreturn
         String sql = "SELECT * FROM posts WHERE post_id = ?";
-        Map<String,Object> sqlMap = jdbcTemplate.queryForMap(sql, postId);
-        if (sqlMap.isEmpty()){
+        Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, postId);
+        if (sqlMap.isEmpty()) {
             return null;
         }
 
@@ -48,7 +48,7 @@ public class PostRepository {
         List<Map<String, Object>> sqlList = jdbcTemplate.queryForList(sql, pointId);
         List<Post> result = new ArrayList<>();
 
-        for (Map<String, Object> row : sqlList){
+        for (Map<String, Object> row : sqlList) {
             Object postIdObj = row.get("point_id");
             Object userIdObj = row.get("user_id");
             Object contentObj = row.get("content");
@@ -71,7 +71,7 @@ public class PostRepository {
         List<Map<String, Object>> sqlList = jdbcTemplate.queryForList(sql, userId);
         List<Post> result = new ArrayList<>();
 
-        for (Map<String, Object> row : sqlList){
+        for (Map<String, Object> row : sqlList) {
             Object postIdObj = row.get("post_id");
             Object pointIdObj = row.get("point_id");
             Object contentObj = row.get("content");
@@ -93,7 +93,7 @@ public class PostRepository {
                     INSERT INTO posts(post_id, user_id, point_id, content)
                     VALUES(?, ?, ?, ?)
                 """;
-                jdbcTemplate.update(sql, post.getPostId(), post.getUserId(), post.getPointId(), post.getContent());
+        jdbcTemplate.update(sql, post.getPostId(), post.getUserId(), post.getPointId(), post.getContent());
     }
 
     public void delete(String postId) {
