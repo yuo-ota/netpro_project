@@ -1,4 +1,4 @@
-import { Box, Tabs, Text, VStack, Button} from '@chakra-ui/react';
+import { Box, Tabs, Text, VStack, Button, Menu, Portal} from '@chakra-ui/react';
 import { FaEllipsisV } from 'react-icons/fa';
 
 function PostList() {
@@ -114,10 +114,34 @@ function PostList() {
                                     999
                                 </Text>
                             </div>
-                            
-                            <Button className="absolute -right-4 -top-4 bg-white rounded-full aspect-square">
-                                <FaEllipsisV className='w-full h-full text-[#2A2A2A]' />
-                            </Button>
+                            <Menu.Root>
+                                <Menu.Trigger asChild>
+                                    <Button className="absolute -right-4 -top-4 bg-white rounded-full aspect-square">
+                                        <FaEllipsisV className='w-9/10 h-9/10 text-[#2A2A2A]' />
+                                    </Button>
+                                </Menu.Trigger>
+                                <Portal>
+                                    <Menu.Positioner>
+                                    <Menu.Content>
+                                        <Menu.Item value="share">共有リンクを発行</Menu.Item>
+                                        <Menu.Item
+                                        value="report"
+                                        color="fg.error"
+                                        _hover={{ bg: "bg.error", color: "fg.error" }}
+                                        >
+                                        報告する
+                                        </Menu.Item>
+                                        <Menu.Item
+                                        value="delete"
+                                        color="fg.error"
+                                        _hover={{ bg: "bg.error", color: "fg.error" }}
+                                        >
+                                        削除する
+                                        </Menu.Item>
+                                    </Menu.Content>
+                                    </Menu.Positioner>
+                                </Portal>
+                            </Menu.Root>
                         </div>
                     </Box>
                 ))}
