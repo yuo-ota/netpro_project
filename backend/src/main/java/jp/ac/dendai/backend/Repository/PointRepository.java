@@ -20,31 +20,60 @@ public class PointRepository {
     }
 
     public Point findByPointId(String pointId) {
-        //TODO
         // そのpointIDに対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        String sql = "SELECT * FROM posts WHERE post_id = ?";
+        String sql = "SELECT * FROM points WHERE point_id = ?";
         Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, pointId);
-        return new Point(pointId, (double)sqlMap.get("latitude"), (double)sqlMap.get("longitude"));
+        if (sqlMap.isEmpty()) {
+            return null;
+        }
+
+        Object latObj = sqlMap.get("latitude");
+        Object lonObj = sqlMap.get("longitude");
+        if (latObj == null || lonObj == null) {
+            return null;
+        }
+
+        Point p = new Point();
+        p.setPointId(pointId);
+        if (latObj instanceof Number latNum && lonObj instanceof Number lonNum) {
+            p.setLatitude(latNum.doubleValue());
+            p.setLongitude(lonNum.doubleValue());
+            return p;
+        }
+        return null;
     }
 
     public Point findByAtPosition(double latitude, double longitude) {
-        //TODO
         // その座標に対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        String sql = "SELECT * FROM Point WHERE latitude = ? AND longitude = ?";
+        String sql = "SELECT * FROM points WHERE latitude = ? AND longitude = ?";
         Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, latitude, longitude);
-        return new Point((String)sqlMap.get("point_id"),latitude, longitude);
+        if (sqlMap.isEmpty()) {
+            return null;
+        }
+
+        Object pointIdObj = sqlMap.get("point_id");
+        if (pointIdObj == null) {
+            return null;
+        }
+        return new Point(pointIdObj.toString(), latitude, longitude);
     }
 
     public List<Point> findByNearPosition(double latitude, double longitude) {
-        // TODO
         // その座標に近いポイントデータリストを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        String sql = "SELECT * FROM points WHERE ? < latitude AND latitude < ? AND ? < longitude AND longitude < ? ";
+        String sql = """
+            SELECT * 
+            FROM points 
+            WHERE ? < latitude 
+            AND latitude < ? 
+            AND ? < longitude 
+            AND longitude < ?
+        """;
 
         LatLngRange b = CalcGeo.getBoundingBox(latitude, longitude, 100);
 
@@ -75,15 +104,14 @@ public class PointRepository {
 
                 result.add(p);
             } catch (Exception e) {
-                // ログ出力
-                System.err.println("データ変換エラー: " + e.getMessage());
+                e.printStackTrace();
+                continue;
             }
         }
         return result;
     }
 
     public void save(Point point) {
-        // TODO
         // INSERT文でPointテーブルにpointインスタンスの情報を登録する。
         // 登録ができればそのままreturn
         String sql = "INSERT INTO point (point_id, latitude, longitude) VALUES (?, ?, ?)";
