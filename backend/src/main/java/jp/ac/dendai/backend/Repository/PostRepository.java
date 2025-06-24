@@ -25,11 +25,6 @@ public class PostRepository {
         try {
             String sql = "SELECT * FROM posts WHERE post_id = ?";
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, postId);
-            // // 当該データがない場合EmptyResultDataAccessExceptionっていう例外が発生するようなのでtry-catch使うべきだそうです
-            // // PointRepositoryもifが使われてるけど、PostRepository側ではchatGPTに習ってやってみます
-            // // if (sqlMap.isEmpty()) {
-            // // return null;
-            // // }
 
             Object userIdObj = sqlMap.get("user_id");
             Object pointIdObj = sqlMap.get("point_id");
