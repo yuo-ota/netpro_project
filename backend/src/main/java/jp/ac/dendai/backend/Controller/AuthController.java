@@ -7,7 +7,6 @@ import jp.ac.dendai.backend.Dto.AuthDto;
 import jp.ac.dendai.backend.Service.AuthService;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -29,16 +28,18 @@ public class AuthController {
         // それ以外(不正な値や例外)には、500番でreturn
         try {
             AuthDto authData = authService.getAuthByUserId(UserId);
-            if (authData == null)
+            if (authData == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
 
             Boolean isAuthed = authData.getIsAuthed();
-            if (isAuthed == true)
+            if (isAuthed) {
                 return ResponseEntity.status(HttpStatus.OK).body(authData);
-            else if (isAuthed == false)
+            } else if (!isAuthed) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            else // isAuthedがnullなど
+            } else { // isAuthedがnullなど
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

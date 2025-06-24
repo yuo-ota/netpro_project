@@ -1,6 +1,5 @@
 package jp.ac.dendai.backend.Repository;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +30,14 @@ public class GoodRepository {
 
         jdbcTemplate.update(sql,
                 postId, userId);
+    }
+
+    public int countByPostId(String postId) {
+        // SELECT文でGoodテーブルからpostIdに対応するgoodの数を取得する。
+        // 取得した数をreturn
+        String sql = "SELECT COUNT(*) FROM goods WHERE post_id = ?";
+        
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, postId);
+        return count != null ? count : 0;
     }
 }
