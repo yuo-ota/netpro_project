@@ -1,0 +1,246 @@
+openapi: 3.0.0
+info:
+  title: netpro project API
+  version: 1.0.0
+paths:
+  /api/auth/{userId}:
+    get:
+      summary: ユーザー認証情報取得
+      parameters: # リクエストパラメータ
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 認証ができた場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  isAuthed:
+                    type: boolean
+        204:
+          description: ユーザーIDが存在しない場合
+        401:
+          description: ユーザーIDが認められなかった場合
+        500:
+          description: SQLエラー等の全般的なエラーの発生
+  /api/user:
+    post:
+      summary: ユーザー登録
+      responses:
+        201:
+          description: 登録できた場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+        401:
+          description: ユーザーIDが認められなかった場合
+        500:
+          description: SQLエラー等の全般的なエラーの発生
+  /api/posts/{pointId}:
+    get:
+      summary: ポイントIDからの投稿取得
+      parameters: # リクエストパラメータ
+        - in: path
+          name: pointId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: sortByTime
+          required: true
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: 取得できた場合
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    postId:
+                      type: string
+                    postedTime:
+                      type: string
+                      format: date-time
+                    content:
+                      type: string
+                    goodCount:
+                      type: integer
+                    isGooded:
+                      type: boolean
+        404:
+          description: データが取得できなかった場合(発生しないはず)
+        500:
+          description: SQLエラー等の全般的なエラーの発生
+  /api/posts:
+    post:
+      summary: ポイントIDからの投稿取得
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+                content:
+                  type: string
+      responses:
+        201:
+          description: 投稿登録ができた場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  postId:
+                    type: string
+                  postedTime:
+                    type: string
+                    format: date-time
+                  content:
+                    type: string
+                  goodCount:
+                    type: integer
+                  isGooded:
+                    type: boolean
+        401:
+          description: ユーザーIDが認証できない場合
+        500:
+          description: SQLエラー等の全般的なエラーの発生
+    delete:
+        summary: 投稿を削除する場合
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  postId:
+                    type: string
+                  userId:
+                    type: string
+        responses:
+          204:
+            description: 投稿削除ができた場合
+          401:
+            description: ユーザーIDが認証できない場合
+          500:
+            description: SQLエラー等の全般的なエラーの発生
+  /api/points/{latitude}/{longitude}/{mapSize}:
+    get:
+      summary: 座標から一定距離内のポイントリスト取得
+      parameters: # リクエストパラメータ
+        - in: path
+          name: latitude
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: longitude
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: mapSize
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: 取得できた場合
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      pointCount:
+                        type: number
+                      goodCount:
+                        type: number
+                      symbolPoint:
+                        type: object
+                        properties:
+                          pointId:
+                            type: string
+                          latitude:
+                            type: number
+                          longitude:
+                            type: number
+                          isUserInThisArea:
+                            type: boolean
+        404:
+          description: データが取得できなかった場合(発生しないはず)
+        500:
+          description: SQLエラー等の全般的なエラーの発生
+  /api/goods:
+    post:
+      summary: いいねの登録
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                postId:
+                  type: string
+      responses:
+        201:
+          description: いいねの登録ができた場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  postId:
+                    type: string
+                  isGooded:
+                    type: boolean
+        401:
+          description: ユーザーIDが認証できない場合
+        500:
+          description: SQLエラー等の全般的なエラーの発生
+    delete:
+      summary: いいねの削除
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                postId:
+                  type: string
+      responses:
+        204:
+          description: いいねの削除ができた場合
+        401:
+          description: ユーザーIDが認証できない場合
+        500:
+          description: SQLエラー等の全般的なエラーの発生
+
