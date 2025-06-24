@@ -1,35 +1,35 @@
 export const postUserApiResponse = () => {
-    return Promise.resolve(
-        {userId: "aQQbkX3iiclUTFCqwOYqx"}
-    );
+    return {
+        userId: "aQQbkX3iiclUTFCqwOYqx"
+    };
 };
 
 export const GetAuthApiResponseReturnTrue = () => {
-    return Promise.resolve({
+    return {
         userId: "aQQbkX3iiclUTFCqwOYqx",
         isAuthed: true
-    });
+    };
 };
 
 export const GetAuthApiResponseReturnFalse = () => {
-    return Promise.resolve({
+    return {
         userId: "aQQbkX3iiclUTFCqwOYqx",
         isAuthed: false
-    });
+    };
 };
 
 export const GetPointsApiResponseReturnZero = () => {
-    return Promise.resolve([]);
+    return [];
 };
 
 export const GetPointsApiResponseReturnOne = () => {
-    return Promise.resolve([
+    return [
         {
             pointId: "hTXvhBAj2SBiEqNFkAIY9",
             latitude: 35.395286,
             longitude: 139.557281,
         },
-    ]);
+    ];
 };
 
 export const GetPointsApiResponseReturnFive = () => {
@@ -73,18 +73,18 @@ export const GetPointsApiResponseReturnFive = () => {
 };
 
 export const GetPostsApiResponseReturnZero = () => {
-    return Promise.resolve([]);
+    return [];
 };
 
 export const GetPostsApiResponseReturnOne = () => {
-    return Promise.resolve([
+    return [
         {
             postId: "A9zUKh1WKglkWy605pgTZ",
             postedTime: "2025/6/6 14:30",
             content: "街路樹の上にツバメの巣があった！",
             goodCount: 10
         },
-    ]);
+    ];
 };
 
 export const GetPostsApiResponseReturnFive = () => {
@@ -123,30 +123,30 @@ export const GetPostsApiResponseReturnFive = () => {
 };
 
 export const PostPostsApiResponse = () => {
-    return Promise.resolve([
+    return [
         {
             postId: "xDH_sIKXGHP8hTn7-W664",
             postedTime: "2025/6/9 1:21",
             content: "ｺｺﾄﾞｺ...",
             goodCount: 0
         },
-    ]);
+    ];
 };
 
 export const DeletePostsApiResponse = () => {
-    return Promise.resolve();
+    return;
 };
 
 export const PATCHGoodsApiResponseReturnTrue = () => {
-    return Promise.resolve({
+    return {
         postId: "CqqbwZgfJ8mvqitFCCBwA",
         isLiked: true
-    });
+    };
 };
 
 export const PATCHGoodsApiResponseReturnFalse = () => {
-    return Promise.resolve({
+    return {
         postId: "GAvdx0lUvdtFAoJzRubU3",
         isLiked: false
-    });
+    };
 };
