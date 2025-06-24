@@ -7,9 +7,10 @@ import type { Post } from './types/Post';
 
 type BottomSheetProps = {
     posts: Post[];
+    setIsSortByTime: (isSortByTime: boolean) => void;
 }
 
-const BottomSheet: React.FC<BottomSheetProps> = ({ posts }) => {
+const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime }) => {
     const MAX_HEIGHT:number = window.innerHeight * 0.65;    // 画面全体のうちどの程度をMAXとするか
     const snapOffset = window.innerHeight * 0.05;     // どの程度近づくことでスナップするか
     const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -85,7 +86,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ posts }) => {
                     style={{ maxHeight: `${MAX_HEIGHT}px` }}
                     className={`overflow-y-auto bg-white`}
                 >
-                    <PostList posts={posts} />
+                    <PostList posts={posts} setIsSortByTime={setIsSortByTime} />
                     <Button onClick={() => snapTo(SNAP_POINTS.closed)} className="w-full mt-4">
                         ボトムシートを閉じる
                     </Button>

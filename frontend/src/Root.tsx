@@ -27,6 +27,7 @@ function Root() {
     const [isOpenErrorDialog, setIsOpenErrorDialog] = useState(false)
     const [errorTitle, setErrorTitle] = useState<string>("");
     const [errorDetail, setErrorDetail] = useState<string[]>([]);
+    const [isSortByTime, setIsSortByTime] = useState<boolean>(false);
     
     useEffect(() => {
         setUserPosition(new LatLng(lat, lng));
@@ -58,7 +59,7 @@ function Root() {
 
         // 範囲内の場合
         try {
-            const response = await fetch(`${API_ORIGIN}/api/posts/${pointId}`, {
+            const response = await fetch(`${API_ORIGIN}/api/posts/${pointId}?sortByTime=${isSortByTime}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -129,7 +130,7 @@ function Root() {
                         <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
                     </svg>
                 </Button>
-                <BottomSheet posts={posts} />
+                <BottomSheet posts={posts} setIsSortByTime={setIsSortByTime} />
                 <MapContainer center={userPosition} zoom={zoom} style={{ height: '100dvh', width: '100vw' }} className="z-0">
                     <ZoomWatcher setZoom={setZoom} setCenterPosition={setCenterPosition}/>
                     <TileLayer

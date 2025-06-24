@@ -6,12 +6,28 @@ import type { Post } from './types/Post';
 
 type PostListProps = {
     posts: Post[];
+    setIsSortByTime: (isSortByTime: boolean) => void;
 }
 
-const PostList: React.FC<PostListProps> = ({ posts }) => {
+const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime }) => {
+    const tabsChanged = (value: string): void => {
+        console.log(value);
+        if (value === "likes") {
+            setIsSortByTime(false);
+            return;
+        }
+
+        setIsSortByTime(true);
+        return;
+    }
+
     return (
     <>
-        <Tabs.Root defaultValue={"likes"} className='w-full sticky top-0 z-200'>
+        <Tabs.Root
+            defaultValue={"likes"}
+            className='w-full sticky top-0 z-200'
+            onValueChange={(e) => tabsChanged(e.value)}
+        >
             <Tabs.List
                 className='
                     flex
