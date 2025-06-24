@@ -10,13 +10,16 @@ import PointMarker from './PointMarker';
 import { useEffect, useState } from 'react';
 import RecentMap from './RecentMap';
 import ZoomWatcher from './ZoomWatcher';
-import { GetPointsApiResponseReturnFive } from './mock';
+import { GetPointsApiResponseReturnFive, GetPostsApiResponseReturnFive } from './mock';
 import ErrorDialog from './ErrorDialog';
+import type { Point } from './types/Point';
+import type { Post } from './types/Post';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Root() {
     const navigate = useNavigate();
-    const [points, setPoints] = useState<{ pointId: string; latitude: number; longitude: number; count: number; existInner: boolean}[]>([]);
+    const [points, setPoints] = useState<Point[]>([]);
+    const [posts, setPosts] = useState<Post[]>([])
     const { lat, lng } = useGps();
     const [centerPosition, setCenterPosition] = useState<LatLng>(new LatLng(0, 0));
     const [userPosition, setUserPosition] = useState<LatLng>(new LatLng(lat, lng));
@@ -29,16 +32,31 @@ function Root() {
         setUserPosition(new LatLng(lat, lng));
     }, [lat, lng]);
 
+    // TODO デプロイ時にはコメントアウト
     useEffect(() => {
+        setPosts(GetPostsApiResponseReturnFive());
         setPoints(GetPointsApiResponseReturnFive());
     }, []);
+
+    useEffect(() => {
+        getViewRangePointList();
+    }, [centerPosition, zoom]);
     
 
     const handleGoToPost = () => {
         navigate('/post');
     };
 
-    const onClickPoint = async (pointId: string)=> {
+    const onClickPoint = async (pointId: string, existInner: boolean)=> {
+        // 範囲内でない場合
+        if (!existInner) {
+            setIsOpenErrorDialog(true);
+            setErrorTitle('投稿ポイントが閲覧可能範囲外です。');
+            setErrorDetail([`ぜひ現地へ行って確認してください！`]);
+            return;
+        }
+
+        // 範囲内の場合
         try {
             const response = await fetch(`${API_ORIGIN}/api/posts/${pointId}`, {
                 method: 'GET',
@@ -49,8 +67,8 @@ function Root() {
 
             // ステータスコードで判定
             if (response.status === 200) {
-                const data = await response.json();
-                console.log('取得成功:', data);
+                const data: Post[] = await response.json();
+                setPosts(data);
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('サーバーエラーが発生しました。');
@@ -68,6 +86,8 @@ function Root() {
     }
 
     const getViewRangePointList = async ()=> {
+        // TODO 完成時には消す
+        return;
         try {
             const response = await fetch(`${API_ORIGIN}/api/points/${centerPosition.lat}/${centerPosition.lng}/${zoom}`, {
                 method: 'GET',
@@ -79,16 +99,19 @@ function Root() {
             // ステータスコードで判定
             if (response.status === 200) {
                 const data = await response.json();
-                console.log('取得成功:', data);
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
-                console.warn('クライアントエラー');
+                setErrorTitle('サーバーエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             } else {
                 setIsOpenErrorDialog(true);
-                throw new Error(`想定外のステータスコード: ${response.status}`);
+                setErrorTitle('想定外のエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             }
         } catch (error) {
             setIsOpenErrorDialog(true);
+            setErrorTitle('想定外のエラーが発生しました。');
+            setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             console.error('エラー:', error);
         }
     }
@@ -106,7 +129,7 @@ function Root() {
                         <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
                     </svg>
                 </Button>
-                <BottomSheet />
+                <BottomSheet posts={posts} />
                 <MapContainer center={userPosition} zoom={zoom} style={{ height: '100dvh', width: '100vw' }} className="z-0">
                     <ZoomWatcher setZoom={setZoom} setCenterPosition={setCenterPosition}/>
                     <TileLayer

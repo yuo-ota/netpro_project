@@ -2,14 +2,13 @@ import { Box, Tabs, Text, VStack, Button, Menu, Portal} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { GetPostsApiResponseReturnFive } from './mock';
+import type { Post } from './types/Post';
 
-function PostList() {
-    const [posts, setPosts] = useState<{postId: string, postedTime: string, content: string, goodCount: number}[]>([]);
-    
-    useEffect(() => {
-        setPosts(GetPostsApiResponseReturnFive());
-    }, []);
+type PostListProps = {
+    posts: Post[];
+}
 
+const PostList: React.FC<PostListProps> = ({ posts }) => {
     return (
     <>
         <Tabs.Root defaultValue={"likes"} className='w-full sticky top-0 z-200'>

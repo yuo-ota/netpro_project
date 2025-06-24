@@ -4,7 +4,7 @@ import CustomDivIcon from "./CustomDivIcon";
 
 type PointMarkerProps = {
     point: Point;
-    onClickPoint: (pointId: string) => void;
+    onClickPoint: (pointId: string, existInner: boolean) => void;
 }
 
 type Point = {
@@ -23,7 +23,7 @@ const PointMarker: React.FC< PointMarkerProps > = ({ point, onClickPoint }) => {
         position={[point.latitude, point.longitude]}
         icon={icon}
         eventHandlers={{
-            click: () => onClickPoint(point.pointId),
+            click: () => onClickPoint(point.pointId, point.existInner),
         }}
         />
     );

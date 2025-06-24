@@ -3,8 +3,13 @@ import { Box, Button, Tabs } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
 import { useState } from 'react';
 import PostList from './PostList';
+import type { Post } from './types/Post';
 
-function BottomSheet() {
+type BottomSheetProps = {
+    posts: Post[];
+}
+
+const BottomSheet: React.FC<BottomSheetProps> = ({ posts }) => {
     const MAX_HEIGHT:number = window.innerHeight * 0.65;    // 画面全体のうちどの程度をMAXとするか
     const snapOffset = window.innerHeight * 0.05;     // どの程度近づくことでスナップするか
     const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -80,7 +85,7 @@ function BottomSheet() {
                     style={{ maxHeight: `${MAX_HEIGHT}px` }}
                     className={`overflow-y-auto bg-white`}
                 >
-                    <PostList />
+                    <PostList posts={posts} />
                     <Button onClick={() => snapTo(SNAP_POINTS.closed)} className="w-full mt-4">
                         ボトムシートを閉じる
                     </Button>
