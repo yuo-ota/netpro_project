@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -23,43 +24,45 @@ public class PointRepository {
         // そのpointIDに対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        String sql = "SELECT * FROM points WHERE point_id = ?";
-        Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, pointId);
-        if (sqlMap.isEmpty()) {
+        try {
+            String sql = "SELECT * FROM points WHERE point_id = ?";
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, pointId);
+
+            Object latObj = sqlMap.get("latitude");
+            Object lonObj = sqlMap.get("longitude");
+            if (latObj == null || lonObj == null) {
+                return null;
+            }
+
+            Point p = new Point();
+            p.setPointId(pointId);
+            if (latObj instanceof Number latNum && lonObj instanceof Number lonNum) {
+                p.setLatitude(latNum.doubleValue());
+                p.setLongitude(lonNum.doubleValue());
+                return p;
+            }
+            return null;
+        } catch (EmptyResultDataAccessException e) {
             return null;
         }
-
-        Object latObj = sqlMap.get("latitude");
-        Object lonObj = sqlMap.get("longitude");
-        if (latObj == null || lonObj == null) {
-            return null;
-        }
-
-        Point p = new Point();
-        p.setPointId(pointId);
-        if (latObj instanceof Number latNum && lonObj instanceof Number lonNum) {
-            p.setLatitude(latNum.doubleValue());
-            p.setLongitude(lonNum.doubleValue());
-            return p;
-        }
-        return null;
     }
 
     public Point findByAtPosition(double latitude, double longitude) {
         // その座標に対応したデータを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
-        String sql = "SELECT * FROM points WHERE latitude = ? AND longitude = ?";
-        Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, latitude, longitude);
-        if (sqlMap.isEmpty()) {
-            return null;
-        }
+        try {
+            String sql = "SELECT * FROM points WHERE latitude = ? AND longitude = ?";
+            Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, latitude, longitude);
 
-        Object pointIdObj = sqlMap.get("point_id");
-        if (pointIdObj == null) {
+            Object pointIdObj = sqlMap.get("point_id");
+            if (pointIdObj == null) {
+                return null;
+            }
+            return new Point(pointIdObj.toString(), latitude, longitude);
+        } catch (EmptyResultDataAccessException e) {
             return null;
         }
-        return new Point(pointIdObj.toString(), latitude, longitude);
     }
 
     public List<Point> findByNearPosition(double latitude, double longitude) {

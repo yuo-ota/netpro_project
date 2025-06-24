@@ -20,7 +20,6 @@ public class UserRepository {
     public User findByUserId(String userId) {
         // SELECT文でUserテーブルからタプルを取得する。
         // 取得した内容をUserクラスのインスタンスに入れてreturn
-        // // ここのif(isEmpty())をPostRepositoryと同じようにtry-catchの使用に変えています
         try {
             String sql = "SELECT * FROM users WHERE user_id = ?";
 
