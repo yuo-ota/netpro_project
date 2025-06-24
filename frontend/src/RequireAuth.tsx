@@ -54,7 +54,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
     const registerUser = async () => {
         // 認証チェックのためのAPI呼び出し
         try {
-            const response = await fetch(`/api/auth/`, {
+            const response = await fetch(`/api/user/`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -62,7 +62,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
             });
 
             if (response.status === 201) {
-                // ここでユーザーIDを保存
+                // TODO ここでユーザーIDを保存
                 setChecking(false);
                 return;
             }

@@ -14,6 +14,7 @@ import { GetPointsApiResponseReturnFive, GetPostsApiResponseReturnFive } from '.
 import ErrorDialog from './ErrorDialog';
 import type { Point } from './types/Point';
 import type { Post } from './types/Post';
+import type { PostManage } from './types/PostManage';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Root() {
@@ -108,7 +109,7 @@ function Root() {
 
             // ステータスコードで判定
             if (response.status === 200) {
-                const data = await response.json();
+                const data: PostManage = await response.json();
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('サーバーエラーが発生しました。');
