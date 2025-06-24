@@ -4,6 +4,10 @@ import Post from './Post';
 import NotFound from './NotFound'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GpsProvider } from './GpsContext';
+import RequireAuth from './RequireAuth';
+import Unauthorized from './Unathorized';
+import InternalServerError from './InternalServerError';
+import UnexpectedError from './UnexpectedError';
 
 function App() {
     return (
@@ -14,15 +18,23 @@ function App() {
                         {/* TODO Rootコンポーネント > Postコンポーネント > RequireAuthコンポーネントの順で作成する。 */}
                         {/* ホーム画面 */}
                         <Route path="/" element={
-                            // <RequireAuth> // TODO 今後作る
-                                <Root />
-                            // </RequireAuth>
+                            <Root />
                         } />
                         {/* 投稿画面 */}
                         <Route path="/post" element={
-                            // <RequireAuth> // TODO 今後作る
-                                <Post />
-                            // </RequireAuth>
+                            <Post />
+                        } />
+                        {/* Unauthorized画面 */}
+                        <Route path="/unauthorized" element={
+                            <Unauthorized />
+                        } />
+                        {/* InternalServerError画面 */}
+                        <Route path="/internal-server-error" element={
+                            <InternalServerError />
+                        } />
+                        {/* UnexpectedError画面 */}
+                        <Route path="/unexpected-error" element={
+                            <UnexpectedError />
                         } />
                         {/* NotFound画面 */}
                         <Route path="*" element={

@@ -4,10 +4,14 @@ import './App.css'
 import PostButtonContainer from './PostButtonContainer'
 import PostForm from './PostForm'
 import { useGps } from './GpsContext';
+import ErrorDialog from './ErrorDialog';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Post() {
-    const [postText, setPostText] = useState('');
+    const [postText, setPostText] = useState<string>('');
+    const [isOpenErrorDialog, setIsOpenErrorDialog] = useState<boolean>(false)
+    const [errorTitle, setErrorTitle] = useState<string>("");
+    const [errorDetail, setErrorDetail] = useState<string[]>([]);
     const navigate = useNavigate();
 
     const handleGoToRoot = () => {
@@ -23,7 +27,10 @@ function Post() {
         const userId = localStorage.getItem('userId');
         const { lat, lng, error } = useGps();
 
-        if (error) return <p>エラー: {error}</p>;
+        if (error) {
+            setIsOpenErrorDialog(true);
+            return;
+        }
         try {
             const response = await fetch(`${API_ORIGIN}/api/posts`, {
                 method: 'POST',
@@ -45,20 +52,29 @@ function Post() {
                 setPostText(''); // 入力クリア
                 handleGoToRoot();
             } else if (response.status === 500) {
-                console.warn('クライアントエラー');
+                setIsOpenErrorDialog(true);
+                setErrorTitle('サーバーエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             } else {
-                throw new Error(`想定外のステータスコード: ${response.status}`);
+                setIsOpenErrorDialog(true);
+                setErrorTitle('想定外のエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             }
         } catch (error) {
-            console.error('エラー:', error);
+            setIsOpenErrorDialog(true);
+            setErrorTitle('想定外のエラーが発生しました。');
+            setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
         }
     };
     
     return (
-        <div className="relative flex flex-col w-dvw h-dvh">
-            <PostButtonContainer onClickPost={handleSendPost} onClickBack={handleGoToRoot} />
-            <PostForm postText={postText} setPostText={setPostText} />
-        </div>
+        <>
+            <ErrorDialog isOpen={isOpenErrorDialog} setIsOpen={setIsOpenErrorDialog} errorTitle={errorTitle} errorDetail={errorDetail} />
+            <div className="relative flex flex-col w-dvw h-dvh">
+                <PostButtonContainer onClickPost={handleSendPost} onClickBack={handleGoToRoot} />
+                <PostForm postText={postText} setPostText={setPostText} />
+            </div>
+        </>
     )
 }
 
