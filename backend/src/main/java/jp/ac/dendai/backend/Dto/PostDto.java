@@ -7,11 +7,13 @@ public class PostDto {
     private LocalDateTime postedTime;
     private String content;
     private int goodCount;
+    private boolean isGooded;
 
     public PostDto(String postId, String content, int goodCount) {
         this.postId = postId;
         this.content = content;
         this.goodCount = goodCount;
+        isGooded = false;
     }
 
     public String getPostId() {
@@ -28,5 +30,13 @@ public class PostDto {
 
     public int getGoodCount() {
         return goodCount;
+    }
+
+    public void setIsGooded(boolean isGooded) {
+        this.isGooded = isGooded;
+    }
+
+    public boolean getIsGooded() {
+        return isGooded;
     }
 }

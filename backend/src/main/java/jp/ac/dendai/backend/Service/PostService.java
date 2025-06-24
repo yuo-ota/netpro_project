@@ -43,7 +43,7 @@ public class PostService {
         return null;
     }
 
-    public List<PostDto> getPostByPointId(String pointId) {
+    public List<PostDto> getPostByPointId(String pointId, boolean sortByTime) {
         // TODO
         // postRepositoryのfindByPointIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
         // それ以外は戻り値のList<Post>を基にList<PostDto>を作り、return

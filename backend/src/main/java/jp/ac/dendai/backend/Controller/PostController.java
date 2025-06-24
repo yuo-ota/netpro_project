@@ -6,8 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.ac.dendai.backend.Dto.PostDto;
@@ -24,11 +27,12 @@ public class PostController {
     }
 
     @GetMapping("/{pointId}")
-    public ResponseEntity<List<PostDto>> getPosts(String pointId) {
+    public ResponseEntity<List<PostDto>> getPosts(
+            @PathVariable String pointId, @RequestParam boolean sortByTime) {
         // postServiceのgetPostsByPointIdを呼び出し、200番で戻り値のList<PostDto>をreturn
         // それ以外(不正な値や例外)には500番でreturn
         try {
-            List<PostDto> postData = postService.getPostByPointId(pointId);
+            List<PostDto> postData = postService.getPostByPointId(pointId, sortByTime);
 
             if (postData == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -42,7 +46,8 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostDto> createPoint(
-            String userId, double latitude, double longitude, String content) {
+            @RequestBody String userId, @RequestBody double latitude,
+            @RequestBody double longitude, @RequestBody String content) {
         // postServiceのcreatePostを呼び出し、201番で戻り値のPostDtoをreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn
         // それ以外(不正な値や例外)には500番でreturn
@@ -58,7 +63,8 @@ public class PostController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deletePost(String postId, String userId) {
+    public ResponseEntity<Void> deletePost(
+            @RequestBody String postId, @RequestBody String userId) {
         // postServiceのdeletePostを呼び出し、204番でreturn
         // それ以外(不正な値や例外)には500番でreturn
         try {

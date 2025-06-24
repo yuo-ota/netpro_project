@@ -2,11 +2,11 @@ package jp.ac.dendai.backend.Dto;
 
 public class GoodDto {
     private String postId;
-    private boolean isLinked;
+    private boolean isGooded;
 
-    public GoodDto(String postId, boolean isLiked) {
+    public GoodDto(String postId, boolean isGooded) {
         this.postId = postId;
-        this.isLinked = isLiked;
+        this.isGooded = isGooded;
     }
 
     public String getPostId() {
@@ -14,6 +14,6 @@ public class GoodDto {
     }
 
     public boolean getIsLiked() {
-        return isLinked;
+        return isGooded;
     }
 }
