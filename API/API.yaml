@@ -47,10 +47,15 @@ paths:
           description: ユーザーIDが認められなかった場合
         500:
           description: SQLエラー等の全般的なエラーの発生
-  /api/posts/{pointId}:
+  /api/posts/{userId}/{pointId}:
     get:
       summary: ポイントIDからの投稿取得
       parameters: # リクエストパラメータ
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
         - in: path
           name: pointId
           required: true
@@ -82,6 +87,8 @@ paths:
                       type: integer
                     isGooded:
                       type: boolean
+        401:
+          description: ユーザーIDが不正の場合
         404:
           description: データが取得できなかった場合(発生しないはず)
         500:

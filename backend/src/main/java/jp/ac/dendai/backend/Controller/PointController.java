@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,8 @@ public class PointController {
     }
 
     @GetMapping("/{latitude}/{longitude}/{mapSize}")
-    public ResponseEntity<List<PointManageDto>> getPoints(double latitude, double longitude, int mapSize) {
+    public ResponseEntity<List<PointManageDto>> getPoints(
+            @PathVariable double latitude, @PathVariable double longitude, @PathVariable int mapSize) {
         // pointServiceのgetPointsByNearPositionを呼び出し、
         // もし、nullでない場合には200番で戻り値のList<PointDto>をreturn
         // それ以外(不正な値や例外)には500番でreturn

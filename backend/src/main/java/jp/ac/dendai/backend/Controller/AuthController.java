@@ -9,6 +9,7 @@ import jp.ac.dendai.backend.Service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,14 +21,14 @@ public class AuthController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<AuthDto> getAuth(String UserId) {
+    public ResponseEntity<AuthDto> getAuth(@PathVariable String userId) {
         // authServiceのgetAuthByUserIdを呼び出し、
         // もし、nullの場合には204でreturn
         // もし、isAuthedがtrueなら200番で戻り値のAuthDtoをreturn
         // もし、isAuthedがfalseなら401番でreturn
         // それ以外(不正な値や例外)には、500番でreturn
         try {
-            AuthDto authData = authService.getAuthByUserId(UserId);
+            AuthDto authData = authService.getAuthByUserId(userId);
             if (authData == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
