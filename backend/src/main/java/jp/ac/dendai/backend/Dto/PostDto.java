@@ -9,11 +9,12 @@ public class PostDto {
     private int goodCount;
     private boolean isGooded;
 
-    public PostDto(String postId, String content, int goodCount) {
+    public PostDto(String postId, LocalDateTime postedTime, String content, int goodCount, boolean isGooded) {
         this.postId = postId;
+        this.postedTime = postedTime;
         this.content = content;
         this.goodCount = goodCount;
-        isGooded = false;
+        this.isGooded = isGooded;
     }
 
     public String getPostId() {

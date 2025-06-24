@@ -24,36 +24,37 @@ public class PostService {
 
     public PointDto checkPoint(double latitude, double longitude) {
         // TODO
-        // pointServiceのgetPointByAtPositionを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
+        // pointServiceのgetPointByAtPositionを呼び出す
         // それ以外は戻り値のPointをreturn
         return null;
     }
 
     public AuthDto checkUser(String userId) {
         // TODO
-        // authServiceのgetAuthByUserIdを呼び出し、例外がthrowされた場合は例外をthrowする
+        // authServiceのgetAuthByUserIdを呼び出す
         // それ以外は戻り値のAuthDtoをreturn
         return null;
     }
 
-    public PostDto getPostByPostId(String postId) {
+    public PostDto getPostByPostId(String userId, String postId) {
         // TODO
-        // postRepositoryのfindByPostIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
-        // それ以外は戻り値のPostを基にPostDtoを作り、return
+        // postRepositoryのfindByPostIdを呼び出す
+        // 戻り値のPostDtoをreturn
         return null;
     }
 
-    public List<PostDto> getPostByPointId(String pointId, boolean sortByTime) {
+    public List<PostDto> getPostByPointId(String userId, String pointId, boolean sortByTime) {
         // TODO
-        // postRepositoryのfindByPointIdを呼び出し、例外がthrowされた場合は例外をthrowしServiceに送る
-        // それ以外は戻り値のList<Post>を基にList<PostDto>を作り、return
+        // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
+        // postRepositoryのfindByPointIdOrderByCreatedTimeかfindByPointIdOrderByGoodCountを呼び出す
+        // 戻り値のList<PostDto>をreturn
         return null;
     }
 
     public List<PostDto> getPostByUserId(String userId) {
         // TODO
         // postRepositoryのfindByUserIdを呼び出す
-        // それ以外は戻り値のList<Post>を基にList<PostDto>を作り、return
+        // 戻り値のList<PostDto>をreturn
         return null;
     }
 
@@ -72,7 +73,7 @@ public class PostService {
 
     public void deletePost(String postId, String userId) {
         // TODO
-        // checkUserを呼び出し、認証できなかった場合は例外をthrow
+        // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // PostRepositoryのdeleteを呼び出す
         // それ以外はvoidをreturn
         return;

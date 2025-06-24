@@ -13,11 +13,12 @@ public class Post {
 
     }
 
-    public Post(String postId, String pointId, String userId, String content) {
+    public Post(String postId, String pointId, String userId, String content, LocalDateTime postedTime) {
         this.postId = postId;
         this.pointId = pointId;
         this.userId = userId;
         this.content = content;
+        this.postedTime = postedTime;
     }
 
     public String getPostId() {
