@@ -67,6 +67,11 @@ public class CalcGeo {
         return new double[]{flooredLat, flooredLon};
     }
 
+    public static int getMapEdgeMetors(int mapSize) {
+        // TODO ここをあとで作る
+        return 100;
+    }
+
     public static void main(String[] args) {
         double tduLat = 35.7489414625941;
         double tduLon = 139.80676212563802;

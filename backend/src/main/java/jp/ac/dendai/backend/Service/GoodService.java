@@ -12,12 +12,10 @@ import jp.ac.dendai.backend.util.AuthenticationFailedException;
 public class GoodService {
     private final GoodRepository goodRepository;
     private final AuthService authService;
-    private final PostService postService;
 
-    public GoodService(GoodRepository goodRepository, AuthService authService, PostService postService) {
+    public GoodService(GoodRepository goodRepository, AuthService authService) {
         this.goodRepository = goodRepository;
         this.authService = authService;
-        this.postService = postService;
     }
 
     public AuthDto checkUser(String userId) {

@@ -5,8 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import jp.ac.dendai.backend.Dto.PointDto;
+import jp.ac.dendai.backend.Dto.PointManageDto;
 import jp.ac.dendai.backend.Entity.Point;
 import jp.ac.dendai.backend.Repository.PointRepository;
+import jp.ac.dendai.backend.util.CalcGeo;
+import jp.ac.dendai.backend.util.NanoIdGenerator;
+import jp.ac.dendai.backend.util.CalcGeo.LatLngRange;
 
 @Service
 public class PointService {
@@ -29,14 +33,16 @@ public class PointService {
     public PointDto getPointByAtPosition(double latitude, double longitude) {
         // pointRepositoryのfindByAtPositionを呼び出す
         // それ以外は戻り値のPointを基にPointDtoを作りreturn
-        Point pointData = pointRepository.findByAtPosition(latitude, longitude);
+        // floorPosition関数で誤差を吸収する
+        double[] flooredPosition = CalcGeo.floorPosition(latitude, longitude);
+        Point pointData = pointRepository.findByAtPosition(flooredPosition[0], flooredPosition[1]);
         if (pointData == null){
             return null;
         }
         return new PointDto(pointData.getPointId(), latitude, longitude);
     }
 
-    public List<PointDto> getPointsByNearPosition(double latitude, double longitude, int mapSize) {
+    public List<PointManageDto> getPointsByNearPosition(double latitude, double longitude, int mapSize) {
         // TODO
         // mapSizeの値をもとに適切な範囲を取得する
         // pointRepositoryのfindByNearPositionを呼び出す
@@ -44,32 +50,30 @@ public class PointService {
         // またユーザーの範囲内の場合にはsetIsUserInThisAreaを呼び出してtrueにする
         // これらを別のArrayListに入れてList<PointDto>をreturn
 
-        // // mapSizeの値をもとに適切な範囲を取得するためにはfindByNearPositionの引数にmapSizeを入れる？
-        // // わかりませんでした。LatlngRangeの最後の引数がmapSize?
-        List<Point> pointsData = pointRepository.findByNearPosition(latitude, longitude);
+        /** @author つな　*/
+        /* 
+         * 地図のサイズによってどのくらいの範囲でpointを探せばいいのか変わるよねっていうのがこの関数の発想で
+         * mapSizeはその範囲の算定のために用意しています。
+         * 肝心のmapSizeに対応する範囲はどのくらいかっていうのはCalcGeoのmapEdgeMetorsで、
+         * その範囲が取れたらfindByNearPositionに対して検索をまずは掛けます。
+         * 
+         * そしたら一辺100kmのサイズで表示している地図で10mの距離のpointはまとめた方がいいよねっていうのが後半の発想で、
+         * Map<double[], PointManage>で管理します。
+         * doulbe[]は丸めた後の緯度経度の組、PointManageDtoは代表地点のPointDtoといくつこの範囲にあるのかの数を持つ
+         * 例えば2km区画でまとめていくとすると、その範囲に今までのpointは存在しない場合は新たに作成
+         * 存在する場合にはPointManageDtoをインクリメントします。
+         * 最後にPointManageDtoを返せばこの関数は終了です。
+         */
+        
+        // TODO ここで範囲を取得
+
+        int mapEdgeMetors = CalcGeo.getMapEdgeMetors(mapSize);
+        LatLngRange boundBox = CalcGeo.getBoundingBox(latitude, longitude, mapEdgeMetors);
+        List<Point> pointsData = pointRepository.findByNearPosition(boundBox);
         if (pointsData == null){
             return null;
         }
-
-        List<PointDto> roundPointsData = new ArrayList<>();
-        for (Point row : pointsData){
-            // // mapSizeが「小数点第〇位」で丸めるための〇であると解釈して丸めました。
-            double scale = Math.pow(10, mapSize);
-            // // mapSizeの小数点範囲がそのまま丸める範囲である解釈。例）mapSize=12.345→小数点第三位まで
-            // // String str = Integer.toString(mapSize);
-            // // String[] strs = str.split(".");
-            // // int decimalPlaces = strs[1].length();
-            // // double scale = Math.pow(10, decimalPlaces);
-
-            double roundedLat = Math.round(row.getLatitude() * scale) / scale;
-            double roundedLng = Math.round(row.getLongitude() * scale) / scale;
-
-            // // ユーザーの範囲内の場合という検査方法がわかりませんでした
-            roundPointsData.add(new PointDto(row.getPointId(), row.getLatitude(), row.getLongitude()));
-            roundPointsData.get(roundPointsData.size()-1).setIsUserInThisArea(true);
-        }
-
-        return roundPointsData;
+        return null;
     }
 
     public PointDto createPoint(double latitude, double longitude) {
@@ -77,10 +81,9 @@ public class PointService {
         // pointRepositoryのsaveを呼び出す
         // それ以外は渡したPointを基にPointDtoを作りreturn
 
-        // // pointIdを新規のために作っている場所がないのかも？
-        // // PointDto作るためにデータベースからpointIdをとってくるメソッドになっちゃいました。
-        Point pointData = pointRepository.findByAtPosition(latitude, longitude);
+        String pointId = NanoIdGenerator.generate();
+        Point pointData = new Point(pointId, latitude, longitude);
         pointRepository.save(pointData);
-        return new PointDto(pointData.getPointId(), latitude, longitude);
+        return new PointDto(pointData.getPointId(), pointData.getLatitude(), pointData.getLongitude());
     }
 }

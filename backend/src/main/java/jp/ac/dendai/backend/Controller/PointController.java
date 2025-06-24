@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.ac.dendai.backend.Dto.PointDto;
+import jp.ac.dendai.backend.Dto.PointManageDto;
 import jp.ac.dendai.backend.Service.PointService;
 
 @RestController
@@ -21,12 +21,12 @@ public class PointController {
     }
 
     @GetMapping("/{latitude}/{longitude}/{mapSize}")
-    public ResponseEntity<List<PointDto>> getPoints(double latitude, double longitude, int mapSize) {
+    public ResponseEntity<List<PointManageDto>> getPoints(double latitude, double longitude, int mapSize) {
         // pointServiceのgetPointsByNearPositionを呼び出し、
         // もし、nullでない場合には200番で戻り値のList<PointDto>をreturn
         // それ以外(不正な値や例外)には500番でreturn
         try {
-            List<PointDto> pointData = pointService.getPointsByNearPosition(latitude, longitude, mapSize);
+            List<PointManageDto> pointData = pointService.getPointsByNearPosition(latitude, longitude, mapSize);
 
             if (pointData == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

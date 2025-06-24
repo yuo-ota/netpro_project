@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jp.ac.dendai.backend.Entity.Point;
-import jp.ac.dendai.backend.util.CalcGeo;
 import jp.ac.dendai.backend.util.CalcGeo.LatLngRange;
 
 @Repository
@@ -65,7 +64,7 @@ public class PointRepository {
         }
     }
 
-    public List<Point> findByNearPosition(double latitude, double longitude) {
+    public List<Point> findByNearPosition(LatLngRange b) {
         // その座標に近いポイントデータリストを取得するのが目的
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
@@ -77,8 +76,6 @@ public class PointRepository {
             AND ? < longitude 
             AND longitude < ?
         """;
-
-        LatLngRange b = CalcGeo.getBoundingBox(latitude, longitude, 100);
 
         List<Map<String, Object>> sqlList = jdbcTemplate.queryForList(sql,
                 b.minLat, b.maxLat, b.minLng, b.maxLng);
