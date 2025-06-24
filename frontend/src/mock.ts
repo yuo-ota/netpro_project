@@ -93,31 +93,36 @@ export const GetPostsApiResponseReturnFive = () => {
             postId: "FsTXU8TFBM8dC3ZRPFnw7",
             postedTime: "2025/6/10 20:30",
             content: "ここから見える夜景が一番",
-            goodCount: 10
+            goodCount: 10,
+            isGooded: false
         },
         {
             postId: "9v3iie_5E62rmYE-Wws7G",
             postedTime: "2025/5/9 18:00",
             content: "近所にある中華料理屋精華園さんおいしいんだよね",
-            goodCount: 7
+            goodCount: 7,
+            isGooded: true
         },
         {
             postId: "gcRnXSSgFgM6aFnegT34N",
             postedTime: "2025/2/30 6:30",
             content: "なんでこんな早朝にこんなところいるんやろ...",
-            goodCount: 0
+            goodCount: 0,
+            isGooded: false
         },
         {
             postId: "RIesGwE4PQcOnYU3cY0p6",
             postedTime: "2025/4/10 1:00",
             content: "終電で寝過ごしてオワタ",
-            goodCount: 100
+            goodCount: 100,
+            isGooded: true
         },
         {
             postId: "EdCheng5AZk5u2oLRyGRJ",
             postedTime: "2025/3/5 12:30",
             content: "3年間ありがとう！次は成人式で！",
-            goodCount: 100000
+            goodCount: 100000,
+            isGooded: true
         }
     ];
 };

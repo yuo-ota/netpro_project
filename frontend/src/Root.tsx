@@ -28,6 +28,7 @@ function Root() {
     const [errorTitle, setErrorTitle] = useState<string>("");
     const [errorDetail, setErrorDetail] = useState<string[]>([]);
     const [isSortByTime, setIsSortByTime] = useState<boolean>(false);
+    const [focusPointId, setFocusPointId] = useState<string>("");
     
     useEffect(() => {
         setUserPosition(new LatLng(lat, lng));
@@ -42,22 +43,17 @@ function Root() {
     useEffect(() => {
         getViewRangePointList();
     }, [centerPosition, zoom]);
+
+    useEffect(() => {
+        getPosts(focusPointId);
+    }, [isSortByTime, focusPointId])
     
 
     const handleGoToPost = () => {
         navigate('/post');
     };
 
-    const onClickPoint = async (pointId: string, existInner: boolean)=> {
-        // 範囲内でない場合
-        if (!existInner) {
-            setIsOpenErrorDialog(true);
-            setErrorTitle('投稿ポイントが閲覧可能範囲外です。');
-            setErrorDetail([`ぜひ現地へ行って確認してください！`]);
-            return;
-        }
-
-        // 範囲内の場合
+    const getPosts = async(pointId: string)=> {
         try {
             const response = await fetch(`${API_ORIGIN}/api/posts/${pointId}?sortByTime=${isSortByTime}`, {
                 method: 'GET',
@@ -84,6 +80,19 @@ function Root() {
             setErrorTitle('想定外のエラーが発生しました。');
             setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
         }
+    }
+
+    const onClickPoint = (pointId: string, existInner: boolean)=> {
+        // 範囲内でない場合
+        if (!existInner) {
+            setIsOpenErrorDialog(true);
+            setErrorTitle('投稿ポイントが閲覧可能範囲外です。');
+            setErrorDetail([`ぜひ現地へ行って確認してください！`]);
+            return;
+        }
+        
+        // 範囲内の場合
+        setFocusPointId(pointId);
     }
 
     const getViewRangePointList = async ()=> {

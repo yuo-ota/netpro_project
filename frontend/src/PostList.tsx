@@ -78,6 +78,7 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime }) => {
                 pt-4'
         >
             <VStack className='gap-4 flex items-stretch'>
+{/* TODO postsが0の場合と取得が許されない場合に表示を切り替えられるようにする。 */}
                 {posts.map((post, i) => (
                     <Box
                         key={i}
@@ -105,6 +106,8 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime }) => {
                                     items-center
                                     mr-2'
                             >
+{/* TODO クリックをすることで、いいねの状態を切り替えるようにバックエンド側に送信する。 */}
+{/* TODO クリックをすることで、いいねの状態によって見た目を切り替えるようにする */}
                                 <Button
                                     className='
                                         w-[12vh]
@@ -137,6 +140,7 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime }) => {
                                 <Portal>
                                     <Menu.Positioner>
                                     <Menu.Content>
+{/* TODO クリックをすることで、"localhost:pointID/postID"を返すようにする */}
                                         <Menu.Item value="share">共有リンクを発行</Menu.Item>
                                         <Menu.Item
                                         value="report"
@@ -145,6 +149,7 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime }) => {
                                         >
                                         報告する
                                         </Menu.Item>
+{/* TODO "削除する"が押された際に投稿を消すようにバックエンド側に流した後に更新する */}
                                         <Menu.Item
                                         value="delete"
                                         color="fg.error"
@@ -159,9 +164,11 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime }) => {
                         </div>
                     </Box>
                 ))}
-                <Text className='text-sm text-gray-500'>
+                <div className="h-20 flex justify-center items-center">
+                    <Text className='text-lg text-gray-500'>
                         コンテンツの終わりです。
-                </Text>
+                    </Text>
+                </div>
             </VStack>
         </Box>
     </>
