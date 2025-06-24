@@ -51,6 +51,10 @@ function Post() {
                 console.log('投稿成功:', data);
                 setPostText(''); // 入力クリア
                 handleGoToRoot();
+            } else if (response.status === 401) {
+                setIsOpenErrorDialog(true);
+                setErrorTitle('認証エラーが発生しました。');
+                setErrorDetail([`ユーザーIDが不正な疑いがあります。`, `ページを更新してください。`]);
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('サーバーエラーが発生しました。');

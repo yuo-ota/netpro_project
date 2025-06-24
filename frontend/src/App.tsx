@@ -1,4 +1,4 @@
-import './App.css'
+import './App.css';
 import Root from './Root'
 import Post from './Post';
 import NotFound from './NotFound'

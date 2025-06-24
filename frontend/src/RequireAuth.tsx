@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { JSX } from "react";
-import './App.css'
+import './App.css';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
                     registerUser();
                     return;
                 }
-                if(response.status === 404) {
+                if(response.status === 401) {
                     navigate("/unauthorized");
                     return;
                 }
@@ -64,6 +64,10 @@ function RequireAuth({ children }: { children: JSX.Element }) {
             if (response.status === 201) {
                 // TODO ここでユーザーIDを保存
                 setChecking(false);
+                return;
+            }
+            if (response.status === 401) {
+                navigate("/unauthorized");
                 return;
             }
             if (response.status === 500) {
