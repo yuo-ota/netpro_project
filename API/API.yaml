@@ -179,25 +179,23 @@ paths:
               schema:
                 type: array
                 items:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      pointCount:
-                        type: number
-                      goodCount:
-                        type: number
-                      symbolPoint:
-                        type: object
-                        properties:
-                          pointId:
-                            type: string
-                          latitude:
-                            type: number
-                          longitude:
-                            type: number
-                          isUserInThisArea:
-                            type: boolean
+                  type: object
+                  properties:
+                    pointCount:
+                      type: number
+                    goodCount:
+                      type: number
+                    symbolPoint:
+                      type: object
+                      properties:
+                        pointId:
+                          type: string
+                        latitude:
+                          type: number
+                        longitude:
+                          type: number
+                        isUserInThisArea:
+                          type: boolean
         404:
           description: データが取得できなかった場合(発生しないはず)
         500:
