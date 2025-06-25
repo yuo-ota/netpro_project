@@ -3,6 +3,7 @@ package jp.ac.dendai.backend.Dto;
 public class PointManageDto {
     PointDto symbolPoint;
     int pointCount;
+    // TODO なんでgoodCountを追加したのかわすれた要確認
     int goodCount;
 
     public PointManageDto(PointDto symbolPoint) {

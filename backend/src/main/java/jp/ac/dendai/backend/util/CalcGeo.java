@@ -55,8 +55,7 @@ public class CalcGeo {
     }
 
     public static double[] floorPosition(double latitude, double longitude, int mapEdgeMetors) {
-        final int GRID_EDGE_METERS = mapEdgeMetors; // グリッドの1辺の長さ 暫定値のため適宜調整すること
-        final double GRID_SIZE_LAT = GRID_EDGE_METERS / METERS_PER_DEGREE_LATITUDE; // グリッド1辺の緯度
+        final double GRID_SIZE_LAT = mapEdgeMetors / METERS_PER_DEGREE_LATITUDE; // グリッド1辺の緯度
         final double GRID_SIZE_LON = GRID_SIZE_LAT / Math.cos(Math.toRadians(latitude)); // 経度方向に相当する度数
 
         // 丸め緯度, 経度

@@ -26,7 +26,7 @@ public class PointService {
         // pointRepositoryのfindByPointIdを呼び出す
         // それ以外は戻り値のPointを基にPointDtoを作りreturn
         Point pointData = pointRepository.findByPointId(pointId);
-        if (pointData == null){
+        if (pointData == null) {
             return null;
         }
         return new PointDto(pointId, pointData.getLatitude(), pointData.getLongitude());
@@ -36,26 +36,18 @@ public class PointService {
         // pointRepositoryのfindByAtPositionを呼び出す
         // それ以外は戻り値のPointを基にPointDtoを作りreturn
         // floorPosition関数で誤差を吸収する
-        double[] flooredPosition = CalcGeo.floorPosition(latitude, longitude, 10/*適当*/);
-
-        // 助けて！！引数に入れる値がわからない↑
+        // mapEdgeMetorsの値はGPSの誤差分程度かつ、mapSizeが最大時/SPLIT_COUNT以下であればいいので暫定値10とする
+        double[] flooredPosition = CalcGeo.floorPosition(latitude, longitude, 10);
 
         Point pointData = pointRepository.findByAtPosition(flooredPosition[0], flooredPosition[1]);
-        if (pointData == null){
+        if (pointData == null) {
             return null;
         }
         return new PointDto(pointData.getPointId(), latitude, longitude);
     }
 
     public List<PointManageDto> getPointsByNearPosition(double latitude, double longitude, int mapSize) {
-        // TODO
-        // mapSizeの値をもとに適切な範囲を取得する
-        // pointRepositoryのfindByNearPositionを呼び出す
-        // 受け取ったデータのうち、1つづつmapSizeに合わせて座標を丸める
-        // またユーザーの範囲内の場合にはsetIsUserInThisAreaを呼び出してtrueにする
-        // これらを別のArrayListに入れてList<PointDto>をreturn
-
-        /** @author つな　*/
+        /** @author つな */
         /*
          * 地図のサイズによってどのくらいの範囲でpointを探せばいいのか変わるよねっていうのがこの関数の発想で
          * mapSizeはその範囲の算定のために用意しています。
@@ -69,26 +61,27 @@ public class PointService {
          * 存在する場合にはPointManageDtoをインクリメントします。
          * 最後にPointManageDtoを返せばこの関数は終了です。
          */
-
-        // TODO ここで範囲を取得
-
+        final int SPLIT_COUNT = 20;
         int mapEdgeMetors = CalcGeo.getMapEdgeMetors(mapSize);
         LatLngRange boundBox = CalcGeo.getBoundingBox(latitude, longitude, mapEdgeMetors);
         List<Point> pointsData = pointRepository.findByNearPosition(boundBox);
-        if (pointsData == null){
+        if (pointsData == null) {
             return null;
         }
-        Map<String, PointManageDto> roundPoints = new HashMap();
-        for (int i = 0; i < pointsData.size(); i++){
+        Map<String, PointManageDto> roundPoints = new HashMap<String, PointManageDto>();
+        for (Point p : pointsData) {
             // floorPositionでまるめた緯度経度を作る
-            double[] flooredPosition = CalcGeo.floorPosition(pointsData.get(i).getLatitude(), pointsData.get(i).getLongitude(), mapEdgeMetors / 20);
-            // double[]のため、containsKey(flooredPosition) は常にfalseとなる可能性が高い、らしい…
-            // そのためMapのkeyとしてString型のkeyを生成
+            double[] flooredPosition = CalcGeo.floorPosition(p.getLatitude(),
+                    p.getLongitude(), mapEdgeMetors / SPLIT_COUNT);
+
             String key = flooredPosition[0] + "_" + flooredPosition[1];
-            if (roundPoints.containsKey(key)){ //keyがMap入っていればインクリメント
+            if (roundPoints.containsKey(key)) { // keyがMap入っていればインクリメント
                 roundPoints.get(key).incrementCount();
             } else { // 入っていなければ新しくPointManagedDtoを作る
-                roundPoints.put(key, new PointManageDto(new PointDto(null/*ここどうする？ */, flooredPosition[0], flooredPosition[1])));            }
+                roundPoints.put(key,
+                        new PointManageDto(
+                                new PointDto(p.getPointId(), flooredPosition[0], flooredPosition[1])));
+            }
         }
         // value部分（PointManageDto）のListをreturn
         return new ArrayList<>(roundPoints.values());
