@@ -1,7 +1,9 @@
 package jp.ac.dendai.backend.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import jp.ac.dendai.backend.Dto.PointDto;
@@ -34,7 +36,10 @@ public class PointService {
         // pointRepositoryのfindByAtPositionを呼び出す
         // それ以外は戻り値のPointを基にPointDtoを作りreturn
         // floorPosition関数で誤差を吸収する
-        double[] flooredPosition = CalcGeo.floorPosition(latitude, longitude);
+        double[] flooredPosition = CalcGeo.floorPosition(latitude, longitude, 10/*適当*/);
+
+        // 助けて！！引数に入れる値がわからない↑
+
         Point pointData = pointRepository.findByAtPosition(flooredPosition[0], flooredPosition[1]);
         if (pointData == null){
             return null;
@@ -51,12 +56,12 @@ public class PointService {
         // これらを別のArrayListに入れてList<PointDto>をreturn
 
         /** @author つな　*/
-        /* 
+        /*
          * 地図のサイズによってどのくらいの範囲でpointを探せばいいのか変わるよねっていうのがこの関数の発想で
          * mapSizeはその範囲の算定のために用意しています。
          * 肝心のmapSizeに対応する範囲はどのくらいかっていうのはCalcGeoのmapEdgeMetorsで、
          * その範囲が取れたらfindByNearPositionに対して検索をまずは掛けます。
-         * 
+         *
          * そしたら一辺100kmのサイズで表示している地図で10mの距離のpointはまとめた方がいいよねっていうのが後半の発想で、
          * Map<double[], PointManage>で管理します。
          * doulbe[]は丸めた後の緯度経度の組、PointManageDtoは代表地点のPointDtoといくつこの範囲にあるのかの数を持つ
@@ -64,7 +69,7 @@ public class PointService {
          * 存在する場合にはPointManageDtoをインクリメントします。
          * 最後にPointManageDtoを返せばこの関数は終了です。
          */
-        
+
         // TODO ここで範囲を取得
 
         int mapEdgeMetors = CalcGeo.getMapEdgeMetors(mapSize);
@@ -73,11 +78,21 @@ public class PointService {
         if (pointsData == null){
             return null;
         }
-        return null;
+        Map<String, PointManageDto> roundPoints = new HashMap();
+        for (int i = 0; i < pointsData.size(); i++){
+            double[] flooredPosition = CalcGeo.floorPosition(pointsData.get(i).getLatitude(), pointsData.get(i).getLongitude(), mapEdgeMetors / 20);
+            String key = flooredPosition[0] + "_" + flooredPosition[1];
+            if (roundPoints.containsKey(key)){
+                roundPoints.get(key).incrementCount();
+                // double[]のため、containsKey(flooredPosition) は常にfalseとなる可能性が高い、らしい…
+            } else {
+                roundPoints.put(key, new PointManageDto(new PointDto(null/*ここどうする？ */, flooredPosition[0], flooredPosition[1])));            }
+        }
+        List<PointManageDto> pointManageData = new ArrayList<>(roundPoints.values());
+        return pointManageData;
     }
 
     public PointDto createPoint(double latitude, double longitude) {
-        // TODO
         // pointRepositoryのsaveを呼び出す
         // それ以外は渡したPointを基にPointDtoを作りreturn
 

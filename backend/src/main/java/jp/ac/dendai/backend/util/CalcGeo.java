@@ -54,8 +54,8 @@ public class CalcGeo {
                 lon + lonDelta);
     }
 
-    public static double[] floorPosition(double latitude, double longitude) {
-        final int GRID_EDGE_METERS = 10; // TODO グリッドの1辺の長さ 暫定値のため適宜調整すること
+    public static double[] floorPosition(double latitude, double longitude, int mapEdgeMetors) {
+        final int GRID_EDGE_METERS = mapEdgeMetors; // グリッドの1辺の長さ 暫定値のため適宜調整すること
         final double GRID_SIZE_LAT = GRID_EDGE_METERS / METERS_PER_DEGREE_LATITUDE; // グリッド1辺の緯度
         final double GRID_SIZE_LON = GRID_SIZE_LAT / Math.cos(Math.toRadians(latitude)); // 経度方向に相当する度数
 
@@ -85,8 +85,8 @@ public class CalcGeo {
         // double resultDistance = haversineDistance(tduLat, tduLon, homeLat, homeLon);
         // System.out.printf("距離は %.2f メートルです%n", resultDistance);
 
-        double[] flooredTduPosition = floorPosition(tduLat, tduLon);
-        double[] flooredTdu2Position = floorPosition(tdu2Lat, tdu2Lon);
+        double[] flooredTduPosition = floorPosition(tduLat, tduLon, 10);
+        double[] flooredTdu2Position = floorPosition(tdu2Lat, tdu2Lon, 10);
         System.out.println(flooredTduPosition[0] + ", " + flooredTduPosition[1]);
         System.out.println(flooredTdu2Position[0] + ", " + flooredTdu2Position[1]);
     }
