@@ -152,22 +152,32 @@ paths:
             description: ユーザーIDが認証できない場合
           500:
             description: SQLエラー等の全般的なエラーの発生
-  /api/points/{latitude}/{longitude}/{mapSize}:
+  /api/points/{centerLatitude}/{centerLongitude}/{mapSize}/{userLatitude}/{userLongitude}:
     get:
       summary: 座標から一定距離内のポイントリスト取得
       parameters: # リクエストパラメータ
         - in: path
-          name: latitude
+          name: centerLatitude
           required: true
           schema:
             type: number
         - in: path
-          name: longitude
+          name: centerLongitude
           required: true
           schema:
             type: number
         - in: path
           name: mapSize
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: userLatitude
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: userLongitude
           required: true
           schema:
             type: number
