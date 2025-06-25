@@ -117,7 +117,7 @@ function Root() {
         // TODO 完成時には消す
         return;
         try {
-            const response = await fetch(`${API_ORIGIN}/api/points/${centerPosition.lat}/${centerPosition.lng}/${zoom}`, {
+            const response = await fetch(`${API_ORIGIN}/api/points/${centerPosition.lat}/${centerPosition.lng}/${zoom}/${userPosition.lat}/${userPosition.lng}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

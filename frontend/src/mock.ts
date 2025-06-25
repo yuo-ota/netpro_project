@@ -36,7 +36,6 @@ export const GetPointsApiResponseReturnFive = () => {
     return [
         {
             "pointCount": 0,
-            "goodCount": 1,
             "symbolPoint": {
                 "pointId": "p1",
                 "latitude": 35.0,
@@ -46,7 +45,6 @@ export const GetPointsApiResponseReturnFive = () => {
         },
         {
             "pointCount": 2,
-            "goodCount": 3,
             "symbolPoint": {
                 "pointId": "p2",
                 "latitude": 36.5,
@@ -56,7 +54,6 @@ export const GetPointsApiResponseReturnFive = () => {
         },
         {
             "pointCount": 4,
-            "goodCount": 0,
             "symbolPoint": {
                 "pointId": "p3",
                 "latitude": 34.2,
@@ -66,7 +63,6 @@ export const GetPointsApiResponseReturnFive = () => {
         },
         {
             "pointCount": 1,
-            "goodCount": 2,
             "symbolPoint": {
                 "pointId": "p4",
                 "latitude": 37.0,
@@ -76,7 +72,6 @@ export const GetPointsApiResponseReturnFive = () => {
         },
         {
             "pointCount": 3,
-            "goodCount": 5,
             "symbolPoint": {
                 "pointId": "p5",
                 "latitude": 33.0,
