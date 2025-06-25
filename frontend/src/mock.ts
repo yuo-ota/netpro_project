@@ -35,41 +35,56 @@ export const GetPointsApiResponseReturnOne = () => {
 export const GetPointsApiResponseReturnFive = () => {
     return [
         {
-            pointId: "R1eOSUZ8gRA8kH8g7BwX_",
-            latitude: 35.393117,
-            longitude: 139.564062,
-            count: 200000000,
-            existInner: true
+            "pointCount": 0,
+            "goodCount": 1,
+            "symbolPoint": {
+                "pointId": "p1",
+                "latitude": 35.0,
+                "longitude": 139.0,
+                "isUserInThisArea": true
+            }
         },
         {
-            pointId: "3wiR2UhcjegGc5zFymykV",
-            latitude: 35.390598,
-            longitude: 139.560371,
-            count: 20000,
-            existInner: true
+            "pointCount": 2,
+            "goodCount": 3,
+            "symbolPoint": {
+                "pointId": "p2",
+                "latitude": 36.5,
+                "longitude": 140.0,
+                "isUserInThisArea": false
+            }
         },
         {
-            pointId: "LFV6GKrs6MspmnlQRLt3h",
-            latitude: 35.392697,
-            longitude: 139.549041,
-            count: 0,
-            existInner: false
+            "pointCount": 4,
+            "goodCount": 0,
+            "symbolPoint": {
+                "pointId": "p3",
+                "latitude": 34.2,
+                "longitude": 135.5,
+                "isUserInThisArea": true
+            }
         },
         {
-            pointId: "4PG8K147Ig5xph_f6d-9K",
-            latitude: 35.397665,
-            longitude: 139.553333,
-            count: 8,
-            existInner: false
+            "pointCount": 1,
+            "goodCount": 2,
+            "symbolPoint": {
+                "pointId": "p4",
+                "latitude": 37.0,
+                "longitude": 138.0,
+                "isUserInThisArea": false
+            }
         },
         {
-            pointId: "IOkX6npqf243IU92YEu5v",
-            latitude: 35.399624,
-            longitude: 139.560028,
-            count: 8000000,
-            existInner: true
-        },
-    ];
+            "pointCount": 3,
+            "goodCount": 5,
+            "symbolPoint": {
+                "pointId": "p5",
+                "latitude": 33.0,
+                "longitude": 131.0,
+                "isUserInThisArea": true
+            }
+        }
+        ];
 };
 
 export const GetPostsApiResponseReturnZero = () => {

@@ -14,12 +14,12 @@ import { GetPointsApiResponseReturnFive, GetPostsApiResponseReturnFive } from '.
 import ErrorDialog from './ErrorDialog';
 import type { Point } from './types/Point';
 import type { Post } from './types/Post';
-import type { PostManage } from './types/PostManage';
+import type { PointManage } from './types/PostManage';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Root() {
     const navigate = useNavigate();
-    const [points, setPoints] = useState<Point[]>([]);
+    const [points, setPoints] = useState<PointManage[]>([]);
     const [posts, setPosts] = useState<Post[]>([])
     const { lat, lng } = useGps();
     const [centerPosition, setCenterPosition] = useState<LatLng>(new LatLng(0, 0));
@@ -115,7 +115,7 @@ function Root() {
 
     const getViewRangePointList = async ()=> {
         // TODO 完成時には消す
-        // return;
+        return;
         try {
             const response = await fetch(`${API_ORIGIN}/api/points/${centerPosition.lat}/${centerPosition.lng}/${zoom}`, {
                 method: 'GET',
@@ -126,7 +126,7 @@ function Root() {
 
             // ステータスコードで判定
             if (response.status === 200) {
-                const data: PostManage = await response.json();
+                const data: PointManage = await response.json();
             } else if (response.status === 404) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('想定外のエラーが発生しました。');
@@ -171,8 +171,8 @@ function Root() {
                     <Marker
                         position={[userPosition.lat, userPosition.lng]}
                     />
-                    {points.map((point) => (
-                        <PointMarker key={point.pointId} point={point} onClickPoint={onClickPoint} />
+                    {points.map((pointManage) => (
+                        <PointMarker key={pointManage.symbolPoint.pointId} pointManage={pointManage} onClickPoint={onClickPoint} />
                     ))}
                 </MapContainer>
             </div>
