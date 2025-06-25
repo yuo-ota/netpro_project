@@ -3,8 +3,7 @@ import { isPoint } from "./Point"; // isPoint関数をインポート
 
 export type PointManage = {
     pointCount: number;
-    goodCount: number;
-    symbolPoint: Point
+    symbolPoint: Point;
 };
 
 
@@ -15,7 +14,6 @@ export const isPostManage = (obj: unknown): obj is PointManage => {
 
     return (
         typeof pm.pointCount === 'number' &&
-        typeof pm.goodCount === 'number' &&
         isPoint(pm.symbolPoint)
     );
 };

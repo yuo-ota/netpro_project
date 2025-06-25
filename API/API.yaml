@@ -183,8 +183,6 @@ paths:
                   properties:
                     pointCount:
                       type: number
-                    goodCount:
-                      type: number
                     symbolPoint:
                       type: object
                       properties:
