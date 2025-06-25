@@ -46,7 +46,8 @@ public class PointService {
         return new PointDto(pointData.getPointId(), latitude, longitude);
     }
 
-    public List<PointManageDto> getPointsByNearPosition(double latitude, double longitude, int mapSize) {
+    public List<PointManageDto> getPointsByNearPosition(double centerLatitude, double centerLongitude, int mapSize,
+            double userLatitude, double userLongitude) {
         /** @author つな */
         /*
          * 地図のサイズによってどのくらいの範囲でpointを探せばいいのか変わるよねっていうのがこの関数の発想で
@@ -63,13 +64,23 @@ public class PointService {
          */
         final int SPLIT_COUNT = 20;
         int mapEdgeMetors = CalcGeo.getMapEdgeMetors(mapSize);
-        LatLngRange boundBox = CalcGeo.getBoundingBox(latitude, longitude, mapEdgeMetors);
+        LatLngRange boundBox = CalcGeo.getBoundingBox(centerLatitude, centerLongitude, mapEdgeMetors);
         List<Point> pointsData = pointRepository.findByNearPosition(boundBox);
         if (pointsData == null) {
             return null;
         }
-        Map<String, PointManageDto> roundPoints = new HashMap<String, PointManageDto>();
+        // PointからPointDto変換
+        List<PointDto> pointDtos = new ArrayList<>();
         for (Point p : pointsData) {
+            PointDto pointDto = new PointDto(p.getPointId(), p.getLatitude(), p.getLongitude());
+            boolean isUserInThisArea = CalcGeo.haversineDistance(pointDto.getLatitude(), pointDto.getLongitude(),
+                    userLatitude, userLongitude) < 15;
+            pointDto.setIsUserInThisArea(isUserInThisArea);
+            pointDtos.add(pointDto);
+        }
+
+        Map<String, PointManageDto> roundPoints = new HashMap<String, PointManageDto>();
+        for (PointDto p : pointDtos) {
             // floorPositionでまるめた緯度経度を作る
             double[] flooredPosition = CalcGeo.floorPosition(p.getLatitude(),
                     p.getLongitude(), mapEdgeMetors / SPLIT_COUNT);
@@ -78,9 +89,7 @@ public class PointService {
             if (roundPoints.containsKey(key)) { // keyがMap入っていればインクリメント
                 roundPoints.get(key).incrementCount();
             } else { // 入っていなければ新しくPointManagedDtoを作る
-                roundPoints.put(key,
-                        new PointManageDto(
-                                new PointDto(p.getPointId(), flooredPosition[0], flooredPosition[1])));
+                roundPoints.put(key, new PointManageDto(p));
             }
         }
         // value部分（PointManageDto）のListをreturn
