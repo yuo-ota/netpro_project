@@ -80,16 +80,18 @@ public class PointService {
         }
         Map<String, PointManageDto> roundPoints = new HashMap();
         for (int i = 0; i < pointsData.size(); i++){
+            // floorPositionでまるめた緯度経度を作る
             double[] flooredPosition = CalcGeo.floorPosition(pointsData.get(i).getLatitude(), pointsData.get(i).getLongitude(), mapEdgeMetors / 20);
+            // double[]のため、containsKey(flooredPosition) は常にfalseとなる可能性が高い、らしい…
+            // そのためMapのkeyとしてString型のkeyを生成
             String key = flooredPosition[0] + "_" + flooredPosition[1];
-            if (roundPoints.containsKey(key)){
+            if (roundPoints.containsKey(key)){ //keyがMap入っていればインクリメント
                 roundPoints.get(key).incrementCount();
-                // double[]のため、containsKey(flooredPosition) は常にfalseとなる可能性が高い、らしい…
-            } else {
+            } else { // 入っていなければ新しくPointManagedDtoを作る
                 roundPoints.put(key, new PointManageDto(new PointDto(null/*ここどうする？ */, flooredPosition[0], flooredPosition[1])));            }
         }
-        List<PointManageDto> pointManageData = new ArrayList<>(roundPoints.values());
-        return pointManageData;
+        // value部分（PointManageDto）のListをreturn
+        return new ArrayList<>(roundPoints.values());
     }
 
     public PointDto createPoint(double latitude, double longitude) {
