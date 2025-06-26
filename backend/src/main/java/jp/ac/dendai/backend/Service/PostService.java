@@ -87,7 +87,6 @@ public class PostService {
         // | PostRepositoryのsaveを呼び出す
         // ----------------------------------------------------------------
         // それ以外は戻り値のPostを基にPostDtoを作り、return
-        try {
             AuthDto authData = checkUser(userId);
             if (!authData.getIsAuthed()) {
                 throw new AuthenticationFailedException("ユーザー認証に失敗しました");
@@ -108,9 +107,6 @@ public class PostService {
             postRepository.save(postData);
             // goodCountとisGoodは初期値となる0とfalseで作りました。
             return new PostDto(postData.getPostId(), postData.getPostedTime(), postData.getContent(), 0, false);
-        } catch (Exception e) {
-            throw new RuntimeException("Postの保存処理でエラーが発生しました", e);
-        }
     }
 
     public void deletePost(String postId, String userId) throws Exception {
