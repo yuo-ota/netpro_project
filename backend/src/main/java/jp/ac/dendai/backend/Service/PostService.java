@@ -26,23 +26,27 @@ public class PostService {
     }
 
     public PointDto checkPoint(double latitude, double longitude) {
-        // TODO
         // pointServiceのgetPointByAtPositionを呼び出す
         // それ以外は戻り値のPointをreturn
         PointDto pointData = pointService.getPointByAtPosition(latitude, longitude);
         return pointData;
     }
 
-    public AuthDto checkUser(String userId) throws Exception {
-        // TODO
+    public AuthDto checkUser(String userId) {
         // authServiceのgetAuthByUserIdを呼び出す
         // それ以外は戻り値のAuthDtoをreturn
-        AuthDto authData = authService.getAuthByUserId(userId);
-        return authData;
+        try {
+            AuthDto authData = authService.getAuthByUserId(userId);
+            if (!authData.getIsAuthed()) {
+                throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+            }
+            return authData;
+        } catch (Exception e) {
+            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+        }
     }
 
     public PostDto getPostByPostId(String userId, String postId) {
-        // TODO
         // postRepositoryのfindByPostIdを呼び出す
         // 戻り値のPostDtoをreturn
         PostDto postData = postRepository.findByPostId(userId, postId);
@@ -50,27 +54,21 @@ public class PostService {
     }
 
     public List<PostDto> getPostByPointId(String userId, String pointId, boolean sortByTime) {
-        // TODO
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // postRepositoryのfindByPointIdOrderByCreatedTimeかfindByPointIdOrderByGoodCountを呼び出す
         // 戻り値のList<PostDto>をreturn
-        try {
-            checkUser(userId);
+        checkUser(userId);
 
-            if (sortByTime) { // SortByTimeが何のbooleanかわからない
-                List<PostDto> postCreatedTimeData = postRepository.findByPointIdOrderByCreatedTime(userId, pointId);
-                return postCreatedTimeData;
-            } else {
-                List<PostDto> postGoodCountData = postRepository.findByPointIdOrderByGoodCount(userId, pointId);
-                return postGoodCountData;
-            }
-        } catch (Exception e) {
-            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+        if (sortByTime) { // SortByTimeが何のbooleanかわからない
+            List<PostDto> postCreatedTimeData = postRepository.findByPointIdOrderByCreatedTime(userId, pointId);
+            return postCreatedTimeData;
+        } else {
+            List<PostDto> postGoodCountData = postRepository.findByPointIdOrderByGoodCount(userId, pointId);
+            return postGoodCountData;
         }
     }
 
     public List<PostDto> getPostByUserId(String userId) {
-        // TODO
         // postRepositoryのfindByUserIdを呼び出す
         // 戻り値のList<PostDto>をreturn
         List<PostDto> postData = postRepository.findByUserId(userId);
@@ -79,45 +77,32 @@ public class PostService {
 
     @Transactional
     public PostDto createPost(
-            String userId, double latitude, double longitude, String content) throws Exception {
-        // TODO
+        String userId, double latitude, double longitude, String content) {
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // ------------ここで例外が起きたらSQLをロールバックする--------------
         // | checkPointを呼び出し、Pointが存在しない場合にはPointServiceのsaveを呼び出す
         // | PostRepositoryのsaveを呼び出す
         // ----------------------------------------------------------------
         // それ以外は戻り値のPostを基にPostDtoを作り、return
-            AuthDto authData = checkUser(userId);
-            if (!authData.getIsAuthed()) {
-                throw new AuthenticationFailedException("ユーザー認証に失敗しました");
-            }
+        checkUser(userId);
 
-            PointDto pointData = checkPoint(latitude, longitude);
-            if (pointData == null) { // saveじゃなくてcreatePointでいいですか？
-                pointData = pointService.createPoint(latitude, longitude);
-            }
-            String postId = NanoIdGenerator.generate();
-            Post postData = new Post();
-            // postTimeをデータベースに入れたときにデータベースが記憶してくれると解釈したのですが、
-            // postTime以外だけで作るコンストラクタがなかったので一つずつ詰めました
-            postData.setPostId(postId);
-            postData.setPointId(pointData.getPointed());
-            postData.setUserId(userId);
-            postData.setContent(content);
-            postRepository.save(postData);
-            // goodCountとisGoodは初期値となる0とfalseで作りました。
-            return new PostDto(postData.getPostId(), postData.getPostedTime(), postData.getContent(), 0, false);
+        PointDto pointData = checkPoint(latitude, longitude);
+        if (pointData == null) { // saveじゃなくてcreatePointでいいですか？
+            pointData = pointService.createPoint(latitude, longitude);
+        }
+        String postId = NanoIdGenerator.generate();
+        Post postData = new Post(postId, pointData.getPointed(), userId, content);
+        postRepository.save(postData);
+        return new PostDto(postData.getPostId(), postData.getPostedTime(),
+                postData.getContent(), 0, false);
     }
 
-    public void deletePost(String postId, String userId) throws Exception {
-        // TODO
+    public void deletePost(String postId, String userId) {
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // PostRepositoryのdeleteを呼び出す
         // それ以外はvoidをreturn
-        AuthDto authData = checkUser(userId);
-        if (!authData.getIsAuthed()) {
-            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
-        }
+        checkUser(userId);
+
         postRepository.delete(postId);
     }
 }
