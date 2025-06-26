@@ -7,7 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.ac.dendai.backend.Dto.AuthDto;
 import jp.ac.dendai.backend.Dto.PointDto;
 import jp.ac.dendai.backend.Dto.PostDto;
+import jp.ac.dendai.backend.Entity.Post;
 import jp.ac.dendai.backend.Repository.PostRepository;
+import jp.ac.dendai.backend.util.AuthenticationFailedException;
+import jp.ac.dendai.backend.util.NanoIdGenerator;
 
 @Service
 public class PostService {
@@ -26,21 +29,24 @@ public class PostService {
         // TODO
         // pointServiceのgetPointByAtPositionを呼び出す
         // それ以外は戻り値のPointをreturn
-        return null;
+        PointDto pointData = pointService.getPointByAtPosition(latitude, longitude);
+        return pointData;
     }
 
-    public AuthDto checkUser(String userId) {
+    public AuthDto checkUser(String userId) throws Exception {
         // TODO
         // authServiceのgetAuthByUserIdを呼び出す
         // それ以外は戻り値のAuthDtoをreturn
-        return null;
+        AuthDto authData = authService.getAuthByUserId(userId);
+        return authData;
     }
 
     public PostDto getPostByPostId(String userId, String postId) {
         // TODO
         // postRepositoryのfindByPostIdを呼び出す
         // 戻り値のPostDtoをreturn
-        return null;
+        PostDto postData = postRepository.findByPostId(userId, postId);
+        return postData;
     }
 
     public List<PostDto> getPostByPointId(String userId, String pointId, boolean sortByTime) {
@@ -48,19 +54,32 @@ public class PostService {
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // postRepositoryのfindByPointIdOrderByCreatedTimeかfindByPointIdOrderByGoodCountを呼び出す
         // 戻り値のList<PostDto>をreturn
-        return null;
+        try {
+            checkUser(userId);
+
+            if (sortByTime) { // SortByTimeが何のbooleanかわからない
+                List<PostDto> postCreatedTimeData = postRepository.findByPointIdOrderByCreatedTime(userId, pointId);
+                return postCreatedTimeData;
+            } else {
+                List<PostDto> postGoodCountData = postRepository.findByPointIdOrderByGoodCount(userId, pointId);
+                return postGoodCountData;
+            }
+        } catch (Exception e) {
+            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+        }
     }
 
     public List<PostDto> getPostByUserId(String userId) {
         // TODO
         // postRepositoryのfindByUserIdを呼び出す
         // 戻り値のList<PostDto>をreturn
-        return null;
+        List<PostDto> postData = postRepository.findByUserId(userId);
+        return postData;
     }
 
     @Transactional
     public PostDto createPost(
-            String userId, double latitude, double longitude, String content) {
+            String userId, double latitude, double longitude, String content) throws Exception {
         // TODO
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // ------------ここで例外が起きたらSQLをロールバックする--------------
@@ -68,14 +87,41 @@ public class PostService {
         // | PostRepositoryのsaveを呼び出す
         // ----------------------------------------------------------------
         // それ以外は戻り値のPostを基にPostDtoを作り、return
-        return null;
+        try {
+            AuthDto authData = checkUser(userId);
+            if (!authData.getIsAuthed()) {
+                throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+            }
+
+            PointDto pointData = checkPoint(latitude, longitude);
+            if (pointData == null) { // saveじゃなくてcreatePointでいいですか？
+                pointData = pointService.createPoint(latitude, longitude);
+            }
+            String postId = NanoIdGenerator.generate();
+            Post postData = new Post();
+            // postTimeをデータベースに入れたときにデータベースが記憶してくれると解釈したのですが、
+            // postTime以外だけで作るコンストラクタがなかったので一つずつ詰めました
+            postData.setPostId(postId);
+            postData.setPointId(pointData.getPointed());
+            postData.setUserId(userId);
+            postData.setContent(content);
+            postRepository.save(postData);
+            // goodCountとisGoodは初期値となる0とfalseで作りました。
+            return new PostDto(postData.getPostId(), postData.getPostedTime(), postData.getContent(), 0, false);
+        } catch (Exception e) {
+            throw new RuntimeException("Postの保存処理でエラーが発生しました", e);
+        }
     }
 
-    public void deletePost(String postId, String userId) {
+    public void deletePost(String postId, String userId) throws Exception {
         // TODO
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // PostRepositoryのdeleteを呼び出す
         // それ以外はvoidをreturn
-        return;
+        AuthDto authData = checkUser(userId);
+        if (!authData.getIsAuthed()) {
+            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+        }
+        postRepository.delete(postId);
     }
 }
