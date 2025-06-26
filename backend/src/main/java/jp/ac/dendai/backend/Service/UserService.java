@@ -16,7 +16,6 @@ public class UserService {
     }
 
     public UserDto getUserByUserId(String userId) {
-        // TODO
         // userRepositoryのfindByUserIdを呼び出す
         // もし戻り値のUserがnullの場合はnullをreturn
         // それ以外は戻り値のUserを基にUserDtoを作りreturn
@@ -28,11 +27,11 @@ public class UserService {
     }
 
     public UserDto createUser() {
-        // TODO
         // userRepositoryのsaveを呼び出す
         // それ以外は渡したUser基にUserDtoを作りreturn
         String userId = NanoIdGenerator.generate();
-        userRepository.save(new User(userId));
-        return new UserDto(userId);
+        User user = new User(userId);
+        userRepository.save(user);
+        return new UserDto(user.getUserId());
     }
 }
