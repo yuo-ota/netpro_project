@@ -161,7 +161,11 @@ function Root() {
                         <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
                     </svg>
                 </Button>
-                <BottomSheet posts={posts} setIsSortByTime={setIsSortByTime} />
+                <BottomSheet posts={posts} setIsSortByTime={setIsSortByTime}
+                    setIsOpenErrorDialog={setIsOpenErrorDialog}
+                    setErrorTitle={setErrorTitle}
+                    setErrorDetail={setErrorDetail}
+                />
                 <MapContainer center={userPosition} zoom={zoom} style={{ height: '100dvh', width: '100vw' }} className="z-0">
                     <ZoomWatcher setZoom={setZoom} setCenterPosition={setCenterPosition}/>
                     <TileLayer
