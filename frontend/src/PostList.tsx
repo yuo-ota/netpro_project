@@ -3,17 +3,19 @@ import { useEffect, useState } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { GetPostsApiResponseReturnFive } from './mock';
 import type { Post } from './types/Post';
+import { isGood, type Good } from './types/Good';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 type PostListProps = {
     posts: Post[];
     setIsSortByTime: (isSortByTime: boolean) => void;
+    setPosts: (posts: Post[]) => void;
     setIsOpenErrorDialog: (isOpenErrorDialog: boolean) => void;
     setErrorTitle: (errorTitle: string) => void;
     setErrorDetail: (errorDetail: string[]) => void;
 }
 
-const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setIsOpenErrorDialog, setErrorTitle, setErrorDetail }) => {
+const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setPosts, setIsOpenErrorDialog, setErrorTitle, setErrorDetail }) => {
     const tabsChanged = (value: string): void => {
         console.log(value);
         if (value === "likes") {
@@ -50,6 +52,20 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setIsOpenEr
             // ステータスコードで判定
             if (response.status === 201) {
                 const data = await response.json();
+                if(!isGood(data)){
+                    throw new Error();
+                }
+
+                const responsedGoodObj = data as Good;
+
+                const updatePosts = posts.map((post) =>
+                    post.postId === responsedGoodObj.postId
+                        ?{ ...post, isGood: true, goodCount: post.goodCount + 1}
+                        : post
+                );
+
+                setPosts(updatePosts);
+
             } else if (response.status === 401) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('認証エラーが発生しました。');
@@ -95,6 +111,19 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setIsOpenEr
             // ステータスコードで判定
             if (response.status === 204) {
                 const data = await response.json();
+                if(!isGood(data)){
+                    throw new Error();
+                }
+
+                const responsedGoodObj = data as Good;
+
+                const updatePosts = posts.map((post) =>
+                    post.postId === responsedGoodObj.postId
+                        ?{ ...post, isGood: false, goodCount: post.goodCount - 1}
+                        : post
+                );
+
+                setPosts(updatePosts);
             } else if (response.status === 401) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('認証エラーが発生しました。');

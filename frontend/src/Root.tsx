@@ -162,6 +162,7 @@ function Root() {
                     </svg>
                 </Button>
                 <BottomSheet posts={posts} setIsSortByTime={setIsSortByTime}
+                    setPosts={setPosts}
                     setIsOpenErrorDialog={setIsOpenErrorDialog}
                     setErrorTitle={setErrorTitle}
                     setErrorDetail={setErrorDetail}
