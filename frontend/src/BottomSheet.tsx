@@ -9,12 +9,14 @@ type BottomSheetProps = {
     posts: Post[];
     setIsSortByTime: (isSortByTime: boolean) => void;
     setPosts: (posts: Post[]) => void;
+    getViewRangePointList: () => void;
     setIsOpenErrorDialog: (isOpenErrorDialog: boolean) => void;
     setErrorTitle: (errorTitle: string) => void;
     setErrorDetail: (errorDetail: string[]) => void;
 }
 
-const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPosts, setIsOpenErrorDialog, setErrorTitle, setErrorDetail }) => {
+const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPosts, 
+    getViewRangePointList, setIsOpenErrorDialog, setErrorTitle, setErrorDetail }) => {
     const MAX_HEIGHT:number = window.innerHeight * 0.65;    // 画面全体のうちどの程度をMAXとするか
     const snapOffset = window.innerHeight * 0.05;     // どの程度近づくことでスナップするか
     const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -92,6 +94,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPo
                 >
                     <PostList posts={posts} setIsSortByTime={setIsSortByTime}
                         setPosts={setPosts}
+                        getViewRangePointList={getViewRangePointList}
                         setIsOpenErrorDialog={setIsOpenErrorDialog}
                         setErrorTitle={setErrorTitle}
                         setErrorDetail={setErrorDetail}

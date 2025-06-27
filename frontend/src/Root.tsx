@@ -163,6 +163,7 @@ function Root() {
                 </Button>
                 <BottomSheet posts={posts} setIsSortByTime={setIsSortByTime}
                     setPosts={setPosts}
+                    getViewRangePointList={getViewRangePointList}
                     setIsOpenErrorDialog={setIsOpenErrorDialog}
                     setErrorTitle={setErrorTitle}
                     setErrorDetail={setErrorDetail}

@@ -2,7 +2,7 @@ import { Box, Tabs, Text, VStack, Button, Menu, Portal} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { GetPostsApiResponseReturnFive } from './mock';
-import type { Post } from './types/Post';
+import { isPost, type Post } from './types/Post';
 import { isGood, type Good } from './types/Good';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
@@ -10,12 +10,14 @@ type PostListProps = {
     posts: Post[];
     setIsSortByTime: (isSortByTime: boolean) => void;
     setPosts: (posts: Post[]) => void;
+    getViewRangePointList: () => void;
     setIsOpenErrorDialog: (isOpenErrorDialog: boolean) => void;
     setErrorTitle: (errorTitle: string) => void;
     setErrorDetail: (errorDetail: string[]) => void;
 }
 
-const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setPosts, setIsOpenErrorDialog, setErrorTitle, setErrorDetail }) => {
+const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setPosts,
+    getViewRangePointList, setIsOpenErrorDialog, setErrorTitle, setErrorDetail }) => {
     const tabsChanged = (value: string): void => {
         console.log(value);
         if (value === "likes") {
@@ -144,6 +146,57 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setPosts, s
         }
     }
 
+    const deletePost = async(postId: string) => {
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+            setIsOpenErrorDialog(true);
+            setErrorTitle('認証エラーが発生しました。');
+            setErrorDetail([`ユーザーIDが不正な疑いがあります。`, `ページを更新してください。`]);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_ORIGIN}/api/posts`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                    postId: postId
+                }),
+            });
+
+            // ステータスコードで判定
+            if (response.status === 204) {
+
+                const updatePosts = posts.filter((post) => post.postId !== postId);
+                if(updatePosts.length === 0){
+                    getViewRangePointList();
+                }
+
+                setPosts(updatePosts);
+            } else if (response.status === 401) {
+                setIsOpenErrorDialog(true);
+                setErrorTitle('認証エラーが発生しました。');
+                setErrorDetail([`ユーザーIDが不正な疑いがあります。`, `ページを更新してください。`]);
+            } else if (response.status === 500) {
+                setIsOpenErrorDialog(true);
+                setErrorTitle('サーバーエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
+            } else {
+                setIsOpenErrorDialog(true);
+                setErrorTitle('想定外のエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
+            }
+        } catch (error) {
+            setIsOpenErrorDialog(true);
+            setErrorTitle('想定外のエラーが発生しました。');
+            setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
+        }
+    }
+
     return (
     <>
         <Tabs.Root
@@ -172,6 +225,7 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setPosts, s
                         justify-center
                         items-center
                         bg-white'
+                    onClick={() => setIsSortByTime(false)}
                 >
                     いいね順
                 </Tabs.Trigger>
@@ -187,6 +241,7 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setPosts, s
                         justify-center
                         items-center
                         bg-white'
+                    onClick={() => setIsSortByTime(true)}
                 >
                     投稿順
                 </Tabs.Trigger>
@@ -306,6 +361,7 @@ const PostList: React.FC<PostListProps> = ({ posts, setIsSortByTime, setPosts, s
                                             value="delete"
                                             color="fg.error"
                                             _hover={{ bg: "bg.error", color: "fg.error" }}
+                                            onClick={() => deletePost(post.postId)}
                                             >
                                             削除する
                                             </Menu.Item>
