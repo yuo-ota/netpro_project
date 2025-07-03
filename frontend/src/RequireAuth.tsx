@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { JSX } from "react";
-import './App.css'
+import './App.css';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
                     registerUser();
                     return;
                 }
-                if(response.status === 404) {
+                if(response.status === 401) {
                     navigate("/unauthorized");
                     return;
                 }
@@ -54,7 +54,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
     const registerUser = async () => {
         // 認証チェックのためのAPI呼び出し
         try {
-            const response = await fetch(`/api/auth/`, {
+            const response = await fetch(`/api/user/`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -62,8 +62,12 @@ function RequireAuth({ children }: { children: JSX.Element }) {
             });
 
             if (response.status === 201) {
-                // ここでユーザーIDを保存
+                // TODO ここでユーザーIDを保存
                 setChecking(false);
+                return;
+            }
+            if (response.status === 401) {
+                navigate("/unauthorized");
                 return;
             }
             if (response.status === 500) {

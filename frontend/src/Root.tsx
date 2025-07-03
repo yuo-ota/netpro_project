@@ -14,11 +14,12 @@ import { GetPointsApiResponseReturnFive, GetPostsApiResponseReturnFive } from '.
 import ErrorDialog from './ErrorDialog';
 import type { Point } from './types/Point';
 import type { Post } from './types/Post';
+import type { PointManage } from './types/PostManage';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Root() {
     const navigate = useNavigate();
-    const [points, setPoints] = useState<Point[]>([]);
+    const [points, setPoints] = useState<PointManage[]>([]);
     const [posts, setPosts] = useState<Post[]>([])
     const { lat, lng } = useGps();
     const [centerPosition, setCenterPosition] = useState<LatLng>(new LatLng(0, 0));
@@ -54,8 +55,17 @@ function Root() {
     };
 
     const getPosts = async(pointId: string)=> {
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+            setIsOpenErrorDialog(true);
+            setErrorTitle('認証エラーが発生しました。');
+            setErrorDetail([`ユーザーIDが不正な疑いがあります。`, `ページを更新してください。`]);
+            return;
+        }
+
         try {
-            const response = await fetch(`${API_ORIGIN}/api/posts/${pointId}?sortByTime=${isSortByTime}`, {
+            const response = await fetch(`${API_ORIGIN}/api/posts/${userId}/${pointId}?sortByTime=${isSortByTime}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -66,6 +76,14 @@ function Root() {
             if (response.status === 200) {
                 const data: Post[] = await response.json();
                 setPosts(data);
+            } else if (response.status === 401) {
+                setIsOpenErrorDialog(true);
+                setErrorTitle('認証エラーが発生しました。');
+                setErrorDetail([`ユーザーIDが不正な疑いがあります。`, `ページを更新してください。`]);
+            } else if (response.status === 404) {
+                setIsOpenErrorDialog(true);
+                setErrorTitle('想定外のエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('サーバーエラーが発生しました。');
@@ -99,7 +117,7 @@ function Root() {
         // TODO 完成時には消す
         return;
         try {
-            const response = await fetch(`${API_ORIGIN}/api/points/${centerPosition.lat}/${centerPosition.lng}/${zoom}`, {
+            const response = await fetch(`${API_ORIGIN}/api/points/${centerPosition.lat}/${centerPosition.lng}/${zoom}/${userPosition.lat}/${userPosition.lng}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -108,7 +126,11 @@ function Root() {
 
             // ステータスコードで判定
             if (response.status === 200) {
-                const data = await response.json();
+                const data: PointManage = await response.json();
+            } else if (response.status === 404) {
+                setIsOpenErrorDialog(true);
+                setErrorTitle('想定外のエラーが発生しました。');
+                setErrorDetail([`時間を開けて再度お試しください。`, `エラーが解消しない場合にはサポートに連絡してください。`]);
             } else if (response.status === 500) {
                 setIsOpenErrorDialog(true);
                 setErrorTitle('サーバーエラーが発生しました。');
@@ -139,7 +161,13 @@ function Root() {
                         <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
                     </svg>
                 </Button>
-                <BottomSheet posts={posts} setIsSortByTime={setIsSortByTime} />
+                <BottomSheet posts={posts} setIsSortByTime={setIsSortByTime}
+                    setPosts={setPosts}
+                    getViewRangePointList={getViewRangePointList}
+                    setIsOpenErrorDialog={setIsOpenErrorDialog}
+                    setErrorTitle={setErrorTitle}
+                    setErrorDetail={setErrorDetail}
+                />
                 <MapContainer center={userPosition} zoom={zoom} style={{ height: '100dvh', width: '100vw' }} className="z-0">
                     <ZoomWatcher setZoom={setZoom} setCenterPosition={setCenterPosition}/>
                     <TileLayer
@@ -149,8 +177,8 @@ function Root() {
                     <Marker
                         position={[userPosition.lat, userPosition.lng]}
                     />
-                    {points.map((point) => (
-                        <PointMarker key={point.pointId} point={point} onClickPoint={onClickPoint} />
+                    {points.map((pointManage) => (
+                        <PointMarker key={pointManage.symbolPoint.pointId} pointManage={pointManage} onClickPoint={onClickPoint} />
                     ))}
                 </MapContainer>
             </div>
