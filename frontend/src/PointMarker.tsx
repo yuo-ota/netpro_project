@@ -1,29 +1,25 @@
 import { useMemo } from "react";
 import { Marker } from "react-leaflet";
 import CustomDivIcon from "./CustomDivIcon";
+import type { PointManage } from "./types/PostManage";
 
 type PointMarkerProps = {
-    point: Point;
+    pointManage: PointManage;
     onClickPoint: (pointId: string, existInner: boolean) => void;
 }
 
-type Point = {
-    pointId: string;
-    latitude: number;
-    longitude: number;
-    count: number;
-    existInner: boolean;
-};
-
-const PointMarker: React.FC< PointMarkerProps > = ({ point, onClickPoint }) => {
-    const icon = useMemo(() => CustomDivIcon(point.count, point.existInner), [point.count, point.existInner]);
+const PointMarker: React.FC< PointMarkerProps > = ({ pointManage, onClickPoint }) => {
+    const icon = useMemo(() => 
+        CustomDivIcon(pointManage.pointCount, pointManage.symbolPoint.isUserInThisArea),
+            [pointManage.pointCount, pointManage.symbolPoint.isUserInThisArea]);
 
     return (
         <Marker
-        position={[point.latitude, point.longitude]}
+        position={[pointManage.symbolPoint.latitude, pointManage.symbolPoint.longitude]}
         icon={icon}
         eventHandlers={{
-            click: () => onClickPoint(point.pointId, point.existInner),
+            click: () => onClickPoint(pointManage.symbolPoint.pointId,
+                pointManage.symbolPoint.isUserInThisArea),
         }}
         />
     );
