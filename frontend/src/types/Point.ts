@@ -1,8 +1,9 @@
 export type Point = {
+    isUserInThisArea: boolean;
     pointId: string;
     latitude: number;
     longitude: number;
-    isUserInThisArea: boolean;
+    postCount: number;
 };
 
 export const isPoint = (obj: unknown): obj is Point => {
@@ -14,6 +15,7 @@ export const isPoint = (obj: unknown): obj is Point => {
         typeof point.pointId === 'string' &&
         typeof point.latitude === 'number' &&
         typeof point.longitude === 'number' &&
-        typeof point.isUserInThisArea === 'boolean'
+        typeof point.isUserInThisArea === 'boolean' &&
+        typeof point.postCount === 'number'
     );
 };

@@ -61,7 +61,7 @@ public class CalcGeo {
         // 丸め緯度, 経度
         double flooredLat = Math.floor(latitude / GRID_SIZE_LAT) * GRID_SIZE_LAT;
         double flooredLon = Math.floor(longitude / GRID_SIZE_LON) * GRID_SIZE_LON;
-
+        
         return new double[] { flooredLat, flooredLon };
     }
 

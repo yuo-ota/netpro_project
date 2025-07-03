@@ -4,6 +4,7 @@ public class Point {
     private String pointId;
     private double latitude;
     private double longitude;
+    private int postCount;
 
     public Point() {
 
@@ -37,5 +38,11 @@ public class Point {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+    public int getPostCount() {
+        return postCount;
+    }
+    public void setPostCount(int postCount) {
+        this.postCount = postCount;
     }
 }

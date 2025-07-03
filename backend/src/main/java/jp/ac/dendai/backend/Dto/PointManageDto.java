@@ -2,22 +2,28 @@ package jp.ac.dendai.backend.Dto;
 
 public class PointManageDto {
     PointDto symbolPoint;
-    int pointCount;
+    int postCount;
 
     public PointManageDto(PointDto symbolPoint) {
         this.symbolPoint = symbolPoint;
-        pointCount = 1;
+
+        int i = symbolPoint.getPostCount();
+        if (i == -1) {
+            postCount = 0;
+            return;
+        }
+        postCount = i;
     }
 
-    public void incrementCount() {
-        pointCount++;
+    public void incrementCount(int i) {
+        postCount += i;
     }
 
     public PointDto getSymbolPoint() {
         return symbolPoint;
     }
 
-    public int getPointCount() {
-        return pointCount;
+    public int getPostCount() {
+        return postCount;
     }
 }

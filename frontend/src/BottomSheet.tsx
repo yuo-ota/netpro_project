@@ -1,4 +1,4 @@
-import './App.css'
+import './App.css';
 import { Box, Button, Tabs } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
 import { useState } from 'react';
@@ -13,14 +13,21 @@ type BottomSheetProps = {
     setIsOpenErrorDialog: (isOpenErrorDialog: boolean) => void;
     setErrorTitle: (errorTitle: string) => void;
     setErrorDetail: (errorDetail: string[]) => void;
-}
+};
 
-const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPosts, 
-    getViewRangePointList, setIsOpenErrorDialog, setErrorTitle, setErrorDetail }) => {
-    const MAX_HEIGHT:number = window.innerHeight * 0.65;    // 画面全体のうちどの程度をMAXとするか
-    const snapOffset = window.innerHeight * 0.05;     // どの程度近づくことでスナップするか
+const BottomSheet: React.FC<BottomSheetProps> = ({
+    posts,
+    setIsSortByTime,
+    setPosts,
+    getViewRangePointList,
+    setIsOpenErrorDialog,
+    setErrorTitle,
+    setErrorDetail,
+}) => {
+    const MAX_HEIGHT: number = window.innerHeight * 0.65; // 画面全体のうちどの程度をMAXとするか
+    const snapOffset = window.innerHeight * 0.05; // どの程度近づくことでスナップするか
     const [isOpened, setIsOpened] = useState<boolean>(false);
-    
+
     const rawY = useMotionValue(MAX_HEIGHT);
     const y = useSpring(rawY, { damping: 100, stiffness: 500 });
 
@@ -36,8 +43,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPo
     const snapTo = (point: number) => {
         rawY.set(point);
     };
-
-    
 
     return (
         <>
@@ -72,7 +77,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPo
                             snapTo(SNAP_POINTS.closed);
                         }
                     }
-                    
                 }}
                 dragSnapToOrigin={false}
                 dragTransition={{ bounceStiffness: 100, bounceDamping: 25 }}
@@ -80,10 +84,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPo
             >
                 {/* ドラッグハンドル */}
                 <Box
-                    className="w-12 h-1.5 my-[40px] bg-gray-500 rounded-full mx-auto my-3 cursor-grab active:cursor-grabbing"
+                    className="w-12 h-1.5 my-[40px] bg-gray-500 rounded-full mx-auto cursor-grab active:cursor-grabbing"
                     onPointerDown={(e) => {
-                    e.stopPropagation();
-                    dragHandleProps.start(e);
+                        e.stopPropagation();
+                        dragHandleProps.start(e);
                     }}
                 />
 
@@ -92,7 +96,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPo
                     style={{ maxHeight: `${MAX_HEIGHT}px` }}
                     className={`overflow-y-auto bg-white`}
                 >
-                    <PostList posts={posts} setIsSortByTime={setIsSortByTime}
+                    <PostList
+                        height={MAX_HEIGHT - 142}
+                        posts={posts}
+                        setIsSortByTime={setIsSortByTime}
                         setPosts={setPosts}
                         getViewRangePointList={getViewRangePointList}
                         setIsOpenErrorDialog={setIsOpenErrorDialog}
@@ -106,7 +113,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ posts, setIsSortByTime, setPo
                 {/* <div className='w-full h-[300px] flex-none'></div> */}
             </motion.div>
         </>
-    )
-}
+    );
+};
 
-export default BottomSheet
+export default BottomSheet;

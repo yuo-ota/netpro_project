@@ -73,6 +73,7 @@ public class PointService {
         List<PointDto> pointDtos = new ArrayList<>();
         for (Point p : pointsData) {
             PointDto pointDto = new PointDto(p.getPointId(), p.getLatitude(), p.getLongitude());
+            pointDto.setPostCount(p.getPostCount());
             boolean isUserInThisArea = CalcGeo.haversineDistance(pointDto.getLatitude(), pointDto.getLongitude(),
                     userLatitude, userLongitude) < 15;
             pointDto.setIsUserInThisArea(isUserInThisArea);
@@ -87,7 +88,8 @@ public class PointService {
 
             String key = flooredPosition[0] + "_" + flooredPosition[1];
             if (roundPoints.containsKey(key)) { // keyがMap入っていればインクリメント
-                roundPoints.get(key).incrementCount();
+                roundPoints.get(key).incrementCount(p.getPostCount());
+
             } else { // 入っていなければ新しくPointManagedDtoを作る
                 roundPoints.put(key, new PointManageDto(p));
             }
@@ -101,7 +103,8 @@ public class PointService {
         // それ以外は渡したPointを基にPointDtoを作りreturn
 
         String pointId = NanoIdGenerator.generate();
-        Point pointData = new Point(pointId, latitude, longitude);
+        double[] flooredPosition = CalcGeo.floorPosition(latitude, longitude, 10);
+        Point pointData = new Point(pointId, flooredPosition[0], flooredPosition[1]);
         pointRepository.save(pointData);
         return new PointDto(pointData.getPointId(), pointData.getLatitude(), pointData.getLongitude());
     }
