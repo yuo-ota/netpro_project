@@ -4,7 +4,6 @@ public class PointDto {
     private String pointId;
     private double latitude;
     private double longitude;
-    private int goodCount;
     private boolean isUserInThisArea;
 
     public PointDto(String pointId, double latitude, double longitude) {
@@ -17,20 +16,12 @@ public class PointDto {
         return pointId;
     }
 
-    public double getLantitude() {
+    public double getLatitude() {
         return latitude;
     }
 
     public double getLongitude() {
         return longitude;
-    }
-
-    public int getGoodCount() {
-        return goodCount;
-    }
-
-    public void setGoodCount(int goodCount) {
-        this.goodCount = goodCount;
     }
 
     public boolean getIsUserInThisArea() {

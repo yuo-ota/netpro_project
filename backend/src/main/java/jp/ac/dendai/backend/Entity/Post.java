@@ -13,6 +13,14 @@ public class Post {
 
     }
 
+    public Post(String postId, String pointId, String userId, String content) {
+        this.postId = postId;
+        this.pointId = pointId;
+        this.userId = userId;
+        this.content = content;
+        postedTime = LocalDateTime.now();
+    }
+
     public Post(String postId, String pointId, String userId, String content, LocalDateTime postedTime) {
         this.postId = postId;
         this.pointId = pointId;
