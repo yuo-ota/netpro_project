@@ -87,11 +87,11 @@ public class PostService {
         checkUser(userId);
 
         PointDto pointData = checkPoint(latitude, longitude);
-        if (pointData == null) { // saveじゃなくてcreatePointでいいですか？
+        if (pointData == null) {
             pointData = pointService.createPoint(latitude, longitude);
         }
         String postId = NanoIdGenerator.generate();
-        Post postData = new Post(postId, pointData.getPointed(), userId, content);
+        Post postData = new Post(postId, pointData.getPointId(), userId, content);
         postRepository.save(postData);
         return new PostDto(postData.getPostId(), postData.getPostedTime(),
                 postData.getContent(), 0, false);

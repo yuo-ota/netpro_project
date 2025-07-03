@@ -13,7 +13,7 @@ public class GoodDto {
         return postId;
     }
 
-    public boolean getIsLiked() {
+    public boolean getIsGooded() {
         return isGooded;
     }
 }

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.ac.dendai.backend.Dto.GoodRequestDto;
 import jp.ac.dendai.backend.Dto.PostDto;
+import jp.ac.dendai.backend.Dto.PostRequestDto;
 import jp.ac.dendai.backend.Service.PostService;
 import jp.ac.dendai.backend.util.AuthenticationFailedException;
 
@@ -26,7 +28,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("/{pointId}")
+    @GetMapping("/{userId}/{pointId}")
     public ResponseEntity<List<PostDto>> getPosts(
             @PathVariable String userId, @PathVariable String pointId, @RequestParam boolean sortByTime) {
         // postServiceのgetPostsByPointIdを呼び出し、200番で戻り値のList<PostDto>をreturn
@@ -47,9 +49,11 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDto> createPoint(
-            @RequestBody String userId, @RequestBody double latitude,
-            @RequestBody double longitude, @RequestBody String content) {
+    public ResponseEntity<PostDto> createPoint(@RequestBody PostRequestDto request) {
+        String userId = request.getUserId();
+        double latitude = request.getLatitude();
+        double longitude = request.getLongitude();
+        String content = request.getContent();
         // postServiceのcreatePostを呼び出し、201番で戻り値のPostDtoをreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn
         // それ以外(不正な値や例外)には500番でreturn
@@ -65,8 +69,9 @@ public class PostController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deletePost(
-            @RequestBody String postId, @RequestBody String userId) {
+    public ResponseEntity<Void> deletePost(@RequestBody GoodRequestDto request) {
+        String postId = request.getPostId();
+        String userId = request.getUserId();
         // postServiceのdeletePostを呼び出し、204番でreturn
         // それ以外(不正な値や例外)には500番でreturn
         try {

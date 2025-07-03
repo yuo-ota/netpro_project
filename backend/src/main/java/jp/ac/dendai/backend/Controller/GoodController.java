@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.ac.dendai.backend.Dto.GoodDto;
+import jp.ac.dendai.backend.Dto.GoodRequestDto;
 import jp.ac.dendai.backend.Service.GoodService;
 import jp.ac.dendai.backend.util.AuthenticationFailedException;
 
@@ -22,8 +23,9 @@ public class GoodController {
     }
 
     @PostMapping
-    public ResponseEntity<GoodDto> createGood(
-            @RequestBody String userId, @RequestBody String postId) {
+    public ResponseEntity<GoodDto> createGood(@RequestBody GoodRequestDto request) {
+        String postId = request.getPostId();
+        String userId = request.getUserId();
         // goodServiceのcreateGoodを呼び出し、201番で戻り値のGoodDtoをreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn
         // それ以外(不正な値や例外)には500番をreturn
@@ -39,8 +41,9 @@ public class GoodController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteGood(
-            @RequestBody String userId, @RequestBody String postId) {
+    public ResponseEntity<Void> deleteGood(@RequestBody GoodRequestDto request) {
+        String postId = request.getPostId();
+        String userId = request.getUserId();
         // goodServiceのdeleteGoodを呼び出し、204番でreturn
         // AuthenticationFailedExceptionの例外の場合は、401番でreturn
         // それ以外(不正な値や例外)には500番をreturn

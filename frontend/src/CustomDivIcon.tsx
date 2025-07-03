@@ -1,4 +1,4 @@
-import L from "leaflet";
+import L from 'leaflet';
 
 const formatCount = (count: number) => {
     if (count >= 1_000_000) {
@@ -11,8 +11,8 @@ const formatCount = (count: number) => {
 
 const CustomDivIcon = (count: number, existInner: boolean): L.DivIcon => {
     const iconSrc = existInner
-        ? "/src/assets/comment_icon.svg"
-        : "/src/assets/comment_out_range_icon.svg";
+        ? '/src/assets/comment_icon.svg'
+        : '/src/assets/comment_out_range_icon.svg';
     return L.divIcon({
         html: `
         <div style="position: relative">
@@ -32,21 +32,21 @@ const CustomDivIcon = (count: number, existInner: boolean): L.DivIcon => {
                             color: white;
                             border-radius: 100%;
                             font-family: sans-serif;
-                            font-size: 10px;
+                            font-size: 15px;
                             font-weight: bold;
                             display: flex;
                             justify-content: center;
                             align-items: center;
                         "
                     >${formatCount(count)}</span>`
-                    : ""
+                    : ''
             }
         </div>
         `,
         className: '',
         iconSize: [61.563, 53.188],
-        iconAnchor: [30.7815, 53.188]
+        iconAnchor: [30.7815, 53.188],
     });
 };
 
-export default CustomDivIcon
+export default CustomDivIcon;

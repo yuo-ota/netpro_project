@@ -24,20 +24,37 @@ public class PointRepository {
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
         try {
-            String sql = "SELECT * FROM points WHERE point_id = ?";
+            String sql = """
+                SELECT 
+                    p.point_id,
+                    p.latitude,
+                    p.longitude,
+                    COUNT(posts.point_id) AS post_count
+                FROM 
+                    points p
+                LEFT JOIN 
+                    posts ON p.point_id = posts.point_id
+                WHERE p.point_id = ?
+                GROUP BY 
+                    p.point_id, p.latitude, p.longitude
+            """;
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, pointId);
 
             Object latObj = sqlMap.get("latitude");
             Object lonObj = sqlMap.get("longitude");
-            if (latObj == null || lonObj == null) {
+            Object postCountObj = sqlMap.get("post_count");
+
+            if (latObj == null || lonObj == null || postCountObj == null) {
                 return null;
             }
 
             Point p = new Point();
-            p.setPointId(pointId);
-            if (latObj instanceof Number latNum && lonObj instanceof Number lonNum) {
+            p.setPointId(pointId.toString());
+
+            if (latObj instanceof Number latNum && lonObj instanceof Number lonNum && postCountObj instanceof Number postCountNum) {
                 p.setLatitude(latNum.doubleValue());
                 p.setLongitude(lonNum.doubleValue());
+                p.setPostCount(postCountNum.intValue());
                 return p;
             }
             return null;
@@ -52,6 +69,7 @@ public class PointRepository {
         // 取得した内容をPointクラスのインスタンスに入れてreturn
         try {
             String sql = "SELECT * FROM points WHERE latitude = ? AND longitude = ?";
+            System.out.println(latitude + ", " + longitude);
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, latitude, longitude);
 
             Object pointIdObj = sqlMap.get("point_id");
@@ -69,12 +87,20 @@ public class PointRepository {
         // SELECT文でPointテーブルからタプルを取得する。
         // 取得した内容をPointクラスのインスタンスに入れてreturn
         String sql = """
-            SELECT * 
-            FROM points 
-            WHERE ? < latitude 
-            AND latitude < ? 
-            AND ? < longitude 
-            AND longitude < ?
+            SELECT 
+                p.point_id,
+                p.latitude,
+                p.longitude,
+                COUNT(posts.point_id) AS post_count
+            FROM 
+                points p
+            LEFT JOIN 
+                posts ON p.point_id = posts.point_id
+            WHERE 
+                ? < p.latitude AND p.latitude < ?
+                AND ? < p.longitude AND p.longitude < ?
+            GROUP BY 
+                p.point_id, p.latitude, p.longitude
         """;
 
         List<Map<String, Object>> sqlList = jdbcTemplate.queryForList(sql,
@@ -85,8 +111,9 @@ public class PointRepository {
             Object pointIdObj = row.get("point_id");
             Object latObj = row.get("latitude");
             Object lonObj = row.get("longitude");
+            Object postCountObj = row.get("post_count");
 
-            if (pointIdObj == null || latObj == null || lonObj == null) {
+            if (pointIdObj == null || latObj == null || lonObj == null || postCountObj == null) {
                 continue;
             }
 
@@ -94,14 +121,14 @@ public class PointRepository {
                 Point p = new Point();
                 p.setPointId(pointIdObj.toString());
 
-                if (latObj instanceof Number latNum && lonObj instanceof Number lonNum) {
+                if (latObj instanceof Number latNum && lonObj instanceof Number lonNum && postCountObj instanceof Number postCountNum) {
                     p.setLatitude(latNum.doubleValue());
                     p.setLongitude(lonNum.doubleValue());
+                    p.setPostCount(postCountNum.intValue());
                 } else {
                     // 型が不正な場合はスキップ
                     continue;
                 }
-
                 result.add(p);
             } catch (Exception e) {
                 e.printStackTrace();
