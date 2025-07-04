@@ -58,6 +58,17 @@ const PostList: React.FC<PostListProps> = ({
         }
     }, [userId]);
 
+    const formatTime = (isoString: string) => {
+        const date = new Date(isoString);
+
+        const formatted = new Intl.DateTimeFormat('ja-JP', {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+        }).format(date);
+        
+        return formatted;
+    }
+
     const createGood = async (postId: string) => {
         if (!userId) {
             setIsOpenErrorDialog(true);
@@ -332,7 +343,7 @@ const PostList: React.FC<PostListProps> = ({
                                     <Box className="flex-1 pr-4">
                                         <Text className="text-base mb-2">{post.content}</Text>
                                         <Text className="text-sm text-gray-500">
-                                            {post.postedTime}
+                                            {formatTime(post.postedTime)}
                                         </Text>
                                     </Box>
                                     <div
