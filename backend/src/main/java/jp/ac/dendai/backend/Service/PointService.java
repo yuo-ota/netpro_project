@@ -108,4 +108,8 @@ public class PointService {
         pointRepository.save(pointData);
         return new PointDto(pointData.getPointId(), pointData.getLatitude(), pointData.getLongitude());
     }
+
+    public void delete(String pointId) {
+        pointRepository.delete(pointId);
+    }
 }

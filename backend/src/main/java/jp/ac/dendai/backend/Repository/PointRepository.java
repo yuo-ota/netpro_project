@@ -144,4 +144,11 @@ public class PointRepository {
         String sql = "INSERT INTO points (point_id, latitude, longitude) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, point.getPointId(), point.getLatitude(), point.getLongitude());
     }
+    
+    public void delete(String pointId) {
+        // DELETE文でPostテーブルからpostインスタンスにあるIDの情報を削除する。
+        // 削除ができればそのままreturn
+        String sql = "DELETE FROM points WHERE point_id = ?";
+        jdbcTemplate.update(sql, pointId);
+    }
 }

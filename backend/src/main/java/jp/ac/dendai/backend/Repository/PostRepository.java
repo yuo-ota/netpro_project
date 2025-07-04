@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jp.ac.dendai.backend.Dto.PostDto;
+import jp.ac.dendai.backend.Dto.PostPointDto;
 import jp.ac.dendai.backend.Entity.Post;
 
 @Repository
@@ -206,6 +207,31 @@ public class PostRepository {
             }
         }
         return result;
+    }
+
+    public PostPointDto countPost(String postId) {
+        String sql = """
+            SELECT 
+                p.point_id,
+                COUNT(*) AS post_count
+            FROM 
+                posts p
+            WHERE 
+                p.point_id = (
+                    SELECT point_id FROM posts WHERE post_id = ?
+                )
+            GROUP BY 
+                p.point_id;
+        """;
+
+        jdbcTemplate.queryForMap(sql, postId);
+
+        Map<String, Object> result = jdbcTemplate.queryForMap(sql, postId);
+
+        String pointId = (String) result.get("point_id");
+        int postCount = ((Number) result.get("post_count")).intValue();
+
+        return new PostPointDto(pointId, postCount);
     }
 
     public void save(Post post) {
