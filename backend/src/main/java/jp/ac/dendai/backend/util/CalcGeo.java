@@ -66,23 +66,23 @@ public class CalcGeo {
     }
 
     public static int getMapEdgeMetors(int mapSize) {
-        int mapEdgeMetors = (int) Math.pow(2, (18 - mapSize)) * 350;
+        int mapEdgeMetors = (int) Math.pow(2, (18 - mapSize)) * 350 + 10;
         return mapEdgeMetors;
     }
 
     public static void main(String[] args) {
-        double tduLat = 35.7489414625941;
-        double tduLon = 139.80676212563802;
-        double tdu2Lat = 35.7489414625941;
-        double tdu2Lon = 139.80676212573802;
+        double tduLat = 35.74884322471487;
+        double tduLon = 139.80700536904862;
+        double tdu2Lat = 35.74884322471487;
+        double tdu2Lon = 139.8071138125967;
 
         // double distance = 50;
         // LatLngRange range = getBoundingBox(tduLat, tduLon, distance);
         // System.out.printf("%.2fm以内の範囲:%n", distance);
         // System.out.println(range);
 
-        // double resultDistance = haversineDistance(tduLat, tduLon, homeLat, homeLon);
-        // System.out.printf("距離は %.2f メートルです%n", resultDistance);
+        double resultDistance = haversineDistance(tduLat, tduLon, tdu2Lat, tdu2Lon);
+        System.out.printf("距離は %.2f メートルです%n", resultDistance);
 
         double[] flooredTduPosition = floorPosition(tduLat, tduLon, 10);
         double[] flooredTdu2Position = floorPosition(tdu2Lat, tdu2Lon, 10);
