@@ -71,23 +71,35 @@ public class CalcGeo {
     }
 
     public static void main(String[] args) {
+        // double tduLat = 35.74884322471487;
+        // double tduLon = 139.8070040092367;
+        // double tdu2Lat = 35.74884322471487;
+        // double tdu2Lon = 139.80697068900128;
+
+        // // double distance = 50;
+        // // LatLngRange range = getBoundingBox(tduLat, tduLon, distance);
+        // // System.out.printf("%.2fm以内の範囲:%n", distance);
+        // // System.out.println(range);
+
+        // double resultDistance = haversineDistance(tduLat, tduLon, tdu2Lat, tdu2Lon);
+        // System.out.printf("距離は %.2f メートルです%n", resultDistance);
+
+        // double[] flooredTduPosition = floorPosition(tduLat, tduLon, 10);
+        // double[] flooredTdu2Position = floorPosition(tdu2Lat, tdu2Lon, 10);
+        // System.out.println(flooredTduPosition[0] + ", " + flooredTduPosition[1]);
+        // System.out.println(flooredTdu2Position[0] + ", " + flooredTdu2Position[1]);
+
+        
         double tduLat = 35.74884322471487;
-        double tduLon = 139.80700536904862;
-        double tdu2Lat = 35.74884322471487;
-        double tdu2Lon = 139.8071138125967;
+        double tdulon = 139.80704092382024;
+        double tdulon1 = 139.80704155521022;
+        double tdulon2 = 139.80704464712952;
+        double tdulon3 = 139.80704672169708;
 
-        // double distance = 50;
-        // LatLngRange range = getBoundingBox(tduLat, tduLon, distance);
-        // System.out.printf("%.2fm以内の範囲:%n", distance);
-        // System.out.println(range);
-
-        double resultDistance = haversineDistance(tduLat, tduLon, tdu2Lat, tdu2Lon);
-        System.out.printf("距離は %.2f メートルです%n", resultDistance);
-
-        double[] flooredTduPosition = floorPosition(tduLat, tduLon, 10);
-        double[] flooredTdu2Position = floorPosition(tdu2Lat, tdu2Lon, 10);
-        System.out.println(flooredTduPosition[0] + ", " + flooredTduPosition[1]);
-        System.out.println(flooredTdu2Position[0] + ", " + flooredTdu2Position[1]);
+        System.out.println(floorPosition(tduLat, tdulon, 10)[1]);
+        System.out.println(floorPosition(tduLat, tdulon1, 10)[1]);
+        System.out.println(floorPosition(tduLat, tdulon2, 10)[1]);
+        System.out.println(floorPosition(tduLat, tdulon3, 10)[1]);
     }
 
     public static class LatLngRange {

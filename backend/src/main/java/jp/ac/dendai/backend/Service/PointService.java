@@ -62,7 +62,7 @@ public class PointService {
          * 存在する場合にはPointManageDtoをインクリメントします。
          * 最後にPointManageDtoを返せばこの関数は終了です。
          */
-        final int SPLIT_COUNT = 20;
+        final int SPLIT_COUNT = 40;
         int mapEdgeMetors = CalcGeo.getMapEdgeMetors(mapSize);
         LatLngRange boundBox = CalcGeo.getBoundingBox(centerLatitude, centerLongitude, mapEdgeMetors);
         List<Point> pointsData = pointRepository.findByNearPosition(boundBox);
