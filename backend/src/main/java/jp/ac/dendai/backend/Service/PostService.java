@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.ac.dendai.backend.Dto.AuthDto;
 import jp.ac.dendai.backend.Dto.PointDto;
 import jp.ac.dendai.backend.Dto.PostDto;
+import jp.ac.dendai.backend.Dto.PostPointDto;
 import jp.ac.dendai.backend.Entity.Post;
 import jp.ac.dendai.backend.Repository.PostRepository;
 import jp.ac.dendai.backend.util.AuthenticationFailedException;
@@ -75,6 +76,10 @@ public class PostService {
         return postData;
     }
 
+    public PostPointDto countPostInSamePoint(String postId) {
+        return postRepository.countPost(postId);
+    }
+
     @Transactional
     public PostDto createPost(
         String userId, double latitude, double longitude, String content) {
@@ -97,12 +102,19 @@ public class PostService {
                 postData.getContent(), 0, false);
     }
 
+    @Transactional
     public void deletePost(String postId, String userId) {
         // checkUserを呼び出し、認証できなかった場合はAuthenticationFailedException例外をthrow
         // PostRepositoryのdeleteを呼び出す
         // それ以外はvoidをreturn
         checkUser(userId);
+        PostPointDto postCountByPointId = countPostInSamePoint(postId);
 
         postRepository.delete(postId);
+        if (postCountByPointId.getPostCount() != 1) {
+            return;
+        }
+
+        pointService.delete(postCountByPointId.getPointId());
     }
 }
