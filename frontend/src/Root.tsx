@@ -54,7 +54,7 @@ function Root() {
 
     useEffect(() => {
         getViewRangePointList();
-    }, [centerPosition, zoom]);
+    }, [centerPosition, zoom, userPosition]);
 
     useEffect(() => {
         if (focusPointId === undefined) {
@@ -164,7 +164,6 @@ function Root() {
             // ステータスコードで判定
             if (response.status === 200) {
                 const data = await response.json();
-                console.log(data);
                 data.forEach((elem: any) => {
                     if (!isPointManage(elem)) {
                         throw new Error();
