@@ -1,5 +1,4 @@
 import { Textarea, Text } from '@chakra-ui/react';
-import './App.css';
 
 type PostFormContainerProps = {
     postText: string;

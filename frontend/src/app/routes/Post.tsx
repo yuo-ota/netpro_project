@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import './App.css';
-import PostButtonContainer from './PostButtonContainer';
-import PostForm from './PostForm';
-import { useGps } from './GpsContext';
-import ErrorDialog from './ErrorDialog';
-import { useAuth } from './AuthProvider';
+import PostButtonContainer from '../../PostButtonContainer';
+import PostForm from '../../PostForm';
+import { useGps } from '../../GpsContext';
+import ErrorDialog from '../../ErrorDialog';
+import { useAuth } from '../../AuthProvider';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 function Post() {

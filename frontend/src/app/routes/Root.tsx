@@ -1,20 +1,20 @@
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import BottomSheet from './BottomSheet';
+import BottomSheet from '../../BottomSheet';
 import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { useGps } from './GpsContext';
-import PointMarker from './PointMarker';
+import { useGps } from '../../GpsContext';
+import PointMarker from '../../PointMarker';
 import { useEffect, useState } from 'react';
-import MapController from './MapController';
-import ErrorDialog from './ErrorDialog';
-import { isPost, type Post } from './types/Post';
-import { isPointManage, type PointManage } from './types/PointManage';
-import { useAuth } from './AuthProvider';
+import MapController from '../../MapController';
+import ErrorDialog from '../../ErrorDialog';
+import { isPost, type Post } from '../../types/Post';
+import { isPointManage, type PointManage } from '../../types/PointManage';
+import { useAuth } from '../../AuthProvider';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
-import flagIcon from './assets/flag_icon.svg';
+import flagIcon from '../../assets/flag_icon.svg';
 
 function Root() {
     const navigate = useNavigate();
@@ -213,7 +213,7 @@ function Root() {
             />
             <div className="relative flex justify-center">
                 <Button
-                    className="absolute w-[34px] h-[34px] min-w-0 p-[0px] top-[84px] left-[11px]
+                    className="absolute w-[32px] h-[32px] border-[2px] border-black/40 min-w-0 p-[0px] top-[84px] left-[11px]
                     bg-white rounded-full z-40
                     flex justify-center items-center
                     transition duration-200 ease-in-out hover:scale-110"

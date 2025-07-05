@@ -1,4 +1,3 @@
-import './App.css';
 import { Box, Button } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
 import { useEffect } from 'react';
