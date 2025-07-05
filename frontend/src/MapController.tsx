@@ -2,12 +2,13 @@ import { useMap } from "react-leaflet";
 import { useEffect, useState } from "react";
 import type { LatLng } from "leaflet";
 
-type ZoomWatcherProp = {
+type MapControllerProp = {
     setZoom: (zoom: number) => void;
     setCenterPosition: (centerPosition: LatLng) => void;
+    viewPosition: LatLng;
 }
 
-const ZoomWatcher: React.FC< ZoomWatcherProp > = ({ setZoom, setCenterPosition }) => {
+const MapController: React.FC< MapControllerProp > = ({ setZoom, setCenterPosition, viewPosition }) => {
     const map = useMap();
 
     useEffect(() => {
@@ -22,7 +23,11 @@ const ZoomWatcher: React.FC< ZoomWatcherProp > = ({ setZoom, setCenterPosition }
         };
     }, [map]);
 
+    useEffect(() => {
+        map.panTo(viewPosition);
+    }, [viewPosition])
+
     return null;
 };
 
-export default ZoomWatcher
+export default MapController

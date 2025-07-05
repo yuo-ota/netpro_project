@@ -1,15 +1,15 @@
 import './App.css';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import { LatLng } from 'leaflet';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { LatLng, Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import BottomSheet from './BottomSheet';
 import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useGps } from './GpsContext';
 import PointMarker from './PointMarker';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import RecentMap from './RecentMap';
-import ZoomWatcher from './ZoomWatcher';
+import MapController from './MapController';
 import { GetPointsApiResponseReturnFive, GetPostsApiResponseReturnFive } from './mock';
 import ErrorDialog from './ErrorDialog';
 import type { Point } from './types/Point';
@@ -17,6 +17,8 @@ import { isPost, type Post } from './types/Post';
 import { isPointManage, type PointManage } from './types/PointManage';
 import { useAuth } from './AuthProvider';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
+
+import flagIcon from './assets/flag_icon.svg';
 
 function Root() {
     const navigate = useNavigate();
@@ -33,6 +35,7 @@ function Root() {
     const [focusPointId, setFocusPointId] = useState<string | undefined>(undefined);
     const { userId } = useAuth();
     const [isOpened, setIsOpened] = useState<boolean>(false);
+    const [viewPosition, setViewPosition] = useState<LatLng>(new LatLng(0, 0));
 
     useEffect(() => {
         if (!userId) {
@@ -200,6 +203,10 @@ function Root() {
         }
     };
 
+    const jumpUserPosition = () => {
+        setViewPosition(userPosition);
+    }
+
     return (
         <>
             <ErrorDialog
@@ -209,6 +216,15 @@ function Root() {
                 errorDetail={errorDetail}
             />
             <div className="relative flex justify-center">
+                <Button
+                    className="absolute w-[34px] h-[34px] min-w-0 p-[0px] top-[84px] left-[11px]
+                    bg-white rounded-full z-40
+                    flex justify-center items-center
+                    transition duration-200 ease-in-out hover:scale-110"
+                    onClick={(() => jumpUserPosition())}
+                >
+                    <img src={flagIcon} className="w-[20px] h-[20px]" />
+                </Button>
                 <Button
                     className="absolute w-[70px] h-[70px] bottom-[40px] right-[10%]
                     bg-main rounded-full z-40 shadow-md shadow-main-shadow/50
@@ -242,7 +258,7 @@ function Root() {
                     style={{ height: '100dvh', width: '100vw' }}
                     className="z-0"
                 >
-                    <ZoomWatcher setZoom={setZoom} setCenterPosition={setCenterPosition} />
+                    <MapController setZoom={setZoom} setCenterPosition={setCenterPosition} viewPosition={viewPosition} />
                     <TileLayer
                         maxZoom={19}
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
