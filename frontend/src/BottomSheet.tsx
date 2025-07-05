@@ -1,7 +1,7 @@
 import './App.css';
 import { Box, Button, Tabs } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostList from './PostList';
 import type { Post } from './types/Post';
 
@@ -13,6 +13,8 @@ type BottomSheetProps = {
     setIsOpenErrorDialog: (isOpenErrorDialog: boolean) => void;
     setErrorTitle: (errorTitle: string) => void;
     setErrorDetail: (errorDetail: string[]) => void;
+    isOpened: boolean;
+    setIsOpened: (isOpened: boolean) => void;
 };
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -23,13 +25,22 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     setIsOpenErrorDialog,
     setErrorTitle,
     setErrorDetail,
+    isOpened,
+    setIsOpened
 }) => {
     const MAX_HEIGHT: number = window.innerHeight * 0.65; // 画面全体のうちどの程度をMAXとするか
     const snapOffset = window.innerHeight * 0.05; // どの程度近づくことでスナップするか
-    const [isOpened, setIsOpened] = useState<boolean>(false);
 
     const rawY = useMotionValue(MAX_HEIGHT);
     const y = useSpring(rawY, { damping: 100, stiffness: 500 });
+
+    useEffect(() => {
+        if (isOpened) {
+            openBottomSheet();
+        } else {
+            closeBottomSheet();
+        }
+    }, [isOpened]);
 
     // スナップポイントを定義
     const SNAP_POINTS = {
@@ -43,6 +54,16 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     const snapTo = (point: number) => {
         rawY.set(point);
     };
+
+    const openBottomSheet = () => {
+        snapTo(SNAP_POINTS.closed);
+        snapTo(SNAP_POINTS.open);
+    }
+
+    const closeBottomSheet = () => {
+        snapTo(SNAP_POINTS.open);
+        snapTo(SNAP_POINTS.closed);
+    }
 
     return (
         <>
@@ -60,21 +81,15 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                     const currentY = y.get(); // useSpring の y から現在の値を取得
                     if (isOpened) {
                         if (Math.abs(currentY - SNAP_POINTS.open) > snapOffset) {
-                            snapTo(SNAP_POINTS.open);
-                            snapTo(SNAP_POINTS.closed);
                             setIsOpened(false);
                         } else {
-                            snapTo(SNAP_POINTS.closed);
-                            snapTo(SNAP_POINTS.open);
+                            openBottomSheet();
                         }
                     } else {
                         if (Math.abs(currentY - SNAP_POINTS.closed) > snapOffset) {
-                            snapTo(SNAP_POINTS.closed);
-                            snapTo(SNAP_POINTS.open);
                             setIsOpened(true);
                         } else {
-                            snapTo(SNAP_POINTS.open);
-                            snapTo(SNAP_POINTS.closed);
+                            closeBottomSheet();
                         }
                     }
                 }}
