@@ -1,18 +1,14 @@
-import './App.css';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
-import { LatLng, Map } from 'leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import BottomSheet from './BottomSheet';
-import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useGps } from './GpsContext';
 import PointMarker from './PointMarker';
-import { useEffect, useRef, useState } from 'react';
-import RecentMap from './RecentMap';
+import { useEffect, useState } from 'react';
 import MapController from './MapController';
-import { GetPointsApiResponseReturnFive, GetPostsApiResponseReturnFive } from './mock';
 import ErrorDialog from './ErrorDialog';
-import type { Point } from './types/Point';
 import { isPost, type Post } from './types/Post';
 import { isPointManage, type PointManage } from './types/PointManage';
 import { useAuth } from './AuthProvider';
@@ -205,7 +201,7 @@ function Root() {
 
     const jumpUserPosition = () => {
         setViewPosition(userPosition);
-    }
+    };
 
     return (
         <>
@@ -221,7 +217,7 @@ function Root() {
                     bg-white rounded-full z-40
                     flex justify-center items-center
                     transition duration-200 ease-in-out hover:scale-110"
-                    onClick={(() => jumpUserPosition())}
+                    onClick={() => jumpUserPosition()}
                 >
                     <img src={flagIcon} className="w-[20px] h-[20px]" />
                 </Button>
@@ -258,7 +254,11 @@ function Root() {
                     style={{ height: '100dvh', width: '100vw' }}
                     className="z-0"
                 >
-                    <MapController setZoom={setZoom} setCenterPosition={setCenterPosition} viewPosition={viewPosition} />
+                    <MapController
+                        setZoom={setZoom}
+                        setCenterPosition={setCenterPosition}
+                        viewPosition={viewPosition}
+                    />
                     <TileLayer
                         maxZoom={19}
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

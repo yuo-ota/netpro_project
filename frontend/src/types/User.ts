@@ -7,7 +7,5 @@ export const isUser = (obj: unknown): obj is User => {
 
     const user = obj as { [key: string]: unknown };
 
-    return (
-        typeof user.userId === 'string'
-    );
-}
+    return typeof user.userId === 'string';
+};

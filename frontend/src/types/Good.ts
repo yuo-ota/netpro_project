@@ -8,8 +8,5 @@ export const isGood = (obj: unknown): obj is Good => {
 
     const good = obj as { [key: string]: unknown };
 
-    return (
-        typeof good.postId === 'string' &&
-        typeof good.isGooded === 'boolean'
-    );
+    return typeof good.postId === 'string' && typeof good.isGooded === 'boolean';
 };

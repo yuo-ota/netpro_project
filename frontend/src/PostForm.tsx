@@ -1,5 +1,5 @@
-import { Textarea, Text } from '@chakra-ui/react'
-import './App.css'
+import { Textarea, Text } from '@chakra-ui/react';
+import './App.css';
 
 type PostFormContainerProps = {
     postText: string;
@@ -13,22 +13,22 @@ function PostForm({ postText, setPostText }: PostFormContainerProps) {
 
     return (
         <>
-            <div className='flex flex-1 justify-center items-center w-full bg-white'>
+            <div className="flex flex-1 justify-center items-center w-full bg-white">
                 <div className="flex flex-col max-w-[800px] h-8/10 w-8/10 justify-center items-center">
                     <Textarea
                         resize="none"
                         placeholder="ここに投稿内容を入力"
-                        className='
+                        className="
                             flex-1
                             w-full
                             text-2xl
                             border-0
                             rounded-1
                             caret-main
-                            focus-visible:outline-none'
+                            focus-visible:outline-none"
                         onChange={handleChange}
                     />
-                    <div className='flex justify-end  items-end w-full'>
+                    <div className="flex justify-end  items-end w-full">
                         <Text
                             className={`text-xl mt-[5px] mr-[5px] ${
                                 postText.length > 150 ? 'text-red-500' : 'text-gray-700'
@@ -40,7 +40,7 @@ function PostForm({ postText, setPostText }: PostFormContainerProps) {
                 </div>
             </div>
         </>
-    )
+    );
 }
 
-export default PostForm
+export default PostForm;

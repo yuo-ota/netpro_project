@@ -9,4 +9,4 @@ function RecentMap({ lat, lng }: { lat: number; lng: number }) {
     return null;
 }
 
-export default RecentMap
+export default RecentMap;

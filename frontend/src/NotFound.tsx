@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'; // ホームに戻るリンクを付け
 const NotFound: React.FC = () => {
     return (
         <>
-            <div className='flex justify-center items-center h-dvh w-dvw'>
+            <div className="flex justify-center items-center h-dvh w-dvw">
                 <VStack>
                     <h1>404 - ページが見つかりません</h1>
                     <p>お探しのページは存在しないか、移動された可能性があります。</p>

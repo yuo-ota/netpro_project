@@ -1,14 +1,18 @@
-import { useMap } from "react-leaflet";
-import { useEffect, useState } from "react";
-import type { LatLng } from "leaflet";
+import { useMap } from 'react-leaflet';
+import { useEffect } from 'react';
+import type { LatLng } from 'leaflet';
 
 type MapControllerProp = {
     setZoom: (zoom: number) => void;
     setCenterPosition: (centerPosition: LatLng) => void;
     viewPosition: LatLng;
-}
+};
 
-const MapController: React.FC< MapControllerProp > = ({ setZoom, setCenterPosition, viewPosition }) => {
+const MapController: React.FC<MapControllerProp> = ({
+    setZoom,
+    setCenterPosition,
+    viewPosition,
+}) => {
     const map = useMap();
 
     useEffect(() => {
@@ -17,7 +21,7 @@ const MapController: React.FC< MapControllerProp > = ({ setZoom, setCenterPositi
             setCenterPosition(map.getCenter());
         };
 
-        map.on('moveend', updateStatus);  // 拡大・移動後に反映
+        map.on('moveend', updateStatus); // 拡大・移動後に反映
         return () => {
             map.off('moveend', updateStatus);
         };
@@ -25,9 +29,9 @@ const MapController: React.FC< MapControllerProp > = ({ setZoom, setCenterPositi
 
     useEffect(() => {
         map.panTo(viewPosition);
-    }, [viewPosition])
+    }, [viewPosition]);
 
     return null;
 };
 
-export default MapController
+export default MapController;

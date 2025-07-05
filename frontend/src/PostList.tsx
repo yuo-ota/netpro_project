@@ -1,8 +1,7 @@
 import { Box, Tabs, Text, VStack, Button, Menu, Portal } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
-import { GetPostsApiResponseReturnFive } from './mock';
-import { isPost, type Post } from './types/Post';
+import { type Post } from './types/Post';
 import { isGood, type Good } from './types/Good';
 import { useAuth } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';
@@ -62,12 +61,12 @@ const PostList: React.FC<PostListProps> = ({
         const date = new Date(isoString);
 
         const formatted = new Intl.DateTimeFormat('ja-JP', {
-        dateStyle: 'medium',
-        timeStyle: 'short'
+            dateStyle: 'medium',
+            timeStyle: 'short',
         }).format(date);
-        
+
         return formatted;
-    }
+    };
 
     const createGood = async (postId: string) => {
         if (!userId) {
@@ -471,7 +470,3 @@ const PostList: React.FC<PostListProps> = ({
 };
 
 export default PostList;
-
-function GetPostsApiResponseReturnFiv(): any {
-    throw new Error('Function not implemented.');
-}

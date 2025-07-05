@@ -1,7 +1,7 @@
 import './App.css';
-import { Box, Button, Tabs } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import PostList from './PostList';
 import type { Post } from './types/Post';
 
@@ -26,7 +26,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     setErrorTitle,
     setErrorDetail,
     isOpened,
-    setIsOpened
+    setIsOpened,
 }) => {
     const MAX_HEIGHT: number = window.innerHeight * 0.65; // 画面全体のうちどの程度をMAXとするか
     const snapOffset = window.innerHeight * 0.05; // どの程度近づくことでスナップするか
@@ -58,12 +58,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     const openBottomSheet = () => {
         snapTo(SNAP_POINTS.closed);
         snapTo(SNAP_POINTS.open);
-    }
+    };
 
     const closeBottomSheet = () => {
         snapTo(SNAP_POINTS.open);
         snapTo(SNAP_POINTS.closed);
-    }
+    };
 
     return (
         <>

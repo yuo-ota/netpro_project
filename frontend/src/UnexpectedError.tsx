@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'; // ホームに戻るリンクを付け
 const UnexpectedError: React.FC = () => {
     return (
         <>
-            <div className='flex justify-center items-center h-dvh w-dvw'>
+            <div className="flex justify-center items-center h-dvh w-dvw">
                 <VStack>
                     <h1>予期せぬエラーが発生しました。</h1>
                     <p>時間を開けて再度お試しください。</p>

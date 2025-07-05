@@ -16,7 +16,6 @@ function App() {
                 <BrowserRouter>
                     <AuthProvider>
                         <Routes>
-                            {/* TODO Rootコンポーネント > Postコンポーネント > RequireAuthコンポーネントの順で作成する。 */}
                             {/* ホーム画面 */}
                             <Route path="/" element={<Root />} />
                             {/* 投稿画面 */}
