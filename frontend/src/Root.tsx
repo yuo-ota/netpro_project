@@ -32,6 +32,7 @@ function Root() {
     const [isSortByTime, setIsSortByTime] = useState<boolean>(false);
     const [focusPointId, setFocusPointId] = useState<string | undefined>(undefined);
     const { userId } = useAuth();
+    const [isOpened, setIsOpened] = useState<boolean>(false);
 
     useEffect(() => {
         if (!userId) {
@@ -45,12 +46,6 @@ function Root() {
     useEffect(() => {
         setUserPosition(new LatLng(lat, lng));
     }, [lat, lng]);
-
-    // TODO デプロイ時にはコメントアウト
-    useEffect(() => {
-        setPosts(GetPostsApiResponseReturnFive());
-        setPoints(GetPointsApiResponseReturnFive());
-    }, []);
 
     useEffect(() => {
         getViewRangePointList();
@@ -146,6 +141,7 @@ function Root() {
         }
 
         // 範囲内の場合
+        setIsOpened(true);
         setFocusPointId(pointId);
     };
 
@@ -236,6 +232,8 @@ function Root() {
                     setIsOpenErrorDialog={setIsOpenErrorDialog}
                     setErrorTitle={setErrorTitle}
                     setErrorDetail={setErrorDetail}
+                    isOpened={isOpened}
+                    setIsOpened={setIsOpened}
                 />
                 <MapContainer
                     center={userPosition}
