@@ -240,11 +240,13 @@ function Root() {
                 <MapContainer
                     center={userPosition}
                     zoom={zoom}
+                    maxZoom={19}
                     style={{ height: '100dvh', width: '100vw' }}
                     className="z-0"
                 >
                     <ZoomWatcher setZoom={setZoom} setCenterPosition={setCenterPosition} />
                     <TileLayer
+                        maxZoom={19}
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />

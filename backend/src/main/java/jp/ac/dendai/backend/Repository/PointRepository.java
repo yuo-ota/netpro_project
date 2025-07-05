@@ -69,7 +69,6 @@ public class PointRepository {
         // 取得した内容をPointクラスのインスタンスに入れてreturn
         try {
             String sql = "SELECT * FROM points WHERE latitude = ? AND longitude = ?";
-            System.out.println(latitude + ", " + longitude);
             Map<String, Object> sqlMap = jdbcTemplate.queryForMap(sql, latitude, longitude);
 
             Object pointIdObj = sqlMap.get("point_id");

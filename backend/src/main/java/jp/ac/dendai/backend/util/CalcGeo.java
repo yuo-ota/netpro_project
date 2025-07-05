@@ -6,7 +6,8 @@ public class CalcGeo {
      * 極半径 < 平均半径であるため考えないことにする
      */
     private static final double EARTH_RADIUS_METERS = 6371000; // 地球の平均半径
-    private static final double METERS_PER_DEGREE_LATITUDE = 2 * Math.PI * EARTH_RADIUS_METERS / 360; // 緯度1度の距離
+    private static final double EARTH_CIRCUMFERENCE = EARTH_RADIUS_METERS * 2 * Math.PI; // 地球の赤道周囲
+    private static final double METERS_PER_DEGREE_LATITUDE = EARTH_CIRCUMFERENCE / 360; // 緯度1度の距離
 
     /**
      *
@@ -56,17 +57,16 @@ public class CalcGeo {
 
     public static double[] floorPosition(double latitude, double longitude, int mapEdgeMetors) {
         final double GRID_SIZE_LAT = mapEdgeMetors / METERS_PER_DEGREE_LATITUDE; // グリッド1辺の緯度
-        final double GRID_SIZE_LON = GRID_SIZE_LAT / Math.cos(Math.toRadians(latitude)); // 経度方向に相当する度数
-
-        // 丸め緯度, 経度
         double flooredLat = Math.floor(latitude / GRID_SIZE_LAT) * GRID_SIZE_LAT;
+
+        final double GRID_SIZE_LON = GRID_SIZE_LAT / Math.cos(Math.toRadians(flooredLat)); // 経度方向に相当する度数
         double flooredLon = Math.floor(longitude / GRID_SIZE_LON) * GRID_SIZE_LON;
         
         return new double[] { flooredLat, flooredLon };
     }
 
     public static int getMapEdgeMetors(int mapSize) {
-        int mapEdgeMetors = (int) Math.pow(2, (18 - mapSize)) * 350 + 10;
+        int mapEdgeMetors = (int)(EARTH_CIRCUMFERENCE * 350 / (Math.pow(2, mapSize + 8)));
         return mapEdgeMetors;
     }
 
