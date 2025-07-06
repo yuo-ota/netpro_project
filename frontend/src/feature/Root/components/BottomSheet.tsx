@@ -2,7 +2,7 @@ import { Box, Button } from '@chakra-ui/react';
 import { motion, useDragControls, useMotionValue, useSpring } from 'framer-motion';
 import { useEffect } from 'react';
 import PostList from './PostList';
-import type { Post } from './types/Post';
+import type { Post } from '@/types/Post';
 
 type BottomSheetProps = {
     posts: Post[];

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { JSX } from 'react';
-import { isUser, type User } from './types/User';
+import { isUser, type User } from '.././types/User';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 type AuthContextType = {

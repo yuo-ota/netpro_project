@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Marker } from 'react-leaflet';
 import CustomDivIcon from './CustomDivIcon';
-import type { PointManage } from './types/PointManage';
+import type { PointManage } from '@/types/PointManage';
 
 type PointMarkerProps = {
     pointManage: PointManage;
