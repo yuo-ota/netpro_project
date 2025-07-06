@@ -1,10 +1,11 @@
 import { Box, Tabs, Text, VStack, Button, Menu, Portal } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
-import { type Post } from './types/Post';
-import { isGood, type Good } from './types/Good';
-import { useAuth } from './AuthProvider';
+import { type Post } from '@/types/Post';
+import { isGood, type Good } from '@/types/Good';
+import { useAuth } from '@/components/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import thumbUpIcon from '../assets/thumb_up_icon.svg';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 type PostListProps = {
@@ -321,7 +322,6 @@ const PostList: React.FC<PostListProps> = ({
                     className="gap-4 flex items-stretch"
                     style={{ minHeight: `${height + 8}px` }}
                 >
-                    {/* TODO postsが0の場合と取得が許されない場合に表示を切り替えられるようにする。 */}
                     {posts.length === 0 ? (
                         <Box className="w-full p-4 text-center text-gray-500">
                             <Text>表示する投稿がありません。</Text>
@@ -352,8 +352,6 @@ const PostList: React.FC<PostListProps> = ({
                                         items-center
                                         mr-2"
                                     >
-                                        {/* TODO クリックをすることで、いいねの状態を切り替えるようにバックエンド側に送信する。 */}
-                                        {/* TODO クリックをすることで、いいねの状態によって見た目を切り替えるようにする */}
                                         {post.isGooded ? (
                                             <Button
                                                 className="
@@ -371,18 +369,11 @@ const PostList: React.FC<PostListProps> = ({
                                                 mr-2"
                                                 onClick={() => deleteGood(post.postId)}
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                <img
+                                                    src={thumbUpIcon}
+                                                    alt="いいねアイコン"
                                                     className="w-3/5 h-auto ml-[5%] mb-[5%]"
-                                                    viewBox="0 0 25.2 20.913"
-                                                >
-                                                    <path
-                                                        id="thumb_up_24dp_000_FILL0_wght400_GRAD0_opsz24"
-                                                        d="M99.2-899.087H86V-912.68L94.4-920l1.5,1.307a1.356,1.356,0,0,1,.345.5,1.52,1.52,0,0,1,.135.6v.366l-1.32,4.549h7.74a2.478,2.478,0,0,1,1.68.627,1.892,1.892,0,0,1,.72,1.464v2.091a1.426,1.426,0,0,1-.06.392q-.06.209-.12.392l-3.6,7.372a2.232,2.232,0,0,1-.9.889A2.59,2.59,0,0,1,99.2-899.087Zm-10.8-2.091H99.2l3.6-7.32v-2.091H92l1.62-5.751-5.22,4.549Zm0-10.613v0ZM86-912.68v2.091H82.4v9.411H86v2.091H80V-912.68Z"
-                                                        transform="translate(-80 920)"
-                                                        fill="#2a2a2a"
-                                                    />
-                                                </svg>
+                                                />
                                             </Button>
                                         ) : (
                                             <Button
@@ -401,18 +392,11 @@ const PostList: React.FC<PostListProps> = ({
                                                 mr-2"
                                                 onClick={() => createGood(post.postId)}
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                <img
+                                                    src={thumbUpIcon}
+                                                    alt="いいねアイコン"
                                                     className="w-3/5 h-auto ml-[5%] mb-[5%]"
-                                                    viewBox="0 0 25.2 20.913"
-                                                >
-                                                    <path
-                                                        id="thumb_up_24dp_000_FILL0_wght400_GRAD0_opsz24"
-                                                        d="M99.2-899.087H86V-912.68L94.4-920l1.5,1.307a1.356,1.356,0,0,1,.345.5,1.52,1.52,0,0,1,.135.6v.366l-1.32,4.549h7.74a2.478,2.478,0,0,1,1.68.627,1.892,1.892,0,0,1,.72,1.464v2.091a1.426,1.426,0,0,1-.06.392q-.06.209-.12.392l-3.6,7.372a2.232,2.232,0,0,1-.9.889A2.59,2.59,0,0,1,99.2-899.087Zm-10.8-2.091H99.2l3.6-7.32v-2.091H92l1.62-5.751-5.22,4.549Zm0-10.613v0ZM86-912.68v2.091H82.4v9.411H86v2.091H80V-912.68Z"
-                                                        transform="translate(-80 920)"
-                                                        fill="#2a2a2a"
-                                                    />
-                                                </svg>
+                                                />
                                             </Button>
                                         )}
                                         <Text className="text-sm font-bold">{post.goodCount}</Text>
@@ -426,7 +410,6 @@ const PostList: React.FC<PostListProps> = ({
                                         <Portal>
                                             <Menu.Positioner>
                                                 <Menu.Content>
-                                                    {/* TODO クリックをすることで、"localhost:pointID/postID"を返すようにする */}
                                                     <Menu.Item value="share">
                                                         共有リンクを発行
                                                     </Menu.Item>
@@ -440,7 +423,6 @@ const PostList: React.FC<PostListProps> = ({
                                                     >
                                                         報告する
                                                     </Menu.Item>
-                                                    {/* TODO "削除する"が押された際に投稿を消すようにバックエンド側に流した後に更新する */}
                                                     <Menu.Item
                                                         value="delete"
                                                         color="fg.error"

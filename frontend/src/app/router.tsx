@@ -1,5 +1,5 @@
 import InternalServerError from '@/app/routes/InternalServerError';
-import NotFound from '@/NotFound';
+import NotFound from '@/app/routes/NotFound';
 import Post from '@/app/routes/Post';
 import Root from '@/app/routes/Root';
 import Unauthorized from '@/app/routes/Unathorized';

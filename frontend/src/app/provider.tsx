@@ -2,9 +2,9 @@
 
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { ThemeProvider } from 'next-themes';
-import { GpsProvider } from '@/GpsContext';
+import { GpsProvider } from '@/components/GpsContext';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '@/AuthProvider';
+import { AuthProvider } from '@/components/AuthProvider';
 
 import type { ReactElement } from 'react';
 

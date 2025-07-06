@@ -1,5 +1,6 @@
 import { Button, Text } from '@chakra-ui/react';
 import React from 'react';
+import closeIcon from '../assets/close_icon.svg';
 
 type PostButtonContainerProps = {
     onClickPost: () => void;
@@ -13,14 +14,7 @@ const PostButtonContainer: React.FC<PostButtonContainerProps> = ({ onClickPost, 
                 className="flex items-center h-2/3 max-w-1/2 bg-white gap-0 transition duration-200 ease-in-out hover:bg-gray-100 active:bg-gray-200"
                 onClick={onClickBack}
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 -960 960 960"
-                    fill="#000000"
-                    className="h-2/3 w-auto"
-                >
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                </svg>
+                <img src={closeIcon} alt="投稿画面終了アイコン" className="h-2/3 w-auto" />
                 <Text className="text-xl pr-1 text-black">キャンセル</Text>
             </Button>
             <Button
