@@ -206,7 +206,7 @@ export const Root: React.FC<RootProps> = ({
     };
 
     const jumpUserPosition = () => {
-        setViewPosition(userPosition);
+        setViewPosition(new LatLng(userPosition.lat, userPosition.lng));
     };
 
     return (
