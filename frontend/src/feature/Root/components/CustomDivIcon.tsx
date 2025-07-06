@@ -1,4 +1,6 @@
 import L from 'leaflet';
+import commentIcon from '../assets/comment_icon.svg';
+import commentOutRangeIcon from '../assets/comment_out_range_icon.svg';
 
 const formatCount = (count: number) => {
     if (count >= 1_000_000) {
@@ -10,9 +12,7 @@ const formatCount = (count: number) => {
 };
 
 const CustomDivIcon = (count: number, existInner: boolean): L.DivIcon => {
-    const iconSrc = existInner
-        ? '/src/assets/comment_icon.svg'
-        : '/src/assets/comment_out_range_icon.svg';
+    const iconSrc = existInner ? commentIcon : commentOutRangeIcon;
     return L.divIcon({
         html: `
         <div style="position: relative">
