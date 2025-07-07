@@ -13,7 +13,7 @@ import jp.ac.dendai.backend.Dto.PointManageDto;
 import jp.ac.dendai.backend.Service.PointService;
 
 @RestController
-@RequestMapping("/points")
+@RequestMapping("/api/points")
 public class PointController {
     private final PointService pointService;
 

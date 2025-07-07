@@ -14,7 +14,7 @@ import jp.ac.dendai.backend.Service.GoodService;
 import jp.ac.dendai.backend.util.AuthenticationFailedException;
 
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("/api/goods")
 public class GoodController {
     private final GoodService goodService;
 

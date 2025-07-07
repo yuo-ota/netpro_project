@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { JSX } from 'react';

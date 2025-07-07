@@ -20,7 +20,7 @@ import jp.ac.dendai.backend.Service.PostService;
 import jp.ac.dendai.backend.util.AuthenticationFailedException;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
 

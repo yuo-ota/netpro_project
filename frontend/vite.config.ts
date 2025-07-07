@@ -5,6 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
+    base: '/',
     plugins: [react(), tailwindcss(), tsconfigPaths()],
     server: {
         host: true, // ここをtrueにすることでプライベートネットワークまで公開できるので、スマホ側から確認が可能になる。
