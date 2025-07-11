@@ -17,6 +17,7 @@ import jp.ac.dendai.backend.util.CalcGeo.LatLngRange;
 @Service
 public class PointService {
     private final PointRepository pointRepository;
+    private final int VIEWABLE_RADIUS = 30;         // ユーザーが閲覧可能な範囲の半径
 
     public PointService(PointRepository pointRepository) {
         this.pointRepository = pointRepository;
@@ -75,7 +76,7 @@ public class PointService {
             PointDto pointDto = new PointDto(p.getPointId(), p.getLatitude(), p.getLongitude());
             pointDto.setPostCount(p.getPostCount());
             boolean isUserInThisArea = CalcGeo.haversineDistance(pointDto.getLatitude(), pointDto.getLongitude(),
-                    userLatitude, userLongitude) < 15;
+                    userLatitude, userLongitude) < VIEWABLE_RADIUS;
             pointDto.setIsUserInThisArea(isUserInThisArea);
             pointDtos.add(pointDto);
         }
