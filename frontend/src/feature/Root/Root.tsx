@@ -272,7 +272,11 @@ export const Root: React.FC<RootProps> = ({
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[userPosition.lat, userPosition.lng]} icon={icon} />
+                    <Marker
+                        position={[userPosition.lat, userPosition.lng]}
+                        icon={icon}
+                        zIndexOffset={-1000}
+                    />
                     {points.map((pointManage) => (
                         <PointMarker
                             key={pointManage.symbolPoint.pointId}
