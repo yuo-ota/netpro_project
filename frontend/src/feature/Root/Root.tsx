@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import { LatLng } from 'leaflet';
+import L, { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import BottomSheet from '@/feature/Root/components/BottomSheet';
 import { Button } from '@chakra-ui/react';
@@ -13,6 +13,7 @@ import { isPointManage, type PointManage } from '@/types/PointManage';
 import { useAuth } from '@/components/AuthProvider';
 import postIcon from './assets/add_icon.svg';
 import flagIcon from './assets/flag_icon.svg';
+import makerIcon from './assets/maker.svg';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 type RootProps = {
@@ -38,6 +39,20 @@ export const Root: React.FC<RootProps> = ({
     const { userId } = useAuth();
     const [isOpened, setIsOpened] = useState<boolean>(false);
     const [viewPosition, setViewPosition] = useState<LatLng>(new LatLng(0, 0));
+
+    const icon = L.divIcon({
+        html: `
+        <div style="position: relative">
+            <img
+                src="${makerIcon}"
+                style="aspect-ratio: 0.5747; height: 60px; position: relative; top: 0px; left: 14px"
+            />
+        </div>
+        `,
+        className: '',
+        iconSize: [61.563, 53.188],
+        iconAnchor: [30.7815, 53.188],
+    });
 
     useEffect(() => {
         if (!userId) {
@@ -257,7 +272,7 @@ export const Root: React.FC<RootProps> = ({
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[userPosition.lat, userPosition.lng]} />
+                    <Marker position={[userPosition.lat, userPosition.lng]} icon={icon} />
                     {points.map((pointManage) => (
                         <PointMarker
                             key={pointManage.symbolPoint.pointId}
