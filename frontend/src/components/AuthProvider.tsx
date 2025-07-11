@@ -71,10 +71,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             }
             if (response.status === 401) {
                 navigate('/unauthorized');
+                setChecking(false);
                 return false;
             }
             if (response.status === 500) {
                 navigate('/internal-server-error');
+                setChecking(false);
                 return false;
             }
             throw new Error(`想定外のステータスコード: ${response.status}`);

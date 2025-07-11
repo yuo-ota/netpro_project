@@ -8,13 +8,21 @@ const Unauthorized: React.FC = () => {
             <div className="flex justify-center items-center h-dvh w-dvw">
                 <VStack>
                     <h1>401 - 認証に失敗しました。</h1>
-                    <p>ユーザーIDが初期化されます。</p>
+                    <p>ホームに遷移後に再リロードをかけることで</p>
+                    <p>ユーザーIDが初期化します。</p>
                     <p>
                         この際に、これまで投稿していた内容については削除ができなくなる可能性があります。
                     </p>
                     <p>万一不都合がありましたら、サポートにお問い合わせください。</p>
                     <p>hoge@example.com</p>
-                    <Link to="/">ホームに戻る</Link>
+                    <Link
+                        to="/"
+                        onClick={() => {
+                            localStorage.removeItem('userId');
+                        }}
+                    >
+                        ホームに戻る
+                    </Link>
                 </VStack>
             </div>
         </>
