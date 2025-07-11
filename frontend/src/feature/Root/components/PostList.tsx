@@ -327,7 +327,8 @@ const PostList: React.FC<PostListProps> = ({
                             <Text>表示する投稿がありません。</Text>
                         </Box>
                     ) : (
-                        posts.map((post, i) => (
+                        <>
+                        {posts.map((post, i) => (
                             <Box
                                 key={i}
                                 className="
@@ -440,11 +441,13 @@ const PostList: React.FC<PostListProps> = ({
                                     </Menu.Root>
                                 </div>
                             </Box>
-                        ))
+                        ))}
+                        <div className="h-20 flex justify-center items-center">
+                            <Text className="text-lg text-gray-500">コンテンツの終わりです。</Text>
+                        </div>
+                        </>
                     )}
-                    <div className="h-20 flex justify-center items-center">
-                        <Text className="text-lg text-gray-500">コンテンツの終わりです。</Text>
-                    </div>
+                    
                 </VStack>
             </Box>
         </>
