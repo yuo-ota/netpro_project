@@ -21,7 +21,7 @@ type AuthProviderProps = {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [userId, setUserId] = useState(() => localStorage.getItem('userId'));
     const navigate = useNavigate();
-    const { lat, lng } = useGps();
+    const { lat, lng, error } = useGps();
     const didAuthRun = useRef(false);
     const [checking, setChecking] = React.useState(true);
 
@@ -127,7 +127,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     if (checking) return <div>認証中...</div>;
-    if (lat == 0 && lng == 0) return <div>GPS取得中...</div>;
+    if (lat === 0 && lng === 0 && error === null) return <div>GPS取得中...長い場合にはブラウザの問題が発生している場合があります。</div>;
+    if (error !== null) return <div>GPSが正しく取得できていない可能性があるため、先に進めません。大変申し訳ございません。</div>
     return <AuthContext.Provider value={{ userId, setUserId }}>{children}</AuthContext.Provider>;
 };
 
