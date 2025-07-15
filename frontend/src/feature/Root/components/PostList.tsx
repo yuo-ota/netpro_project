@@ -415,16 +415,6 @@ const PostList: React.FC<PostListProps> = ({
                                                         共有リンクを発行
                                                     </Menu.Item>
                                                     <Menu.Item
-                                                        value="report"
-                                                        color="fg.error"
-                                                        _hover={{
-                                                            bg: 'bg.error',
-                                                            color: 'fg.error',
-                                                        }}
-                                                    >
-                                                        報告する
-                                                    </Menu.Item>
-                                                    <Menu.Item
                                                         value="delete"
                                                         color="fg.error"
                                                         _hover={{
