@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { useNavigate } from 'react-router-dom';
 import type { JSX } from 'react';
 import { isUser, type User } from '.././types/User';
+import { useGps } from './GpsContext';
 const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 type AuthContextType = {
@@ -20,6 +21,7 @@ type AuthProviderProps = {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [userId, setUserId] = useState(() => localStorage.getItem('userId'));
     const navigate = useNavigate();
+    const { lat, lng } = useGps();
     const didAuthRun = useRef(false);
     const [checking, setChecking] = React.useState(true);
 
@@ -125,6 +127,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     if (checking) return <div>認証中...</div>;
+    if (lat == 0 && lng == 0) return <div>GPS取得中...</div>;
     return <AuthContext.Provider value={{ userId, setUserId }}>{children}</AuthContext.Provider>;
 };
 

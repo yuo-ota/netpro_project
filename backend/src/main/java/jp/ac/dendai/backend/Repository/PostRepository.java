@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import jp.ac.dendai.backend.Dto.PostDto;
 import jp.ac.dendai.backend.Dto.PostPointDto;
 import jp.ac.dendai.backend.Entity.Post;
+import jp.ac.dendai.backend.util.AuthenticationFailedException;
 
 @Repository
 public class PostRepository {
@@ -244,10 +245,14 @@ public class PostRepository {
         jdbcTemplate.update(sql, post.getPostId(), post.getUserId(), post.getPointId(), post.getContent());
     }
 
-    public void delete(String postId) {
+    public void delete(String postId, String user_id) throws AuthenticationFailedException {
         // DELETE文でPostテーブルからpostインスタンスにあるIDの情報を削除する。
         // 削除ができればそのままreturn
-        String sql = "DELETE FROM posts WHERE post_id = ?";
-        jdbcTemplate.update(sql, postId);
+        String sql = "DELETE FROM posts WHERE post_id = ? AND user_id = ?";
+        int affectedRows = jdbcTemplate.update(sql, postId, user_id);
+
+        if (affectedRows == 0) {
+            throw new AuthenticationFailedException("ユーザー認証に失敗しました");
+        }
     }
 }

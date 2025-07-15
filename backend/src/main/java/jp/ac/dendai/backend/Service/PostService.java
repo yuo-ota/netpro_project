@@ -110,7 +110,7 @@ public class PostService {
         checkUser(userId);
         PostPointDto postCountByPointId = countPostInSamePoint(postId);
 
-        postRepository.delete(postId);
+        postRepository.delete(postId, userId);
         if (postCountByPointId.getPostCount() != 1) {
             return;
         }
