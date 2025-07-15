@@ -252,7 +252,6 @@ public class PostRepository {
         int affectedRows = jdbcTemplate.update(sql, postId, user_id);
 
         if (affectedRows == 0) {
-            System.out.println("aaaaa");
             throw new AuthenticationFailedException("ユーザー認証に失敗しました");
         }
     }
