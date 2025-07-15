@@ -9,8 +9,8 @@ const InternalServerError: React.FC = () => {
                 <VStack>
                     <h1>500 - サーバーでエラーが発生しました。</h1>
                     <p>時間を開けて再度お試しください。</p>
-                    <p>また問題が解決しない場合には、サポートにお問い合わせください。</p>
-                    <p>hoge@example.com</p>
+                    <p>また問題が解決しない場合には、開発者に連絡をお願いします。</p>
+                    <p>X: @yuo_ota</p>
                     <Link to="/">ホームに戻る</Link>
                 </VStack>
             </div>
