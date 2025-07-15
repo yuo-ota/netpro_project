@@ -31,7 +31,7 @@ export const Root: React.FC<RootProps> = ({
     const [points, setPoints] = useState<PointManage[]>([]);
     const [posts, setPosts] = useState<Post[]>([]);
     const { lat, lng } = useGps();
-    const [centerPosition, setCenterPosition] = useState<LatLng>(new LatLng(0, 0));
+    const [centerPosition, setCenterPosition] = useState<LatLng>(new LatLng(lat, lng));
     const [userPosition, setUserPosition] = useState<LatLng>(new LatLng(lat, lng));
     const [zoom, setZoom] = useState<number>(13);
     const [isSortByTime, setIsSortByTime] = useState<boolean>(false);
@@ -53,6 +53,10 @@ export const Root: React.FC<RootProps> = ({
         iconSize: [61.563, 53.188],
         iconAnchor: [30.7815, 53.188],
     });
+
+    useEffect(() => {
+        jumpUserPosition();
+    }, [])
 
     useEffect(() => {
         if (!userId) {
