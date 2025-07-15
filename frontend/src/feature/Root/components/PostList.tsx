@@ -411,9 +411,9 @@ const PostList: React.FC<PostListProps> = ({
                                         <Portal>
                                             <Menu.Positioner>
                                                 <Menu.Content>
-                                                    <Menu.Item value="share">
+                                                    {/* <Menu.Item value="share">
                                                         共有リンクを発行
-                                                    </Menu.Item>
+                                                    </Menu.Item> */}
                                                     <Menu.Item
                                                         value="delete"
                                                         color="fg.error"
